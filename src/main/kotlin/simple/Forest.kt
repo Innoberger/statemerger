@@ -10,7 +10,7 @@ class Forest {
     }
 
     internal fun union(x: String, y: String) {
-        link(findSet(x), findSet(y))
+        link(findSet(x)!!, findSet(y)!!)
     }
 
     private fun link(x: String, y: String) {
@@ -25,11 +25,11 @@ class Forest {
             rank[y] = rank[y]!!.plus(1)
     }
 
-    internal fun findSet(x: String): String {
+    internal fun findSet(x: String): String? {
         if (x != predecessor[x])
-            predecessor[x] = findSet(predecessor[x]!!)
+            predecessor[x] = findSet(predecessor[x]!!)!!
 
-        return predecessor[x]!!
+        return predecessor[x]
     }
 
     override fun toString(): String {

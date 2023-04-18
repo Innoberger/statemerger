@@ -13,7 +13,7 @@ class States {
         states.union(stateA, stateB)
     }
 
-    fun find(city: String): String {
+    fun find(city: String): String? {
         return states.findSet(city)
     }
 }

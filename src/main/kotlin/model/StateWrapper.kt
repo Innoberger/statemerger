@@ -6,11 +6,13 @@ class StateWrapper {
             val cityNode = Node.makeNode(city)
             val stateNode = Node.makeNode(name)
 
-            return Node.union(cityNode, stateNode)
+            Node.union(cityNode, stateNode)
+
+            return cityNode
         }
 
-        fun union(stateA: Node, stateB: Node): Node {
-            return Node.union(stateA, stateB)
+        fun union(stateA: Node, stateB: Node) {
+            Node.union(stateA, stateB)
         }
     }
 }

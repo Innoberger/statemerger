@@ -31,18 +31,16 @@ class Node internal constructor (
             return node
         }
 
-        private fun link(nodeA: Node, nodeB: Node): Node {
+        private fun link(nodeA: Node, nodeB: Node) {
             if (nodeA.rank > nodeB.rank) {
                 nodeB.predecessor = nodeA
-                return nodeA
+                return
             }
 
             nodeA.predecessor = nodeB
 
             if (nodeA.rank == nodeB.rank)
                 nodeB.rank++
-
-            return nodeB
         }
 
         private fun findNode(node: Node): Node {
@@ -52,8 +50,8 @@ class Node internal constructor (
             return node.predecessor!!
         }
 
-        internal fun union(nodeA: Node, nodeB: Node): Node {
-            return link(findNode(nodeA), findNode(nodeB))
+        internal fun union(nodeA: Node, nodeB: Node) {
+            link(findNode(nodeA), findNode(nodeB))
         }
     }
 }

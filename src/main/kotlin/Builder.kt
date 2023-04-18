@@ -8,7 +8,10 @@ class Builder {
             val be = StateWrapper.makeState("Berlin", "Berlin")
             // to be continued (alphabetical order) ...
 
-            return StateWrapper.union(StateWrapper.union(bw, by), be)
+            StateWrapper.union(bw, by)
+            StateWrapper.union(bw, be)
+
+            return bw
         }
     }
 }

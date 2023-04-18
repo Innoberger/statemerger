@@ -2,12 +2,12 @@ import model.*
 
 class Builder {
     companion object {
-        fun buildGermany(): State {
-            val bw = State.makeState("Baden-Württemberg", "Stuttgart")
-            val by = State.makeState("Bayern", "München")
+        fun buildGermany(): Node {
+            val bw = StateWrapper.makeState("Baden-Württemberg", "Stuttgart")
+            val by = StateWrapper.makeState("Bayern", "München")
             // to be continued (alphabetical order) ...
 
-            return bw
+            return StateWrapper.union(bw, by)
         }
     }
 }

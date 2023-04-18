@@ -15,34 +15,23 @@ package model
 class Node internal constructor (
     var predecessor: Node? = null,
     var rank: Int,
-    val data: String,
+    var data: String,
 ) {
-    fun findNode(data: String): Node? {
-        if (data != this.predecessor!!.data)
-            this.predecessor = findNode(this.predecessor!!.data)
-
-        return this.predecessor
-    }
-
-    fun union(valueA: String, valueB: String): Node {
-        return link(findNode(valueA)!!, findNode(valueB)!!)
-    }
-
     override fun toString(): String {
         if (predecessor == this)
-            return "model.Node(predecessor={root}, rank=$rank, data='$data')"
+            return "Node(rank=$rank, data='$data')"
 
-        return "model.Node(predecessor=${predecessor!!.data}, rank=$rank, data='$data')"
+        return "Node(predecessor=${predecessor!!.data}, rank=$rank, data='$data')"
     }
 
     companion object {
-        fun makeNode(data: String): Node {
+        internal fun makeNode(data: String): Node {
             val node = Node(null, 0, data)
             node.predecessor = node
-            return node;
+            return node
         }
 
-        fun link(nodeA: Node, nodeB: Node): Node {
+        private fun link(nodeA: Node, nodeB: Node): Node {
             if (nodeA.rank > nodeB.rank) {
                 nodeB.predecessor = nodeA
                 return nodeA
@@ -54,6 +43,17 @@ class Node internal constructor (
                 nodeB.rank++
 
             return nodeB
+        }
+
+        private fun findNode(node: Node): Node {
+            if (node != node.predecessor)
+                node.predecessor = findNode(node.predecessor!!)
+
+            return node.predecessor!!
+        }
+
+        internal fun union(nodeA: Node, nodeB: Node): Node {
+            return link(findNode(nodeA), findNode(nodeB))
         }
     }
 }

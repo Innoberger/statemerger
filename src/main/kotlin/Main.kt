@@ -1,3 +1,3 @@
 fun main() {
-    println(Builder.buildGermany())
+    println(Builder.buildGermany().toString())
 }

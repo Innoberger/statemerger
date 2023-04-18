@@ -1,11 +1,11 @@
 class Builder {
-    fun buildGermany(): List<State> {
-        val operations = Operations()
+    fun buildGermany() {
+        val setOperations = SetOperations()
 
-        val bw = operations.makeState("Baden-Württemberg", "Stuttgart")
-        val by = operations.makeState("Bayern", "München")
+        val bw = setOperations.makeSet("Baden-Württemberg -> Stuttgart")
+        val by = setOperations.makeSet("Bayern -> München")
         // to be continued (alphabetical order) ...
 
-        return listOf(bw, by)
+        setOperations.union(bw, by)
     }
 }

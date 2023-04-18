@@ -1,0 +1,11 @@
+states:
+  - name: Baden-Württemberg
+    cities:
+      - Stuttgart
+      - Mannheim
+      - Karlsruhe
+  - name: Bayern
+    cities:
+      - München
+      - Ingolstadt
+      - Augsburg

@@ -1,28 +1,25 @@
-//import model.Builder
-import simple.*
+
+import com.charleskorn.kaml.Yaml
+import config.Config
+import kotlinx.serialization.decodeFromString
+import simple.States
+import java.io.File
+import java.util.*
 
 fun main() {
-    //println(Builder.buildGermany().toString())
-
     val states = States()
 
-    // first, we will create a state for each federal state of Germany only containing it's capital
-    states.makeState("Stuttgart", "Baden-Württemberg")
-    states.makeState("München", "Bayern")
-    states.makeState("BerlinStadt", "BerlinLand")
-    states.makeState("Potsdam", "Brandenburg")
-    states.makeState("BremenStadt", "BremenLand")
-    states.makeState("HamburgStadt", "HamburgLand")
-    states.makeState("Wiesbaden", "Hessen")
-    states.makeState("Schwerin", "Mecklenburg-Vorpommern")
-    states.makeState("Hannover", "Niedersachsen")
-    states.makeState("Düsseldorf", "Nordrhein-Westfalen")
-    states.makeState("Mainz", "Rheinland-Pfalz")
-    states.makeState("Saarbrücken", "Saarland")
-    states.makeState("Dresden", "Sachsen")
-    states.makeState("Magdeburg", "Sachsen-Anhalt")
-    states.makeState("Kiel", "Schleswig-Holstein")
-    states.makeState("Erfurt", "Thüringen")
+    val configFile = File("src/main/resources/de.yaml")
+
+    val config = configFile.bufferedReader().use {
+        Yaml.default.decodeFromString<Config>(it.readText())
+    }
+
+    config.states.forEach { state ->
+        state.cities.forEach { city ->
+            states.makeState(city, UUID.randomUUID().toString())
+        }
+    }
 
     println(states.states)
 

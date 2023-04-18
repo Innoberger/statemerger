@@ -16,12 +16,40 @@ fun main() {
     }
 
     config.states.forEach { state ->
-        state.cities.forEach { city ->
-            states.makeState(city, UUID.randomUUID().toString())
+        /*
+         * First, a dummy state for each city is created.
+         * Only the first in the list will get a pointer to it's 'real' state.
+         */
+        state.cities.forEachIndexed { i, city ->
+            /*
+             * If city name and state name are equal (e.g. most city states like Berlin),
+             * just add a corresponding suffix.
+             */
+            if (city == state.name)
+                state.name = "${state.name} (Land)"
+
+            when(i) {
+                0 -> states.makeState(city, state.name)
+                else -> states.makeState(city, UUID.randomUUID().toString())
+            }
+        }
+
+        /*
+         * Second, merge (dummy) states to that every city in a state points to it's state.
+         */
+        state.cities.forEachIndexed { i, city ->
+            // TODO
         }
     }
 
     println(states.states)
 
-    println(states.find("München"))
+    printSearchString(states, "Berlin")
+    printSearchString(states, "Ingolstadt")
+    printSearchString(states, "Stuttgart")
+    printSearchString(states, "Potsdam")
+}
+
+fun printSearchString(states: States, city: String) {
+    println("$city -> (...) -> ${states.find(city)}")
 }

@@ -9,3 +9,11 @@ states:
       - München
       - Ingolstadt
       - Augsburg
+  - name: Berlin
+    cities:
+      - Berlin
+  - name: Brandenburg
+    cities:
+      - Potsdam
+      - Cottbus
+      - Oranienburg

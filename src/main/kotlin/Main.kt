@@ -1,5 +1,6 @@
 //import model.Builder
 import simple.*
+
 fun main() {
     //println(Builder.buildGermany().toString())
 
@@ -7,10 +8,10 @@ fun main() {
 
     states.makeState("Stuttgart", "Baden-Württemberg")
     states.makeState("München", "Bayern")
-    states.makeState("Berlin", "Berlin")
+    states.makeState("BerlinStadt", "BerlinLand")
 
     states.union("Baden-Württemberg", "Bayern")
-    states.union("Bayern", "Berlin")
+    states.union("Bayern", "BerlinLand")
 
     println(states.states)
 

@@ -1,11 +1,11 @@
 class Builder {
-    fun buildGermany() {
-        val setOperations = SetOperations()
+    companion object {
+        fun buildGermany() {
+            val bw = SetOperations.makeSet("Baden-Württemberg -> Stuttgart")
+            val by = SetOperations.makeSet("Bayern -> München")
+            // to be continued (alphabetical order) ...
 
-        val bw = setOperations.makeSet("Baden-Württemberg -> Stuttgart")
-        val by = setOperations.makeSet("Bayern -> München")
-        // to be continued (alphabetical order) ...
-
-        setOperations.union(bw, by)
+            SetOperations.union(bw, by)
+        }
     }
 }

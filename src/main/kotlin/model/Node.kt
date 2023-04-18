@@ -1,7 +1,7 @@
 package model
 
 /**
- * model.Node class for a disjoint-set forest.
+ * Node class for a disjoint-set forest.
  * Each node points to a `predecessor` node,
  * has a `rank` and can store `data`.
  *
@@ -12,7 +12,7 @@ package model
  * @param rank          Upper bound on the node height
  * @param data          Optionally stored data
  */
-class Node private constructor (
+class Node internal constructor (
     var predecessor: Node? = null,
     var rank: Int,
     val data: String,
@@ -42,7 +42,7 @@ class Node private constructor (
             return node;
         }
 
-       private fun link(nodeA: Node, nodeB: Node): Node {
+        fun link(nodeA: Node, nodeB: Node): Node {
             if (nodeA.rank > nodeB.rank) {
                 nodeB.predecessor = nodeA
                 return nodeA

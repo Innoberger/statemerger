@@ -1,13 +1,13 @@
-import model.Node
+import model.*
 
 class Builder {
     companion object {
-        fun buildGermany(): Node {
-            val bw = Node.makeNode("Baden-Württemberg")
-            val by = Node.makeNode("Bayern")
+        fun buildGermany(): State {
+            val bw = State.makeState("Baden-Württemberg", "Stuttgart")
+            val by = State.makeState("Bayern", "München")
             // to be continued (alphabetical order) ...
 
-            return bw.union("Stuttgart", "München")
+            return bw
         }
     }
 }

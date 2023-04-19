@@ -15,10 +15,12 @@ fun main() {
         Yaml.default.decodeFromString<Config>(it.readText())
     }
 
+    /*
+     * We process each configured state.
+     */
     config.states.forEach { state ->
         /*
-         * First, a dummy state for each city is created.
-         * Only the first in the list will get a pointer to it's 'real' state.
+         * For every state, we process every configured city.
          */
         state.cities.forEachIndexed { i, city ->
             var stateName = state.name
@@ -33,47 +35,48 @@ fun main() {
                 cityName = "$cityName (Stadt)"
             }
 
-            when(i) {
-                0 -> states.makeState(cityName, stateName)
-                else -> states.makeState(cityName, UUID.randomUUID().toString())
-            }
-        }
-
-        /*
-         * Second, merge (dummy) states to that every city in a state points to it's state.
-         * TODO: This has to be an efficient algorithm (the search for non-merged cities AND the statements after that)!
-         *  Generally, the yaml config already a tree structure with height two:
-         *  The state is a root node and its cities (list members) are leave nodes.
-         *  --> Can we improve the above nested loops?
-         */
-        while(state.cities.any {
-                // TODO: unfinished!
-                states.find(it) ? states.find(i) != state.name : states.find("$it (Stadt)") != "${state.name} (Land)"
-        }) {
-            state.cities.forEach { city ->
-                var stateName = state.name
-                var cityName = city
-
+            when (i) {
                 /*
-             * If city name and state name are equal (e.g. most city states like Berlin),
-             * just add a corresponding suffix.
-             */
-                if (stateName == cityName) {
-                    stateName = "$stateName (Land)"
-                    cityName = "$cityName (Stadt)"
-                }
+                 * The 1st city (index = 0) is defined as the capital city of a state.
+                 * We say it will be assigned to the "real" state instead of a dummy city.
+                 */
+                0 -> states.makeState(cityName, stateName)
 
-                states.union(cityName, stateName)
+                else -> {
+                    /*
+                     * For every other element, a dummy state for each city is created.
+                     * Only the first in the list will get a pointer to it's 'real' state.
+                     */
+                    states.makeState(cityName, UUID.randomUUID().toString())
+
+                    /*
+                     * With states.find(cityName) we retrieve the root node of
+                     * the city structure, which is a dummy state.
+                     * We ensured that cityName was already created before,
+                     * so we can use !! to ignore the nullable result.
+                     */
+                    val dummyState = states.find(cityName)!!
+
+                    /*
+                     * Now we can merge the dummyState of cityName with the real state,
+                     * Keep in mind that the second argument will inherit/pass the node name.
+                     */
+                    states.union(dummyState, stateName)
+                }
             }
         }
     }
 
+    // temporary print out the disjoint-set forest
     println(states.states)
 
+    // temporary hardcoded tests
     printSearchString(states, "Berlin (Stadt)")
     printSearchString(states, "Ingolstadt")
-    printSearchString(states, "Stuttgart")
+    printSearchString(states, "Karlsruhe")
+    printSearchString(states, "Mannheim")
     printSearchString(states, "Potsdam")
+    printSearchString(states, "Cottbus")
 }
 
 fun printSearchString(states: States, city: String) {

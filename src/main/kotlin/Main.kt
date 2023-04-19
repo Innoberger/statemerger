@@ -19,21 +19,31 @@ fun main() {
      * We process each configured state.
      */
     config.states.forEach { state ->
+        var stateName = state.name
+
+        /*
+         * If there's any city name and state name that are equal
+         * (e.g. most city states like Berlin),
+         * add a corresponding suffix to the stateName.
+         * This is to ensure that all nodes are disjoint (unique).
+         */
+        if (state.cities.any { city -> city == stateName }) {
+            stateName = "$stateName (Land)"
+        }
+
         /*
          * For every state, we process every configured city.
          */
         state.cities.forEachIndexed { i, city ->
-            var stateName = state.name
             var cityName = city
 
             /*
-             * If city name and state name are equal (e.g. most city states like Berlin),
-             * just add a corresponding suffix.
+             * Like before, we need to ensure that all nodes are disjoint (unique).
+             * This time the comparison is a bit more tricky,
+             * and we modify the cityName.
              */
-            if (stateName == cityName) {
-                stateName = "$stateName (Land)"
+            if (stateName == "$cityName (Land)")
                 cityName = "$cityName (Stadt)"
-            }
 
             when (i) {
                 /*
@@ -46,6 +56,8 @@ fun main() {
                     /*
                      * For every other element, a dummy state for each city is created.
                      * Only the first in the list will get a pointer to it's 'real' state.
+                     *
+                     * UUID is used to ensure that every dummy state is disjoint (unique).
                      */
                     states.makeState(cityName, UUID.randomUUID().toString())
 
@@ -77,6 +89,8 @@ fun main() {
     printSearchString(states, "Mannheim")
     printSearchString(states, "Potsdam")
     printSearchString(states, "Cottbus")
+    printSearchString(states, "Bremen (Stadt)")
+    printSearchString(states, "Bremerhaven")
 }
 
 fun printSearchString(states: States, city: String) {

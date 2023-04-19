@@ -9,20 +9,38 @@ class Forest {
         rank[x] = 0
     }
 
-    internal fun union(x: String, y: String) {
-        link(findSet(x)!!, findSet(y)!!)
+    /**
+     * Merges the root nodes of `recessiveNode`
+     * and `dominantNode` into one node, where
+     * `dominantNode` will be the new root node.
+     * Thus, the key/name of `dominantNode`'s
+     * root node will be kept.
+     *
+     * @param recessiveNode Node to merge, will omit its name.
+     * @param dominantNode  Node to merge, will keep its name.
+     */
+    internal fun union(recessiveNode: String, dominantNode: String) {
+        link(findSet(recessiveNode)!!, findSet(dominantNode)!!)
     }
 
-    private fun link(x: String, y: String) {
-        if (rank[x]!! > rank[y]!!) {
-            predecessor[y] = x
+    /**
+     * Links `recessiveNode` and `dominantNode` into one node,
+     * where `dominantNode` will be the new root node.
+     * Thus, the key/name of `dominantNode` will be kept.
+     *
+     * @param recessiveNode Node to link, will omit its name.
+     * @param dominantNode  Node to link, will keep its name.
+     */
+    private fun link(recessiveNode: String, dominantNode: String) {
+        if (rank[recessiveNode]!! > rank[dominantNode]!!) {
+            predecessor[dominantNode] = recessiveNode
             return
         }
 
-        predecessor[x] = y
+        predecessor[recessiveNode] = dominantNode
 
-        if (rank[x] == rank[y])
-            rank[y] = rank[y]!!.plus(1)
+        if (rank[recessiveNode] == rank[dominantNode])
+            rank[dominantNode] = rank[dominantNode]!!.plus(1)
     }
 
     internal fun findSet(x: String): String? {

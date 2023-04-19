@@ -46,9 +46,26 @@ fun main() {
          *  The state is a root node and its cities (list members) are leave nodes.
          *  --> Can we improve the above nested loops?
          */
-        //while(state.cities.any { states.find(it) != state.name }) {
-            // TODO
-        //}
+        while(state.cities.any {
+                // TODO: unfinished!
+                states.find(it) ? states.find(i) != state.name : states.find("$it (Stadt)") != "${state.name} (Land)"
+        }) {
+            state.cities.forEach { city ->
+                var stateName = state.name
+                var cityName = city
+
+                /*
+             * If city name and state name are equal (e.g. most city states like Berlin),
+             * just add a corresponding suffix.
+             */
+                if (stateName == cityName) {
+                    stateName = "$stateName (Land)"
+                    cityName = "$cityName (Stadt)"
+                }
+
+                states.union(cityName, stateName)
+            }
+        }
     }
 
     println(states.states)

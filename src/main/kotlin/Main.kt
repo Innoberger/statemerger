@@ -41,6 +41,10 @@ fun main() {
 
         /*
          * Second, merge (dummy) states to that every city in a state points to it's state.
+         * TODO: This has to be an efficient algorithm (the search for non-merged cities AND the statements after that)!
+         *  Generally, the yaml config already a tree structure with height two:
+         *  The state is a root node and its cities (list members) are leave nodes.
+         *  --> Can we improve the above nested loops?
          */
         //while(state.cities.any { states.find(it) != state.name }) {
             // TODO

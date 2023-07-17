@@ -4,12 +4,23 @@ states:
       - Stuttgart
       - Mannheim
       - Karlsruhe
+      - Heidelberg
+      - Freiburg
+      - Pforzheim
+      - Ulm
+      - Heilbronn
+      - Konstanz
+      - Tübingen
   - name: Bayern
     cities:
       - München
       - Ingolstadt
       - Augsburg
       - Nürnberg
+      - Regensburg
+      - Bamberg
+      - Würzburg
+      - Bayreuth
   - name: Berlin
     cities:
       - Berlin
@@ -18,7 +29,88 @@ states:
       - Potsdam
       - Cottbus
       - Oranienburg
+      - Brandenburg
+      - Frankfurt (Oder)
   - name: Bremen
     cities:
       - Bremen
       - Bremerhaven
+  - name: Hamburg
+    cities:
+      - Hamburg
+  - name: Hessen
+    cities:
+      - Wiesbaden
+      - Frankfurt am Main
+      - Marburg
+      - Gießen
+      - Fulda
+      - Kassel
+  - name: Mecklenburg-Vorpommern
+    cities:
+      - Schwerin
+      - Rostock
+      - Wismar
+      - Greifswald
+  - name: Niedersachsen
+    cities:
+      - Hannover
+      - Osnabrück
+      - Oldenburg
+      - Wolfsburg
+      - Braunschweig
+      - Hildesheim
+      - Göttingen
+      - Celle
+  - name: Nordrhein-Westfalen
+    cities:
+      - Düsseldorf
+      - Köln
+      - Essen
+      - Dortmund
+      - Bonn
+      - Münster
+      - Bielefeld
+      - Paderborn
+  - name: Rheinland-Pfalz
+    cities:
+      - Mainz
+      - Ludwigshafen
+      - Koblenz
+      - Trier
+      - Kaiserslautern
+      - Speyer
+      - Worms
+  - name: Saarland
+    cities:
+      - Saarbrücken
+      - Saarlouis
+      - Homburg
+  - name: Sachsen
+    cities:
+      - Dresden
+      - Leipzig
+      - Chemnitz
+      - Zwickau
+  - name: Sachsen-Anhalt
+    cities:
+      - Magdeburg
+      - Halle (Saale)
+      - Chemnitz
+      - Zwickau
+  - name: Schleswig-Holstein
+    cities:
+      - Kiel
+      - Lübeck
+      - Rendsburg
+      - Flensburg
+      - Eckernförde
+      - Neumünster
+      - Elmshorn
+      - Schleswig
+  - name: Thüringen
+    cities:
+      - Erfurt
+      - Jena
+      - Weimar
+      - Gera

@@ -2,7 +2,7 @@
 import com.charleskorn.kaml.Yaml
 import config.Config
 import kotlinx.serialization.decodeFromString
-import simple.States
+import model.States
 import java.io.File
 import java.util.*
 
@@ -71,7 +71,7 @@ fun main() {
 
                     /*
                      * Now we can merge the dummyState of cityName with the real state,
-                     * Keep in mind that the second argument will inherit/pass the node name.
+                     * Keep in mind that the second argument will set the node name.
                      */
                     states.union(dummyState, stateName)
                 }

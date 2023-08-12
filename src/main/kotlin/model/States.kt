@@ -1,4 +1,4 @@
-package simple
+package model
 
 class States {
     var states = Forest()

@@ -1,4 +1,4 @@
-package simple
+package model
 
 class Forest {
     var predecessor: HashMap<String, String> = HashMap()

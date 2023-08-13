@@ -1,8 +1,8 @@
 package model
 
-class Forest {
-    var predecessor: HashMap<String, String> = HashMap()
-    var rank: HashMap<String, Int> = HashMap()
+internal class Forest {
+    private var predecessor: HashMap<String, String> = HashMap()
+    private var rank: HashMap<String, Int> = HashMap()
 
     internal fun makeSet(x: String) {
         predecessor[x] = x

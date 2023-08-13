@@ -1,7 +1,7 @@
 package model
 
 class States {
-    var states = Forest()
+    internal var states = Forest()
 
     fun makeState(city: String, state: String) {
         states.makeSet(city)

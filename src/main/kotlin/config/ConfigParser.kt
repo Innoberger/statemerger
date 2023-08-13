@@ -71,7 +71,7 @@ class ConfigParser(
                          * We ensured that cityName was already created before,
                          * so we can use !! to ignore the nullable result.
                          */
-                        val dummyState = states.find(cityName)!!
+                        val dummyState = states.findState(cityName)!!
 
                         /*
                          * Now we can merge the dummyState of cityName with the real state,

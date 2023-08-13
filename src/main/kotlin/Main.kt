@@ -20,5 +20,5 @@ fun main() {
 }
 
 fun printSearchString(states: States, city: String) {
-    println("$city -> (...) -> ${states.find(city)}")
+    println("$city -> (...) -> ${states.findState(city)}")
 }

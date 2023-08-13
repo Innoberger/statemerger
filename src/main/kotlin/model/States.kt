@@ -21,7 +21,7 @@ class States {
         states.union(recessiveState, dominantState)
     }
 
-    fun find(city: String): String? {
+    fun findState(city: String): String? {
         return states.findSet(city)
     }
 }

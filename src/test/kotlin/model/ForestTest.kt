@@ -3,6 +3,7 @@ package model
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 internal class ForestTest {
     private lateinit var forest: Forest
@@ -54,14 +55,43 @@ internal class ForestTest {
         forest.union("2ndElement", "1stElement")
 
         /**
-         * Instead of using 1stElement as the new root node,
-         * because it higher ranks will always win over dominantNode.
+         * Instead of using 3rdElement as the new root node,
+         * it uses 1stElement as the new root node,
+         * because higher ranks will always win over dominantNode.
          */
         forest.union("1stElement", "3rdElement")
 
         assertEquals(forest.predecessor["1stElement"], "1stElement")
         assertEquals(forest.predecessor["2ndElement"], "1stElement")
         assertEquals(forest.predecessor["3rdElement"], "1stElement")
+    }
+
+    @Test
+    fun `test union is always merging root nodes`() {
+        forest.makeSet("1stElement")
+        forest.makeSet("2ndElement")
+        forest.makeSet("3rdElement")
+        forest.makeSet("4thElement")
+
+        assertEquals(forest.predecessor["1stElement"], "1stElement")
+        assertEquals(forest.predecessor["2ndElement"], "2ndElement")
+        assertEquals(forest.predecessor["3rdElement"], "3rdElement")
+        assertEquals(forest.predecessor["4thElement"], "4thElement")
+
+        forest.union("2ndElement", "1stElement")
+        forest.union("4thElement", "3rdElement")
+
+        assertEquals(forest.predecessor["1stElement"], "1stElement")
+        assertEquals(forest.predecessor["2ndElement"], "1stElement")
+        assertEquals(forest.predecessor["3rdElement"], "3rdElement")
+        assertEquals(forest.predecessor["4thElement"], "3rdElement")
+
+        forest.union("3rdElement", "1stElement")
+
+        assertEquals(forest.predecessor["1stElement"], "1stElement")
+        assertEquals(forest.predecessor["2ndElement"], "1stElement")
+        assertEquals(forest.predecessor["3rdElement"], "1stElement")
+        assertEquals(forest.predecessor["4thElement"], "3rdElement")
     }
 
     @Test
@@ -76,8 +106,15 @@ internal class ForestTest {
 
         forest.union("3rdElement", "2ndElement")
 
-        assertEquals(forest.predecessor["3rdElement"], "1stElement")
         assertEquals(forest.findSet("3rdElement"), "1stElement")
+        assertEquals(forest.predecessor["3rdElement"], "1stElement")
+    }
+
+    @Test
+    fun `test findSet fails for unknown element`() {
+        assertThrows<NullPointerException> {
+            forest.findSet("nonExistingElement")
+        }
     }
 
     @Test

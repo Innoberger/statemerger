@@ -1,8 +1,8 @@
 package model
 
 internal class Forest {
-    private var predecessor: HashMap<String, String> = HashMap()
-    private var rank: HashMap<String, Int> = HashMap()
+    internal var predecessor: HashMap<String, String> = HashMap()
+    internal var rank: HashMap<String, Int> = HashMap()
 
     internal fun makeSet(x: String) {
         predecessor[x] = x
@@ -28,6 +28,8 @@ internal class Forest {
      * where `dominantNode` will be the new root node.
      * Thus, the key/name of `dominantNode` will be kept.
      *
+     * But: Union by rank will always win over dominantNode.
+     *
      * @param recessiveNode Node to link, will omit its name.
      * @param dominantNode  Node to link, will keep its name.
      */
@@ -44,6 +46,7 @@ internal class Forest {
     }
 
     internal fun findSet(x: String): String? {
+        // Path compression
         if (x != predecessor[x])
             predecessor[x] = findSet(predecessor[x]!!)!!
 

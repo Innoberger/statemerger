@@ -31,9 +31,8 @@ class ConfigParser(
              * add a corresponding suffix to the stateName.
              * This is to ensure that all nodes are disjoint (unique).
              */
-            if (state.cities.any { city -> city == stateName }) {
+            if (state.cities.any { city -> city == stateName })
                 stateName = "$stateName (Land)"
-            }
 
             /*
              * For every state, we process every configured city.

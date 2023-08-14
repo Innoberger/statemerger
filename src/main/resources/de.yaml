@@ -21,27 +21,27 @@ states:
       - Bamberg
       - Würzburg
       - Bayreuth
-  - name: Berlin
+  - name: Berlin (Land)
     cities:
-      - Berlin
-  - name: Brandenburg
+      - Berlin (Stadt)
+  - name: Brandenburg (Land)
     cities:
       - Potsdam
       - Cottbus
       - Oranienburg
-      - Brandenburg
+      - Brandenburg (Havel)
       - Frankfurt (Oder)
-  - name: Bremen
+  - name: Bremen (Land)
     cities:
-      - Bremen
+      - Bremen (Stadt)
       - Bremerhaven
-  - name: Hamburg
+  - name: Hamburg (Land)
     cities:
-      - Hamburg
+      - Hamburg (Stadt)
   - name: Hessen
     cities:
       - Wiesbaden
-      - Frankfurt am Main
+      - Frankfurt (Main)
       - Marburg
       - Gießen
       - Fulda

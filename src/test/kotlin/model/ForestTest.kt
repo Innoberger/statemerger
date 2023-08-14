@@ -17,11 +17,11 @@ internal class ForestTest {
     fun `test makeSet creates a new set`() {
         forest.makeSet("someElement")
 
-        assertEquals(forest.predecessor.size, 1)
-        assertEquals(forest.predecessor["someElement"], "someElement")
+        assertEquals(1, forest.predecessor.size)
+        assertEquals("someElement", forest.predecessor["someElement"])
 
-        assertEquals(forest.rank.size, 1)
-        assertEquals(forest.rank["someElement"], 0)
+        assertEquals(1, forest.rank.size)
+        assertEquals(0, forest.rank["someElement"])
     }
 
     @Test
@@ -31,8 +31,8 @@ internal class ForestTest {
 
         forest.union("someElement", "anotherElement")
 
-        assertEquals(forest.predecessor["someElement"], "anotherElement")
-        assertEquals(forest.predecessor["anotherElement"], "anotherElement")
+        assertEquals("anotherElement", forest.predecessor["someElement"])
+        assertEquals("anotherElement", forest.predecessor["anotherElement"])
     }
 
     @Test
@@ -42,8 +42,8 @@ internal class ForestTest {
 
         forest.union("someElement", "anotherElement")
 
-        assertEquals(forest.rank["someElement"], 0)
-        assertEquals(forest.rank["anotherElement"], 1)
+        assertEquals(0, forest.rank["someElement"])
+        assertEquals(1, forest.rank["anotherElement"])
     }
 
     @Test
@@ -61,9 +61,9 @@ internal class ForestTest {
          */
         forest.union("1stElement", "3rdElement")
 
-        assertEquals(forest.predecessor["1stElement"], "1stElement")
-        assertEquals(forest.predecessor["2ndElement"], "1stElement")
-        assertEquals(forest.predecessor["3rdElement"], "1stElement")
+        assertEquals("1stElement", forest.predecessor["1stElement"])
+        assertEquals("1stElement", forest.predecessor["2ndElement"])
+        assertEquals("1stElement", forest.predecessor["3rdElement"])
     }
 
     @Test
@@ -73,25 +73,25 @@ internal class ForestTest {
         forest.makeSet("3rdElement")
         forest.makeSet("4thElement")
 
-        assertEquals(forest.predecessor["1stElement"], "1stElement")
-        assertEquals(forest.predecessor["2ndElement"], "2ndElement")
-        assertEquals(forest.predecessor["3rdElement"], "3rdElement")
-        assertEquals(forest.predecessor["4thElement"], "4thElement")
+        assertEquals("1stElement", forest.predecessor["1stElement"])
+        assertEquals("2ndElement", forest.predecessor["2ndElement"])
+        assertEquals("3rdElement", forest.predecessor["3rdElement"])
+        assertEquals("4thElement", forest.predecessor["4thElement"])
 
         forest.union("2ndElement", "1stElement")
         forest.union("4thElement", "3rdElement")
 
-        assertEquals(forest.predecessor["1stElement"], "1stElement")
-        assertEquals(forest.predecessor["2ndElement"], "1stElement")
-        assertEquals(forest.predecessor["3rdElement"], "3rdElement")
-        assertEquals(forest.predecessor["4thElement"], "3rdElement")
+        assertEquals("1stElement", forest.predecessor["1stElement"])
+        assertEquals("1stElement", forest.predecessor["2ndElement"])
+        assertEquals("3rdElement", forest.predecessor["3rdElement"])
+        assertEquals("3rdElement", forest.predecessor["4thElement"])
 
         forest.union("3rdElement", "1stElement")
 
-        assertEquals(forest.predecessor["1stElement"], "1stElement")
-        assertEquals(forest.predecessor["2ndElement"], "1stElement")
-        assertEquals(forest.predecessor["3rdElement"], "1stElement")
-        assertEquals(forest.predecessor["4thElement"], "3rdElement")
+        assertEquals("1stElement", forest.predecessor["1stElement"])
+        assertEquals("1stElement", forest.predecessor["2ndElement"])
+        assertEquals("1stElement", forest.predecessor["3rdElement"])
+        assertEquals("3rdElement", forest.predecessor["4thElement"])
     }
 
     @Test
@@ -102,12 +102,12 @@ internal class ForestTest {
 
         forest.union("2ndElement", "1stElement")
 
-        assertEquals(forest.predecessor["3rdElement"], "3rdElement")
+        assertEquals("3rdElement", forest.predecessor["3rdElement"])
 
         forest.union("3rdElement", "2ndElement")
 
-        assertEquals(forest.findSet("3rdElement"), "1stElement")
-        assertEquals(forest.predecessor["3rdElement"], "1stElement")
+        assertEquals("1stElement", forest.findSet("3rdElement"))
+        assertEquals("1stElement", forest.predecessor["3rdElement"])
     }
 
     @Test

@@ -17,13 +17,13 @@ internal class StatesTest {
     fun `test makeState creates a new forest with two nodes`() {
         states.makeState("someCity", "someState")
 
-        assertEquals(states.states.predecessor.size, 2)
-        assertEquals(states.states.predecessor["someCity"], "someState")
-        assertEquals(states.states.predecessor["someState"], "someState")
+        assertEquals(2, states.states.predecessor.size)
+        assertEquals("someState", states.states.predecessor["someCity"])
+        assertEquals("someState", states.states.predecessor["someState"])
 
-        assertEquals(states.states.rank.size, 2)
-        assertEquals(states.states.rank["someCity"], 0)
-        assertEquals(states.states.rank["someState"], 1)
+        assertEquals(2, states.states.rank.size)
+        assertEquals(0, states.states.rank["someCity"])
+        assertEquals(1, states.states.rank["someState"])
     }
 
     @Test
@@ -33,8 +33,8 @@ internal class StatesTest {
 
         states.union("stateB", "stateA")
 
-        assertEquals(states.findState("cityA"), "stateA")
-        assertEquals(states.findState("cityB"), "stateA")
+        assertEquals("stateA", states.findState("cityA"))
+        assertEquals("stateA", states.findState("cityB"))
     }
 
     @Test
@@ -44,10 +44,10 @@ internal class StatesTest {
 
         states.union("stateB", "stateA")
 
-        assertEquals(states.states.rank["cityA"], 0)
-        assertEquals(states.states.rank["cityB"], 0)
-        assertEquals(states.states.rank["stateA"], 2)
-        assertEquals(states.states.rank["stateB"], 1)
+        assertEquals(0, states.states.rank["cityA"])
+        assertEquals(0, states.states.rank["cityB"])
+        assertEquals(2, states.states.rank["stateA"])
+        assertEquals(1, states.states.rank["stateB"])
     }
 
     @Test
@@ -65,9 +65,9 @@ internal class StatesTest {
          */
         states.union("stateA", "stateC")
 
-        assertEquals(states.states.predecessor["stateA"], "stateA")
-        assertEquals(states.states.predecessor["stateB"], "stateA")
-        assertEquals(states.states.predecessor["stateC"], "stateA")
+        assertEquals("stateA", states.states.predecessor["stateA"])
+        assertEquals("stateA", states.states.predecessor["stateB"])
+        assertEquals("stateA", states.states.predecessor["stateC"])
     }
 
     @Test
@@ -75,17 +75,17 @@ internal class StatesTest {
         states.makeState("someCity", "someState")
         states.makeState("anotherCity", "anotherState")
 
-        assertEquals(states.states.predecessor["someCity"], "someState")
-        assertEquals(states.states.predecessor["someState"], "someState")
-        assertEquals(states.states.predecessor["anotherCity"], "anotherState")
-        assertEquals(states.states.predecessor["anotherState"], "anotherState")
+        assertEquals("someState", states.states.predecessor["someCity"])
+        assertEquals("someState", states.states.predecessor["someState"])
+        assertEquals("anotherState", states.states.predecessor["anotherCity"])
+        assertEquals("anotherState", states.states.predecessor["anotherState"])
 
         states.union("someCity", "anotherCity")
 
-        assertEquals(states.states.predecessor["someCity"], "someState")
-        assertEquals(states.states.predecessor["someState"], "anotherState")
-        assertEquals(states.states.predecessor["anotherCity"], "anotherState")
-        assertEquals(states.states.predecessor["anotherState"], "anotherState")
+        assertEquals("someState", states.states.predecessor["someCity"])
+        assertEquals("anotherState", states.states.predecessor["someState"])
+        assertEquals("anotherState", states.states.predecessor["anotherCity"])
+        assertEquals("anotherState", states.states.predecessor["anotherState"])
     }
 
     @Test
@@ -97,9 +97,9 @@ internal class StatesTest {
         states.union("stateB", "stateA")
         states.union("stateC", "stateB")
 
-        assertEquals(states.states.predecessor["cityC"], "stateC")
-        assertEquals(states.findState("cityC"), "stateA")
-        assertEquals(states.states.predecessor["cityC"], "stateA")
+        assertEquals("stateC", states.states.predecessor["cityC"])
+        assertEquals("stateA", states.findState("cityC"))
+        assertEquals("stateA", states.states.predecessor["cityC"])
     }
 
     @Test

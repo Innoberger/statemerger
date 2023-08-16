@@ -7,13 +7,11 @@ import java.io.File
 import java.util.*
 
 class ConfigParser(
-    private val filePath: String
+    private val configFile: File
 ) {
 
     fun buildStates(): States {
         val states = States()
-
-        val configFile = File(filePath)
 
         val config = configFile.bufferedReader().use {
             Yaml.default.decodeFromString<Config>(it.readText())

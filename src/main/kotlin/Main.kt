@@ -1,9 +1,10 @@
 
 import config.ConfigParser
 import model.States
+import java.io.File
 
 fun main() {
-    val germany = ConfigParser("src/main/resources/de.yaml").buildStates()
+    val germany = ConfigParser(File("src/main/resources/de.yaml")).buildStates()
 
     // temporary print out the disjoint-set forest
     println(germany.states)

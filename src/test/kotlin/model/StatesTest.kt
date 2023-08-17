@@ -27,7 +27,7 @@ internal class StatesTest {
     }
 
     @Test
-    fun `test union merges two sets and updates root node`() {
+    fun `test union merges two states and updates root node`() {
         states.makeState("cityA", "stateA")
         states.makeState("cityB", "stateB")
 
@@ -38,7 +38,7 @@ internal class StatesTest {
     }
 
     @Test
-    fun `test union merges two sets and updates ranks`() {
+    fun `test union merges two states and updates ranks`() {
         states.makeState("cityA", "stateA")
         states.makeState("cityB", "stateB")
 

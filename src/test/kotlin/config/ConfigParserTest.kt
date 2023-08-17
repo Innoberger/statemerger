@@ -33,4 +33,54 @@ internal class ConfigParserTest {
 
         tempFile.delete()
     }
+
+    @Test
+    fun `test buildStates with city name equals another state's name`() {
+        val configFileContent = """
+            states:
+              - name: StateA
+                cities:
+                  - Hello
+              - name: Hello
+                cities:
+                  - CityB
+        """.trimIndent()
+
+        val tempFile = File.createTempFile("testConfigFile", ".yaml")
+        tempFile.writeText(configFileContent)
+
+        val configParser = ConfigParser(tempFile)
+        val states = configParser.buildStates()
+
+        // when a city got the name of another state it will just point to itself
+        // this is usually a risky choice! (unhappy flow)
+        assertEquals("Hello", states.findState("Hello"))
+
+        tempFile.delete()
+    }
+
+    @Test
+    fun `test buildStates with on different states contain equal city`() {
+        val configFileContent = """
+            states:
+              - name: StateA
+                cities:
+                  - SameCity
+              - name: StateB
+                cities:
+                  - SameCity
+        """.trimIndent()
+
+        val tempFile = File.createTempFile("testConfigFile", ".yaml")
+        tempFile.writeText(configFileContent)
+
+        val configParser = ConfigParser(tempFile)
+        val states = configParser.buildStates()
+
+        // when different states got the same city, the last in config list is taken
+        // this is usually a risky choice! (unhappy flow)
+        assertEquals("StateB", states.findState("SameCity"))
+
+        tempFile.delete()
+    }
 }

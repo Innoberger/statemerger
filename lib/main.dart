@@ -1,36 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'screen/home.dart';
 import 'screen/map.dart';
 import 'screen/tree.dart';
 import 'screen/help.dart';
+import 'theme_provider.dart';
 
 void main() {
-  runApp(const StateMerger());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) =>
+          ThemeProvider(), // Provide the ThemeProvider instance
+      child: const StateMerger(),
+    ),
+  );
 }
-
-final lightTheme = ThemeData(
-  brightness: Brightness.light,
-  // other theme properties
-);
-
-final darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  // other theme properties
-);
 
 class StateMerger extends StatelessWidget {
   const StateMerger({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final Brightness brightness = MediaQuery.of(context).platformBrightness;
-    final ThemeData theme =
-        brightness == Brightness.dark ? darkTheme : lightTheme;
-
     return MaterialApp(
       title: 'StateMerger',
-      theme: theme,
+      theme: context.watch<ThemeProvider>().currentTheme,
       home: const ScreenRoot(title: 'StateMerger Home'),
     );
   }

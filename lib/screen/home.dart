@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../theme_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -45,16 +48,24 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
                 onSelected: (String value) {
+                  ThemeProvider themeProvider = Provider.of<ThemeProvider>(
+                      context,
+                      listen: false); // Access the ThemeProvider
                   // Handle theme selection here
                   if (value == 'aktiviert') {
-                    // Set dark theme
-                    // You can implement this part based on your theme setup
+                    themeProvider.currentTheme =
+                        ThemeData.dark(); // Change the theme
                   } else if (value == 'deaktiviert') {
-                    // Set light theme
-                    // You can implement this part based on your theme setup
+                    themeProvider.currentTheme =
+                        ThemeData.light(); // Change the theme
                   } else if (value == 'system') {
-                    // Set system default theme
-                    // You can implement this part based on your theme setup
+                    final Brightness brightness =
+                        MediaQuery.of(context).platformBrightness;
+                    final ThemeData theme = brightness == Brightness.dark
+                        ? ThemeData.dark()
+                        : ThemeData.light();
+
+                    themeProvider.currentTheme = theme; // Change the theme
                   }
                 },
               ),

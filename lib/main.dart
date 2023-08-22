@@ -9,14 +9,28 @@ void main() {
   runApp(const StateMerger());
 }
 
+final lightTheme = ThemeData(
+  brightness: Brightness.light,
+  // other theme properties
+);
+
+final darkTheme = ThemeData(
+  brightness: Brightness.dark,
+  // other theme properties
+);
+
 class StateMerger extends StatelessWidget {
   const StateMerger({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Brightness brightness = MediaQuery.of(context).platformBrightness;
+    final ThemeData theme =
+        brightness == Brightness.dark ? darkTheme : lightTheme;
+
     return MaterialApp(
       title: 'StateMerger',
-      theme: ThemeData.dark(),
+      theme: theme,
       home: const ScreenRoot(title: 'StateMerger Home'),
     );
   }
@@ -40,6 +54,8 @@ class _ScreenRootState extends State<ScreenRoot> {
     HelpScreen(),
   ];
 
+  final List<String> _screenTitles = ["Home", "Karte", "Baum", "Hilfe"];
+
   void _onItemTapped(int index) {
     setState(() {
       _currentScreenIndex = index;
@@ -49,27 +65,30 @@ class _ScreenRootState extends State<ScreenRoot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(_screenTitles[_currentScreenIndex]),
+      ),
       body: _screens[_currentScreenIndex],
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentScreenIndex,
           onTap: _onItemTapped,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+              icon: const Icon(Icons.home),
+              label: _screenTitles[0],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: 'Karte',
+              icon: const Icon(Icons.map),
+              label: _screenTitles[1],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.menu_open),
-              label: 'Baum',
+              icon: const Icon(Icons.menu_open),
+              label: _screenTitles[2],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.help),
-              label: 'Hilfe',
+              icon: const Icon(Icons.help),
+              label: _screenTitles[3],
             )
           ]),
     );

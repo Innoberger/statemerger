@@ -3,6 +3,9 @@ import 'forest.dart';
 class States {
   final Forest _states = Forest();
 
+  // getter: these var should only be read but not altered outside of this class
+  Forest get states => _states;
+
   /// Creates a new state with the given city and state names,
   /// and merges them into one state.
   void makeState(String city, String state) {

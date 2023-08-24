@@ -2,6 +2,10 @@ class Forest {
   final Map<String, String> _predecessor = {};
   final Map<String, int> _rank = {};
 
+  // getters: these vars should only be read but not altered outside of this class
+  Map<String, String> get predecessor => _predecessor;
+  Map<String, int> get rank => _rank;
+
   /// Creates a new set containing a single element `x`.
   ///
   /// @param x The element to create a set for.

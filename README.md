@@ -1,50 +1,38 @@
-# HKA INFM Projektarbeit 2 - Anwendung
+# create-svelte
 
-This repository is part of the module "Projektarbeit 2" of the computer science M.Sc. study programm at [Karlsruhe University of Applied Sciences](https://www.h-ka.de/en/) accompanied by Prof. Dr. Körner.
+Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
-The task is to create an application that can merge graph nodes in (near) linear time, wrapped up in a user-friendly GUI.
-Done by example of "merging" German federal states, containing a capital city each.
+## Creating a project
 
+If you're seeing this, you've probably already done this step. Congrats!
 
-## The Task (in German)
+```bash
+# create a new project in the current directory
+npm create svelte@latest
 
-**Optimierung der Bundesrepublik**
+# create a new project in my-app
+npm create svelte@latest my-app
+```
 
-In der Bundesrepublik Deutschland wurde schon mehrmals vorgeschlagen, kleinere Bundesländer mit anderen zu fusionieren, um Verwaltungskosten zu sparen (z.B. das Saarland mit Rheinland-Pfalz oder Berlin mit Brandenburg). Angenommen, Sie möchten eine Datenstruktur implementieren, die folgende Operationen für die Städte in der Bundesrepublik beherrscht:
+## Developing
 
-* `Find(s)`: man kann für jede Stadt `s` abfragen, in welchem Bundesland sie liegt
-* `Union(b1, b2)`: fusioniere die Bundesländer `b1` und `b2` und vergebe für das vereinte Bundesland den Namen `b1` oder auch `b2`. "Vereint" bedeutet, dass `Find(s)` für jede Stadt aus den beiden ursprünglich beteiligten Bundesländern nun immer nur noch den einen neuen Namen zurückgibt.
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-Damit man irgendwie auch "anfangen" kann, definieren wir noch diese Operation:
+```bash
+npm run dev
 
-* `Make-State(s, b)`: erstelle ein neues Bundesland mit dem Namen `b`, welches nur die eine Stadt `s` enthält.
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
 
-Zum Aufbau der "echten" heutigen Bundesländer kann man dann die Operation `Union` entsprechend oft aufrufen.
+## Building
 
-Es ist möglich, eine Datenstruktur zu erstellen, die alle diese Operationen in so gut wie (optimaler) Linearzeit ausführt. Ihr Programm implementiert diese Datenstruktur und veranschaulicht die Arbeitsweise der einzelnen Operationen.
+To create a production version of your app:
 
-**Literatur:** Th. H. Cormen et al.: _Introduction to Algorithms_, Kapitel 21
+```bash
+npm run build
+```
 
+You can preview the production build with `npm run preview`.
 
-## Prerequisites and execution
-
-To build, run `gradlew build` (Linux and macOS) or `gradlew.bat build` (Windows).
-If gradle is installed system-wide, you can just run `gradle build`.
-
-Currently, this repo contains only a CLI app with the basic data structure.
-Later on, when the basic data structure has been created, the CLI app will be migrated to an Android app and continued with [Android Studio](https://developer.android.com/studio/).
-
-
-## Repositories
-
-This specific repository contains the actual implementation of the application for this project.
-There are some other repositories within this project:
-
-* [Just some notes and brainstorming ("Notizen")](https://github.com/Innoberger/hka-infm-projektarbeit-2-notes)
-* [Full documentation ("Ausarbeitung")](https://github.com/Innoberger/hka-infm-projektarbeit-2-doc)
-* [Presentation ("Vortrag")](https://github.com/Innoberger/hka-infm-projektarbeit-2-beamer)
-
-
-## License
-
-&copy; 2023 Fynn Arnold. Licensed under the [EUPL](LICENSE).
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.

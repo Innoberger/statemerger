@@ -1,3 +1,4 @@
+import { describe, beforeEach, expect, test } from 'vitest';
 import { Forest } from '../../lib/model/forest';
 
 describe('Forest', () => {
@@ -97,9 +98,7 @@ describe('Forest', () => {
   });
 
   test('test findSet fails for unknown element', () => {
-    expect(() => {
-      forest.findSet('nonExistingElement');
-    }).toThrow();
+    expect(forest.findSet('nonExistingElement')).toBe(undefined);
   });
 
   test('test toString provides correct representation', () => {

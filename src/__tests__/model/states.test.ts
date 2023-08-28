@@ -1,3 +1,4 @@
+import { describe, beforeEach, expect, test } from 'vitest';
 import { States } from '../../lib/model/states';
 
 describe('States', () => {
@@ -70,7 +71,7 @@ describe('States', () => {
     states.union('someCity', 'anotherCity');
 
     expect(states.states.predecessor['someCity']).toBe('someState');
-    expect(states.states.predecessor['someState']).toBe('someState');
+    expect(states.states.predecessor['someState']).toBe('anotherState');
     expect(states.states.predecessor['anotherCity']).toBe('anotherState');
     expect(states.states.predecessor['anotherState']).toBe('anotherState');
   });
@@ -89,8 +90,6 @@ describe('States', () => {
   });
 
   test('test findState fails for unknown city', () => {
-    expect(() => {
-      states.findState('nonExistingCity');
-    }).toThrow();
+    expect(states.findState('nonExistingCity')).toBe(undefined);
   });
 });

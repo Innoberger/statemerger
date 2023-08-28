@@ -1,0 +1,167 @@
+{
+    "states": [
+        {
+            "name": "Baden-Württemberg",
+            "cities": [
+                "Stuttgart",
+                "Mannheim",
+                "Karlsruhe",
+                "Heidelberg",
+                "Freiburg",
+                "Pforzheim",
+                "Ulm",
+                "Heilbronn",
+                "Konstanz",
+                "Tübingen"
+            ]
+        },
+        {
+            "name": "Bayern",
+            "cities": [
+                "München",
+                "Ingolstadt",
+                "Augsburg",
+                "Nürnberg",
+                "Regensburg",
+                "Bamberg",
+                "Würzburg",
+                "Bayreuth"
+            ]
+        },
+        {
+            "name": "Berlin (Land)",
+            "cities": [
+                "Berlin (Stadt)"
+            ]
+        },
+        {
+            "name": "Brandenburg (Land)",
+            "cities": [
+                "Potsdam",
+                "Cottbus",
+                "Oranienburg",
+                "Brandenburg (Havel)",
+                "Frankfurt (Oder)"
+            ]
+        },
+        {
+            "name": "Bremen (Land)",
+            "cities": [
+                "Bremen (Stadt)",
+                "Bremerhaven"
+            ]
+        },
+        {
+            "name": "Hamburg (Land)",
+            "cities": [
+                "Hamburg (Stadt)"
+            ]
+        },
+        {
+            "name": "Hessen",
+            "cities": [
+                "Wiesbaden",
+                "Frankfurt (Main)",
+                "Marburg",
+                "Gießen",
+                "Fulda",
+                "Kassel"
+            ]
+        },
+        {
+            "name": "Mecklenburg-Vorpommern",
+            "cities": [
+                "Schwerin",
+                "Rostock",
+                "Wismar",
+                "Greifswald"
+            ]
+        },
+        {
+            "name": "Niedersachsen",
+            "cities": [
+                "Hannover",
+                "Osnabrück",
+                "Oldenburg",
+                "Wolfsburg",
+                "Braunschweig",
+                "Hildesheim",
+                "Göttingen",
+                "Celle"
+            ]
+        },
+        {
+            "name": "Nordrhein-Westfalen",
+            "cities": [
+                "Düsseldorf",
+                "Köln",
+                "Essen",
+                "Dortmund",
+                "Bonn",
+                "Münster",
+                "Bielefeld",
+                "Paderborn"
+            ]
+        },
+        {
+            "name": "Rheinland-Pfalz",
+            "cities": [
+                "Mainz",
+                "Ludwigshafen",
+                "Koblenz",
+                "Trier",
+                "Kaiserslautern",
+                "Speyer",
+                "Worms"
+            ]
+        },
+        {
+            "name": "Saarland",
+            "cities": [
+                "Saarbrücken",
+                "Saarlouis",
+                "Homburg"
+            ]
+        },
+        {
+            "name": "Sachsen",
+            "cities": [
+                "Dresden",
+                "Leipzig",
+                "Chemnitz",
+                "Zwickau"
+            ]
+        },
+        {
+            "name": "Sachsen-Anhalt",
+            "cities": [
+                "Magdeburg",
+                "Halle (Saale)",
+                "Chemnitz",
+                "Zwickau"
+            ]
+        },
+        {
+            "name": "Schleswig-Holstein",
+            "cities": [
+                "Kiel",
+                "Lübeck",
+                "Rendsburg",
+                "Flensburg",
+                "Eckernförde",
+                "Neumünster",
+                "Elmshorn",
+                "Schleswig"
+            ]
+        },
+        {
+            "name": "Thüringen",
+            "cities": [
+                "Erfurt",
+                "Jena",
+                "Weimar",
+                "Gera"
+            ]
+        }
+    ]
+}

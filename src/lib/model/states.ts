@@ -1,7 +1,7 @@
 import { Forest } from "./forest";
 
 export class States {
-    private _states: Forest = new Forest();
+    private _states = new Forest();
 
     public get states(): Forest {
         return this._states;

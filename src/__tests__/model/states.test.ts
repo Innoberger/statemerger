@@ -49,9 +49,11 @@ describe('States', () => {
 
     states.union('stateB', 'stateA');
 
-    // Instead of using stateC as the new root node,
-    // it chooses stateA as the new root node,
-    // because higher ranks will always win over dominantState.
+    /*
+     * Instead of using stateC as the new root node,
+     * it chooses stateA as the new root node,
+     * because higher ranks will always win over dominantState.
+     */
     states.union('stateA', 'stateC');
 
     expect(states.states.predecessor['stateA']).toBe('stateA');

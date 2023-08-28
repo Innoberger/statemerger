@@ -1,5 +1,5 @@
 import { describe, beforeEach, expect, test } from 'vitest';
-import { Forest } from '../../lib/model/forest';
+import { Forest } from '$lib/model/forest';
 
 describe('Forest', () => {
   let forest: Forest;

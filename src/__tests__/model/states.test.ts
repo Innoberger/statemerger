@@ -1,5 +1,5 @@
 import { describe, beforeEach, expect, test } from 'vitest';
-import { States } from '../../lib/model/states';
+import { States } from '$lib/model/states';
 
 describe('States', () => {
   let states: States;

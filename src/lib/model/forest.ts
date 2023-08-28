@@ -20,7 +20,7 @@ export class Forest {
      * and `dominantNode` into one node, where
      * `dominantNode` will be the new root node.
      * Thus, the key/name of `dominantNode`'s
-     * root node will be kept.
+     * root node will be kept if union by rank is not violated.
      *
      * @param recessiveNode Node to merge, will omit its name.
      * @param dominantNode  Node to merge, will keep its name.
@@ -34,7 +34,7 @@ export class Forest {
      * where `dominantNode` will be the new root node.
      * Thus, the key/name of `dominantNode` will be kept.
      *
-     * But: Union by rank will always win over dominantNode.
+     * But: Union by rank will always win over `dominantNode`.
      *
      * @param recessiveNode Node to link, will omit its name.
      * @param dominantNode  Node to link, will keep its name.
@@ -52,6 +52,12 @@ export class Forest {
         }
     }
 
+    /**
+     * Finds the root node of a tree.
+     * 
+     * @param x     An element of a tree.
+     * @returns     Root node of the tree containing `x`, or `undefined` if not found.
+     */
     public findSet(x: string): string | undefined {
         // Path compression
         if (x !== this._predecessor[x]) {
@@ -59,9 +65,5 @@ export class Forest {
         }
 
         return this._predecessor[x];
-    }
-
-    public toString(): string {
-        return `Forest(predecessor=${JSON.stringify(this._predecessor)}, rank=${JSON.stringify(this._rank)})`;
     }
 }

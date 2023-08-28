@@ -100,14 +100,5 @@ describe('Forest', () => {
   test('test findSet fails for unknown element', () => {
     expect(forest.findSet('nonExistingElement')).toBe(undefined);
   });
-
-  test('test toString provides correct representation', () => {
-    forest.makeSet('someElement');
-    forest.makeSet('anotherElement');
-
-    forest.union('someElement', 'anotherElement');
-    const expected =
-      'Forest(predecessor={"someElement":"anotherElement","anotherElement":"anotherElement"}, rank={"someElement":0,"anotherElement":1})';
-    expect(forest.toString()).toBe(expected);
-  });
+  
 });

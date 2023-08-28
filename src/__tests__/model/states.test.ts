@@ -92,4 +92,5 @@ describe('States', () => {
   test('test findState fails for unknown city', () => {
     expect(states.findState('nonExistingCity')).toBe(undefined);
   });
+
 });

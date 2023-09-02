@@ -25,7 +25,7 @@
 		"eslint-plugin-svelte": "^2.30.0",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",
-		"svelte": "^4.0.5",
+		"svelte": "^3.53.1",
 		"svelte-check": "^3.4.3",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
@@ -36,6 +36,7 @@
 	"dependencies": {
 		"class-transformer": "^0.5.1",
 		"class-validator": "^0.14.0",
+		"sveltestrap": "^5.11.2",
 		"uuid": "^9.0.0"
 	}
 }

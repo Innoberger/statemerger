@@ -19,7 +19,7 @@ export class ConfigParser {
      * 
      * @returns A disjoint-set forest data structure representing states and cities.
      */
-    buildStates(): States {
+    public buildStates(): States {
         const states = new States();
 
         /*

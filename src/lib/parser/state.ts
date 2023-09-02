@@ -1,5 +1,4 @@
-import { Transform } from 'class-transformer';
-import { IsString, IsArray, IsOptional } from 'class-validator';
+import { IsString, IsArray } from 'class-validator';
 
 export class State {
     @IsString()

@@ -41,7 +41,7 @@
 -->
 
 <nav class="navbar navbar-dark bg-dark sticky-top navbar-expand-lg">
-	<div class="container-fluid">
+	<div class="container-md">
 		<strong><a class="navbar-brand" href="/">StateMerger</a></strong>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -61,13 +61,18 @@
 	</div>
   </nav>
 
-<main class="pb-4 mb-5">
-	<h2>{currentPage.title}</h2>
-	<slot></slot>
+<main class="py-4 mb-5">
+	<div class="container-md">
+		<h1>{currentPage.title}</h1>
+		<hr/>
+		<div class="pt-1">
+			<slot></slot>
+		</div>
+    </div>
 </main>
 
 <footer class="bg-dark text-secondary fixed-bottom py-3 mt-5">
-	<div class="container text-center">
+	<div class="container-md">
 		<strong>StateMerger:</strong> Optimierung der Bundesrepublik. Eine Projektarbeit an der <a class="link-secondary" href="https://www.h-ka.de/">Hochschule Karlsruhe</a>.
 	</div>
 </footer>

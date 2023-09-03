@@ -2,4 +2,4 @@
 
 </script>
 
-Hello world!
+Hilfe

@@ -1,8 +1,7 @@
 <script lang="ts">
 	// @ts-nocheck
 
-	import { page } from '$app/stores'
-
+	import { page } from '$app/stores';
 	import {
 		Styles,
 		Collapse,
@@ -15,43 +14,28 @@
 		Icon
 	} from 'sveltestrap';
 
+	export let data;
+	export let currentPage: {
+		title: string;
+		link: string;
+		icon: string;
+		description: string;
+	};
+
+	$: currentPage = data.pages.find(_page => $page.url.pathname === `/${_page.link}`);
+
 	let isOpen = false;
-	let currentPage;
 
 	function handleUpdate(event) {
 		isOpen = event.detail.isOpen;
 	}
 
-	const pages = [
-		{
-			"title": "Start",
-			"link": "",
-			"icon": "house-door-fill"
-		},
-		{
-			"title": "Karte",
-			"link": "map",
-			"icon": "map-fill"
-		},
-		{
-			"title": "Baum",
-			"link": "tree",
-			"icon": "tree-fill"
-		},
-		{
-			"title": "Hilfe",
-			"link": "help",
-			"icon": "question-lg"
-		}
-	]
-
-	$ : currentPage = $page.url.pathname
-
-	function isActive(link: string): Boolean {
-		console.log(link + ":" + `/${link}` === currentPage)
-		return `/${link}` === currentPage
-	}
 </script>
+
+<svelte:head>
+	<title>{currentPage.title}</title>
+	<meta name="description" content={currentPage.description} />
+</svelte:head>
 
 <Styles />
 
@@ -60,11 +44,11 @@
 	<NavbarToggler on:click={() => (isOpen = !isOpen)} />
 	<Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
 		<Nav class="ms-auto" navbar>
-			{#each pages as page}
+			{#each data.pages as _page}
 				<NavItem>
-					<NavLink active={isActive(page.link)} href="/{page.link}">
-						<Icon name={page.icon}/>
-						<span>{page.title}</span>
+					<NavLink active={$page.url.pathname === `/${_page.link}`} href="/{_page.link}">
+						<Icon name={_page.icon}/>
+						<span>{_page.title}</span>
 					</NavLink>
 				</NavItem>
 			{/each}
@@ -72,6 +56,6 @@
 	</Collapse>
 </Navbar>
 
-<main>
+<main>{currentPage.title}
 	<slot></slot>
 </main>

@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-	<title>{currentPage.title}</title>
+	<title>{currentPage.title} | StateMerger</title>
 	<meta name="description" content={currentPage.description} />
 </svelte:head>
 

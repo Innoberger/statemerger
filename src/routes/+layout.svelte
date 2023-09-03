@@ -2,17 +2,6 @@
 	// @ts-nocheck
 
 	import { page } from '$app/stores';
-	import {
-		Styles,
-		Collapse,
-		Navbar,
-		NavbarToggler,
-		NavbarBrand,
-		Nav,
-		NavItem,
-		NavLink,
-		Icon
-	} from 'sveltestrap';
 
 	export let data;
 	export let currentPage: {
@@ -22,14 +11,7 @@
 		description: string;
 	};
 
-	$: currentPage = data.pages.find(_page => $page.url.pathname === `/${_page.link}`);
-
-	let isOpen = false;
-
-	function handleUpdate(event) {
-		isOpen = event.detail.isOpen;
-	}
-
+	$: currentPage = data.pages.find(page => $page.url.pathname === `/${page.link}`);
 </script>
 
 <svelte:head>
@@ -37,6 +19,7 @@
 	<meta name="description" content={currentPage.description} />
 </svelte:head>
 
+<!--
 <Styles />
 
 <Navbar color="dark" class="sticky-top" dark expand="md">
@@ -44,18 +27,42 @@
 	<NavbarToggler on:click={() => (isOpen = !isOpen)} />
 	<Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
 		<Nav class="ms-auto" navbar>
-			{#each data.pages as _page}
+			{#each data.pages as page}
 				<NavItem>
-					<NavLink active={currentPage.link === _page.link} href="/{_page.link}">
-						<Icon name={_page.icon}/>
-						<span>{_page.title}</span>
+					<NavLink active={currentPage.link === page.link} href="/{page.link}">
+						<Icon name={page.icon}/>
+						<span>{page.title}</span>
 					</NavLink>
 				</NavItem>
 			{/each}
 		</Nav>
 	</Collapse>
 </Navbar>
+-->
 
-<main>{currentPage.title}
+<nav class="navbar navbar-dark bg-dark sticky-top navbar-expand-lg">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="/">StateMerger</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ms-auto">
+				{#each data.pages as page}
+					<li class="nav-item">
+						<a class="nav-link {currentPage.link === page.link ? 'active' : ''}" aria-current="page" href="/{page.link}">
+							<i class="bi-{page.icon}"></i>
+							<span>{page.title}</span>
+						</a>
+					</li>
+				{/each}
+			</ul>
+		</div>
+	</div>
+  </nav>
+
+<main>
+	<i class="0-circle"></i>
+	<h2>{currentPage.title}</h2>
 	<slot></slot>
 </main>

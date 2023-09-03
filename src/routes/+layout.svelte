@@ -1,6 +1,4 @@
 <script lang="ts">
-	// @ts-nocheck
-
 	import { page } from '$app/stores';
 
 	export let data;
@@ -9,36 +7,16 @@
 		link: string;
 		icon: string;
 		description: string;
+		headline: boolean;
 	};
 
-	$: currentPage = data.pages.find(page => $page.url.pathname === `/${page.link}`);
+	$: currentPage = data.pages.find(page => $page.url.pathname === `/${page.link}`)!;
 </script>
 
 <svelte:head>
 	<title>{currentPage.title}</title>
 	<meta name="description" content={currentPage.description} />
 </svelte:head>
-
-<!--
-<Styles />
-
-<Navbar color="dark" class="sticky-top" dark expand="md">
-	<NavbarBrand href="/">StateMerger</NavbarBrand>
-	<NavbarToggler on:click={() => (isOpen = !isOpen)} />
-	<Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
-		<Nav class="ms-auto" navbar>
-			{#each data.pages as page}
-				<NavItem>
-					<NavLink active={currentPage.link === page.link} href="/{page.link}">
-						<Icon name={page.icon}/>
-						<span>{page.title}</span>
-					</NavLink>
-				</NavItem>
-			{/each}
-		</Nav>
-	</Collapse>
-</Navbar>
--->
 
 <nav class="navbar navbar-dark bg-dark sticky-top navbar-expand-lg">
 	<div class="container-md">
@@ -63,8 +41,10 @@
 
 <main class="py-4 mb-5">
 	<div class="container-md">
-		<h1>{currentPage.title}</h1>
-		<hr/>
+		{#if currentPage.headline}
+			<h1>{currentPage.title}</h1>
+			<hr/>
+		{/if}
 		<div class="pt-1">
 			<slot></slot>
 		</div>

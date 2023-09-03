@@ -46,7 +46,7 @@
 		<Nav class="ms-auto" navbar>
 			{#each data.pages as _page}
 				<NavItem>
-					<NavLink active={$page.url.pathname === `/${_page.link}`} href="/{_page.link}">
+					<NavLink active={currentPage.link === _page.link} href="/{_page.link}">
 						<Icon name={_page.icon}/>
 						<span>{_page.title}</span>
 					</NavLink>

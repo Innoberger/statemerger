@@ -2,12 +2,19 @@
 
 </script>
 
+<!--
+	This route style is inspired by:
+	https://github.com/startbootstrap/startbootstrap-one-page-wonder
+
+	Copyright (c) 2013-2023 Start Bootstrap LLC
+	MIT License
+-->
 <header class="masthead text-center text-white">
 	<div class="masthead-content">
 		<div class="container px-5">
 			<h1 class="masthead-heading mb-0">StateMerger</h1>
 			<h2 class="masthead-subheading mb-0">Optimierung der Bundesrepublik</h2>
-			<a class="btn btn-outline-light mt-5 px-5 py-3" href="/map">Jetzt starten</a>
+			<a class="btn btn-outline-light btn-lg mt-5 px-5 py-3" href="/map">Jetzt starten</a>
 		</div>
 	</div>
 	<div class="bg-circle-1 bg-circle"></div>
@@ -23,7 +30,7 @@
 		padding-top: calc(10rem + 72px);
 		padding-bottom: 7rem;
 		height: 100vh;
-		background: linear-gradient(0deg, #ff6a00 0%, #ee0979 100%);
+		background: linear-gradient(0deg, #bfcc00 0%, #03af3c 100%);
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-attachment: scroll;
@@ -43,7 +50,7 @@
 		z-index: 0;
 		position: absolute;
 		border-radius: 100%;
-		background: linear-gradient(0deg, #ee0979 0%, #ff6a00 100%);
+		background: linear-gradient(0deg, #03af3c 0%, #bfcc00 100%);
 	}
 	header.masthead .bg-circle-1 {
 		height: 90rem;

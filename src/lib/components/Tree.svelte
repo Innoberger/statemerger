@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+	// @ts-nocheck
+
 	import * as d3 from 'd3';
 	import { onMount } from 'svelte';
 
@@ -88,53 +90,9 @@
 	// declares a tree layout and assigns the size
 	const treemap = d3.tree().size([height, width]);
 
-	onMount(() => {
-		//  assigns the data to a hierarchy using parent-child relationships
-		let nodes = d3.hierarchy(treeData);
-
-		// maps the node data to the tree layout
-		nodes = treemap(nodes);
-
-		// append the svg object to the body of the page
-		// appends a 'group' element to 'svg'
-		// moves the 'group' element to the top left margin
-		const g = d3.select("#svg-group");
-
-		// adds the links between the nodes
-		const link = g.selectAll(".link")
-			.data( nodes.descendants().slice(1))
-			.enter().append("path")
-			.attr("class", "link")
-			.style("stroke", d => d.data.level)
-			.style("fill", "none")
-			.attr("d", d => {
-				return "M" + d.y + "," + d.x
-					+ "C" + (d.y + d.parent.y) / 2 + "," + d.x
-					+ " " + (d.y + d.parent.y) / 2 + "," + d.parent.x
-					+ " " + d.parent.y + "," + d.parent.x;
-			});
-
-		// adds each node as a group
-		const node = g.selectAll(".node")
-			.data(nodes.descendants())
-			.enter().append("g")
-			.attr("class", d => "node" + (d.children ? " node--internal" : " node--leaf"))
-			.attr("transform", d => "translate(" + d.y + "," + d.x + ")");
-
-		// adds the circle to the node
-		node.append("circle")
-			.attr("r", d => d.data.value)
-			.style("stroke", d => d.data.type)
-			.style("fill", d => d.data.level);
-
-		// adds the text to the node
-		node.append("text")
-			.attr("dy", ".35em")
-			.attr("x", d => d.children ? (d.data.value + 5) * -1 : d.data.value + 5)
-			.attr("y", d => d.children && d.depth !== 0 ? -(d.data.value + 5) : d)
-			.style("text-anchor", d => d.children ? "end" : "start")
-			.text(d => d.data.name);
-	});
+	//  assigns the data to a hierarchy using parent-child relationships
+	let nodes = d3.hierarchy(treeData);
+	nodes = treemap(nodes);
 </script>
 
 <div id="tree-container">
@@ -143,28 +101,75 @@
 		width={width + margin.left + margin.right}
 		height={height + margin.top + margin.bottom}
 	>
-		<g id="svg-group" transform="translate({margin.left},{margin.top})"></g>
+		<g id="svg-group" transform="translate({margin.left},{margin.top})">
+			{#each nodes.descendants().slice(1) as edge}
+				<path
+					class="link"
+					style="stroke: {edge.data.level}"
+					d="M{edge.y},{edge.x}C{(edge.y + edge.parent.y) / 2},{edge.x} {(edge.y + edge.parent.y) / 2}, {edge.parent.x} {edge.parent.y},{edge.parent.x}"
+				/>
+			{/each}
+
+			{#each nodes.descendants() as node}
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-static-element-interactions -->
+				<g
+					class="node {node.children ? " node--internal" : " node--leaf"}"
+					transform="translate({node.y},{node.x})"
+					on:click={() => alert(node.data.name)}
+				>
+					<circle
+						r={node.data.value}
+						style="fill: {node.data.level}"
+					/>
+					<text
+						dy=".35em"
+						x={node.children ? (node.data.value + 5) * -1 : node.data.value + 5}
+						y={node.children && node.depth !== 0 ? -(node.data.value + 5) : node}
+						text-anchor={node.children ? "end" : "start"}
+					>
+						{node.data.name}
+					</text>
+				</g>
+			{/each}
+		</g>
 	</svg>
 </div>
 
 <style>
-	body {
-		background-color: #eee;
+	g {
+		pointer-events: bounding-box;
 	}
+	
+	.node:hover {
+		pointer-events: bounding-box;
+		cursor: pointer;
+		stroke: rgb(25, 213, 242);
+		fill: rgb(25, 213, 242);
+	}
+
+	.node circle:hover {
+		stroke: rgb(25, 213, 242);
+		fill: rgb(25, 213, 242);
+	}
+
+	.node text:hover {
+		stroke: rgb(25, 213, 242);
+		fill: rgb(25, 213, 242);
+	}
+
 
 	.node circle {
-		fill: #fff;
-		stroke: steelblue;
-		stroke-width: 3px;
-	}
-
-	.node text {
-		font: 16px sans-serif;
+		stroke: black;
+		stroke-width: 2px;
 	}
 
 	.link {
 		fill: none;
-		stroke: #ccc;
+	}
+
+	.link:hover {
+		cursor: pointer;
 		stroke-width: 2px;
 	}
 </style>

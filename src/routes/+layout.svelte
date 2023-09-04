@@ -44,9 +44,12 @@
 
 	<main class="py-4 mb-5">
 		<div class="container-md">
-				<h1>{currentPage.title}</h1>
+				<h1>
+					<i class="bi-{currentPage.icon}"></i>
+					<span>{currentPage.title}</span>
+				</h1>
 				<hr/>
-			<div class="pt-1">
+			<div class="pt-1 text-justify">
 				<slot></slot>
 			</div>
 		</div>
@@ -63,3 +66,9 @@
 	<slot></slot>
 
 {/if}
+
+<style>
+	.text-justify {
+		text-align: justify;
+	}
+</style>

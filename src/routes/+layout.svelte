@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import CountrySelectorDialog from '$lib/components/CountrySelectorDialog.svelte';
 
 	export let data;
 	export let currentPage: {
@@ -53,6 +54,7 @@
 				<slot></slot>
 			</div>
 		</div>
+		<CountrySelectorDialog />
 	</main>
 
 	<footer class="bg-dark text-secondary fixed-bottom py-3 mt-5">

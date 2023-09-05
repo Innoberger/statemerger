@@ -12,10 +12,7 @@
 	]
 
 	async function loadCountryJson(countryCode: string) {
-		countryJson = fetch(`/countries/${countryCode}.json`).then(x => {
-			$selectedCountryJson = x.json()
-			x.json()
-		})
+		countryJson = fetch(`/countries/${countryCode}.json`).then(x => x.json())
 	}
 
 	function setCountry(country: { [key: string]: string; }) {
@@ -83,15 +80,9 @@
 			</div>
 		{/if}
 		<div class="dropdown mt-3">
-			{#await countryJson}
-				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" disabled>
-					{$selectedCountry ? $selectedCountry.name : "nicht ausgewählt"}
-				</button>
-			{:then}
-				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-					{$selectedCountry ? $selectedCountry.name : "nicht ausgewählt"}
-				</button>
-			{/await}
+			<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" disabled={countryJson===null}>
+				{$selectedCountry ? $selectedCountry.name : "nicht ausgewählt"}
+			</button>
 			<ul class="dropdown-menu">
 				{#each availableCountries as country}
 					<!-- svelte-ignore a11y-click-events-have-key-events -->

@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { selectedCountry } from '$lib/stores/selected-country';
+	import { selectedCountry, selectedCountryJson } from '$lib/stores/selected-country';
 	
-	let error: string | undefined;
+	let error: string | undefined
+	let countryJson: Promise<any>
 
 	const availableCountries = [
 		{
@@ -10,13 +11,22 @@
 		}
 	]
 
+	async function loadCountryJson(countryCode: string) {
+		countryJson = fetch(`/countries/${countryCode}.json`).then(x => {
+			$selectedCountryJson = x.json()
+			x.json()
+		})
+	}
+
 	function setCountry(country: { [key: string]: string; }) {
 		if (!availableCountries.find(_country => _country === country)) {
 			error = "Das ausgewählte Land ist ungültig."
 			return
 		}
+
+		loadCountryJson(country.code)
 		
-		error = undefined;
+		error = undefined
 		$selectedCountry = country
 	}
 </script>
@@ -31,10 +41,41 @@
 			<p>Die folgende Liste zeigt die verfügbaren Länder von StateMerger zum jetzigen Zeitpunkt.</p>
 			<p>Bitte eines der nachfolgenden Länder auswählen, um zu beginnen.</p>			
 		</div>
+			{#if countryJson}
+				{#await countryJson}
+					<div class="alert alert-info d-flex align-items-center" role="alert">
+						<div class="me-3">
+							<div class="spinner-border spinner-border-sm ms-auto" aria-hidden="true"></div>
+						</div>
+						<div>
+							<strong role="status">Loading...</strong>
+						</div>
+					</div>
+				{:then value}
+					<div class="alert alert-success d-flex align-items-center" role="alert">
+						<div class="me-3">
+							<i class="bi-check-circle-fill"></i>
+						</div>
+						<div>
+							Die Länder-Datei zu <strong>{$selectedCountry ? $selectedCountry.name : "unbekannt"}</strong> wurde erfolgreich geladen.
+						</div>
+					</div>
+					<p>The value is {JSON.stringify(value)}</p>
+				{:catch _error}
+					<div class="alert alert-danger d-flex align-items-center" role="alert">
+						<div class="me-3">
+							<i class="bi-exclamation-triangle-fill"></i>
+						</div>
+						<div>
+							Die Länder-Datei zu <strong>{$selectedCountry ? $selectedCountry.name : "unbekannt"}</strong> konnte nicht geladen werden.
+						</div>
+					</div>
+				{/await}
+			{/if}
 		{#if error}
 			<div class="alert alert-danger d-flex align-items-center" role="alert">
-				<div class="me-2">
-					<i class="bi-exclamation-triangle"></i>
+				<div class="me-3">
+					<i class="bi-exclamation-triangle-fill"></i>
 				</div>
 				<div>
 					{error}
@@ -42,9 +83,15 @@
 			</div>
 		{/if}
 		<div class="dropdown mt-3">
-			<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-				{$selectedCountry ? $selectedCountry.name : "nicht ausgewählt"}
-			</button>
+			{#await countryJson}
+				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" disabled>
+					{$selectedCountry ? $selectedCountry.name : "nicht ausgewählt"}
+				</button>
+			{:then}
+				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+					{$selectedCountry ? $selectedCountry.name : "nicht ausgewählt"}
+				</button>
+			{/await}
 			<ul class="dropdown-menu">
 				{#each availableCountries as country}
 					<!-- svelte-ignore a11y-click-events-have-key-events -->

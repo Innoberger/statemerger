@@ -12,7 +12,15 @@
 	]
 
 	async function loadCountryJson(countryCode: string) {
-		countryJson = fetch(`/countries/${countryCode}.json`).then(x => x.json())
+		countryJson = fetch(`/countries/${countryCode}.json`).then(async (response) => {
+			let responseJson = await response.json()
+			makeDisjointSetForest(responseJson)
+			return responseJson
+		})
+	}
+
+	function makeDisjointSetForest(responseJson: Promise<any>) {
+		$selectedCountryJson = responseJson
 	}
 
 	function setCountry(country: { [key: string]: string; }) {
@@ -36,7 +44,7 @@
 	<div class="offcanvas-body">
 		<div>
 			<p>Die folgende Liste zeigt die verfügbaren Länder von StateMerger zum jetzigen Zeitpunkt.</p>
-			<p>Bitte eines der nachfolgenden Länder auswählen, um zu beginnen.</p>			
+			<p>Bitte eines der nachfolgenden Länder auswählen, um zu beginnen.</p>
 		</div>
 			{#if countryJson}
 				{#await countryJson}
@@ -57,7 +65,6 @@
 							Die Länder-Datei zu <strong>{$selectedCountry ? $selectedCountry.name : "unbekannt"}</strong> wurde erfolgreich geladen.
 						</div>
 					</div>
-					<p>The value is {JSON.stringify(value)}</p>
 				{:catch _error}
 					<div class="alert alert-danger d-flex align-items-center" role="alert">
 						<div class="me-3">

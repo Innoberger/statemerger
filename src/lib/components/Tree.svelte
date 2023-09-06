@@ -31,9 +31,9 @@
 			}).map(([node, _]) => {
 				return {
 					name: node,
-					value: 15, // You can set default values here
-					type: "black", // You can set default types here
-					level: "yellow" // You can set default levels here
+					value: 10,
+					type: "black",
+					level: "lime"
 				} as TreeNode
 			})
 		}
@@ -45,9 +45,9 @@
 
 			return {
 				name: name,
-				value: 15, // You can set default values here
-				type: "black", // You can set default types here
-				level: "yellow" // You can set default levels here
+				value: 15,
+				type: "black",
+				level: "red"
 			} as TreeNode
 		}
 

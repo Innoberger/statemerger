@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { selectedCountry, selectedCountryJson } from '$lib/stores/selected-country';
+	import { ConfigParser } from '$lib/parser/config-parser';
+	import { selectedCountry, selectedCountryJson, selectedCountryStatesForest } from '$lib/stores/selected-country';
 	
 	let error: string | undefined
 	let countryJson: Promise<any>
@@ -21,6 +22,8 @@
 
 	function makeDisjointSetForest(responseJson: Promise<any>) {
 		$selectedCountryJson = responseJson
+		$selectedCountryStatesForest = new ConfigParser(JSON.stringify(responseJson)).buildStates()
+
 	}
 
 	function setCountry(country: { [key: string]: string; }) {

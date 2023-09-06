@@ -1,6 +1,6 @@
 <script lang="ts">
-	// @ts-ignore
 	import { selectedCountryStatesForest } from '$lib/stores/selected-country';
+	import { isUUID } from 'class-validator';
 	import * as d3 from 'd3';
 
 	interface TreeNode {
@@ -52,9 +52,7 @@
 		}
 
 		function setChildNodes(node: TreeNode): TreeNode {
-			let descendants = getChildNodes(node.name)?.map((childNode) => setChildNodes(childNode))
-
-			if (descendants && descendants.length) node.children = descendants
+			node.children = getChildNodes(node.name)?.map((childNode) => setChildNodes(childNode))
 
 			return node
 		}
@@ -76,9 +74,9 @@
 	};
 
 	// set the dimensions and margins of the diagram
-	const	margin = {top: 20, right: 90, bottom: 30, left: 90},
-			width  = 1000 - margin.left - margin.right,
-			height = 600 - margin.top - margin.bottom;
+	const	margin = {top: 20, right: 100, bottom: 30, left: 200},
+			width  = 600 - margin.left - margin.right,
+			height = 400 - margin.top - margin.bottom;
 
 	// declares a tree layout and assigns the size
 	const treemap = d3.tree().size([height, width]);
@@ -95,6 +93,10 @@
 
 		//
 		nodes = treemap(nodes)
+	}
+
+	function transformNodeName(name: string): string {
+		return isUUID(name, 4) ? name.split("-")[0] + "-..." : name
 	}
 </script>
 
@@ -132,7 +134,7 @@
 							y={node.children && node.depth !== 0 ? -(node.data.value + 5) : node}
 							text-anchor={node.children ? "end" : "start"}
 						>
-							{node.data.name}
+							{transformNodeName(node.data.name)}
 						</text>
 					</g>
 				{/each}

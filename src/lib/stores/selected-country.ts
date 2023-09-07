@@ -1,6 +1,15 @@
 import type { States } from '$lib/model/states';
+import type { Config } from '$lib/parser/config';
 import { writable, type Writable } from 'svelte/store';
 
-export const selectedCountry: Writable<{ [key: string]: string; } | undefined> = writable();
-export const selectedCountryJson: Writable<Promise<any>> = writable();
+/*
+ * Type definition of country metadata
+ */
+export type CountryMeta = {
+    code: string,
+    name: string
+}
+
+export const selectedCountry: Writable<CountryMeta> = writable();
+export const selectedCountryConfigJson: Writable<Promise<Config>> = writable();
 export const selectedCountryStatesForest: Writable<States> = writable();

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { selectedCountryStatesForest } from '$lib/stores/selected-country';
+	//@ts-nocheck
 	import { isUUID } from 'class-validator';
 	import * as d3 from 'd3';
 
-	interface TreeNode {
+	type TreeNode = {
 		name: string;
 		value: number;
 		type: string;
@@ -11,18 +11,10 @@
 		children?: TreeNode[]; // Optional for children
 	}
 
-	/**
-	 * ---
-	 * 
-	 * I took this code from https://www.developer.com/design/creating-a-tree-diagram-with-d3-js/
-	 * as a starting point with D3.js hierarchy trees.
-	 * Thanks to Robert Gravelle for his great article!
-	 * 
-	 * ---
-	 */
+	let treeData: TreeNode;
+	let nodes: d3.HierarchyNode<any> | d3.HierarchyNode<unknown>;
 
-	let treeData;
-	let nodes = undefined;
+	export let predecessorMap: { [key: string]: string }; 
 
 	function transformPredecessorMap(predecessorMap: { [key: string]: string }): TreeNode {
 		function getChildNodes(nodeName: string): TreeNode[] | undefined {
@@ -64,14 +56,15 @@
 		return tree
 	}
 
-	const predecessorMap = {
-		"Stuttgart": "Baden-Württemberg",
-		"Baden-Württemberg": "Baden-Württemberg",
-		"Mannheim": "7e86eb1f-b49f-494d-a7db-a51cf1bddce4",
-		"7e86eb1f-b49f-494d-a7db-a51cf1bddce4": "Baden-Württemberg",
-		"Karlsruhe": "a47871fd-485a-45c0-8c3a-300f83eade7b",
-		"a47871fd-485a-45c0-8c3a-300f83eade7b": "Baden-Württemberg"
-	};
+	/**
+	 * ---
+	 * 
+	 * I took some of this code from https://www.developer.com/design/creating-a-tree-diagram-with-d3-js/
+	 * as a starting point with D3.js hierarchy trees.
+	 * Thanks to Robert Gravelle for his great article!
+	 * 
+	 * ---
+	 */
 
 	// set the dimensions and margins of the diagram
 	const	margin = {top: 20, right: 100, bottom: 30, left: 200},
@@ -80,20 +73,13 @@
 
 	// declares a tree layout and assigns the size
 	const treemap = d3.tree().size([height, width]);
-	
-	selectedCountryStatesForest.subscribe((value) => {
-		if (!(value && value.states && value.states.predecessor)) return;
-		refreshTree()
-	});
-	
-	function refreshTree() {
-		treeData = transformPredecessorMap(predecessorMap)
+
+		$: treeData = transformPredecessorMap(predecessorMap)
 		//  assigns the data to a hierarchy using parent-child relationships
-		nodes = d3.hierarchy(treeData);
+		$: nodes = d3.hierarchy(treeData);
 
 		//
-		nodes = treemap(nodes)
-	}
+		$: nodes = treemap(nodes)
 
 	function transformNodeName(name: string): string {
 		return isUUID(name, 4) ? name.split("-")[0] + "-..." : name

@@ -1,6 +1,7 @@
 <script lang="ts">
+	import type { Config } from '$lib/parser/config';
 	import { ConfigParser } from '$lib/parser/config-parser';
-	import { selectedCountry, selectedCountryJson, selectedCountryStatesForest } from '$lib/stores/selected-country';
+	import { selectedCountry, selectedCountryConfigJson, selectedCountryStatesForest, type CountryMeta } from '$lib/stores/selected-country';
 	
 	let error: string | undefined
 	let countryJson: Promise<any>
@@ -20,13 +21,13 @@
 		})
 	}
 
-	function makeDisjointSetForest(responseJson: Promise<any>) {
-		$selectedCountryJson = responseJson
+	function makeDisjointSetForest(responseJson: Promise<Config>) {
+		$selectedCountryConfigJson = responseJson
 		$selectedCountryStatesForest = new ConfigParser(JSON.stringify(responseJson)).buildStates()
 
 	}
 
-	function setCountry(country: { [key: string]: string; }) {
+	function setCountry(country: CountryMeta) {
 		if (!availableCountries.find(_country => _country === country)) {
 			error = "Das ausgewählte Land ist ungültig."
 			return

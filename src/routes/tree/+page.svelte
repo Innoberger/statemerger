@@ -1,8 +1,7 @@
 <script lang="ts">
 	import CountrySelectorButton from '$lib/components/CountrySelectorButton.svelte';
-	import Tree from '$lib/components/Tree.svelte';
+	import Forest from '$lib/components/Forest.svelte';
 </script>
 
 <CountrySelectorButton />
-
-<Tree />
+<Forest />

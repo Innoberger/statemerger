@@ -1,6 +1,7 @@
-<script>
-    import Tree from './Tree.svelte';
+<script lang="ts">
+    import StateTree from './StateTree.svelte';
 	import { selectedCountryConfigJson, selectedCountryStatesForest } from '$lib/stores/selected-country';
+	import type { State } from '$lib/parser/state';
 
     const predecessorMap = {
 		"Stuttgart": "Baden-Württemberg",
@@ -10,6 +11,14 @@
 		"Karlsruhe": "a47871fd-485a-45c0-8c3a-300f83eade7b",
 		"a47871fd-485a-45c0-8c3a-300f83eade7b": "Baden-Württemberg"
 	};
+
+	function getIsolatedPredecessorMap(state: State): { [key: string]: string } {
+		return predecessorMap
+	}
 </script>
 
-<Tree {predecessorMap} />
+{#if $selectedCountryConfigJson?.states}
+    {#each $selectedCountryConfigJson.states as state}
+        <StateTree predecessorMap={getIsolatedPredecessorMap(state)} />
+    {/each}
+{/if}

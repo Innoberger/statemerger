@@ -9,7 +9,7 @@
 	} from '$lib/stores/selected-country';
 	
 	let error: string | undefined
-	let countryJson: Promise<any>
+	let countryJson: Promise<Config>
 
 	const availableCountries = [
 		{
@@ -26,10 +26,9 @@
 		})
 	}
 
-	function makeDisjointSetForest(responseJson: Promise<Config>) {
+	function makeDisjointSetForest(responseJson: Config) {
 		$selectedCountryConfigJson = responseJson
 		$selectedCountryStatesForest = new ConfigParser(JSON.stringify(responseJson)).buildStates()
-
 	}
 
 	function setCountry(country: CountryMeta) {

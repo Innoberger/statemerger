@@ -12,9 +12,10 @@
 	}
 
 	let treeData: TreeNode;
+	let treemap, margin, width, height;
 	let nodes: d3.HierarchyNode<any> | d3.HierarchyNode<unknown>;
 
-	export let predecessorMap: { [key: string]: string }; 
+	export let predecessorMap: { [key: string]: string };
 
 	function transformPredecessorMap(predecessorMap: { [key: string]: string }): TreeNode {
 		function getChildNodes(nodeName: string): TreeNode[] | undefined {
@@ -25,7 +26,8 @@
 					name: node,
 					value: 10,
 					type: "black",
-					level: "lime"
+					level: "lime",
+					children: []
 				} as TreeNode
 			})
 		}
@@ -39,21 +41,28 @@
 				name: name,
 				value: 15,
 				type: "black",
-				level: "red"
+				level: "red",
+				children: []
 			} as TreeNode
 		}
 
-		function setChildNodes(node: TreeNode): TreeNode {
-			node.children = getChildNodes(node.name)?.map((childNode) => setChildNodes(childNode))
+		function setChildNodes(node: TreeNode, root: TreeNode): TreeNode {
+			node.children = getChildNodes(node.name)?.map((childNode) => setChildNodes(childNode, root))
+
+			if (node.name !== root.name && node.children?.length) node.level = "orange"
 
 			return node
 		}
 
 		let tree: TreeNode = getRootNode()
 
-		tree = setChildNodes(tree)
+		tree = setChildNodes(tree, tree)
 
 		return tree
+	}
+
+	function transformNodeName(name: string): string {
+		return isUUID(name, 4) ? name.split("-")[0] + "-..." : name
 	}
 
 	/**
@@ -66,31 +75,29 @@
 	 * ---
 	 */
 
+	$: treeData = transformPredecessorMap(predecessorMap)
+
 	// set the dimensions and margins of the diagram
-	const	margin = {top: 20, right: 100, bottom: 30, left: 200},
-			width  = 600 - margin.left - margin.right,
-			height = 400 - margin.top - margin.bottom;
+	$: margin = {top: 20, right: 200, bottom: 30, left: treeData.name.length * 11 + 15}
+	$: width  = 600 - margin.left - margin.right
+	$: height = 500 - margin.top - margin.bottom
 
 	// declares a tree layout and assigns the size
-	const treemap = d3.tree().size([height, width]);
-
-	$: treeData = transformPredecessorMap(predecessorMap)
+	$: treemap = d3.tree().size([height, width]);
 	
 	//  assigns the data to a hierarchy using parent-child relationships
 	$: nodes = d3.hierarchy(treeData);
 	$: nodes = treemap(nodes)
-
-	function transformNodeName(name: string): string {
-		return isUUID(name, 4) ? name.split("-")[0] + "-..." : name
-	}
 </script>
 
 {#if nodes}
 	<div id="tree-container">
 		<svg
+			class="m-2 p-2"
 			id="svg-container"
 			width={width + margin.left + margin.right}
 			height={height + margin.top + margin.bottom}
+			style="border:2px dotted lightgray; border-radius: 10px"
 		>
 			<g id="svg-group" transform="translate({margin.left},{margin.top})">
 				{#each nodes.descendants().slice(1) as edge}
@@ -116,8 +123,9 @@
 						<text
 							dy=".35em"
 							x={node.children ? (node.data.value + 5) * -1 : node.data.value + 5}
-							y={node.children && node.depth !== 0 ? -(node.data.value + 5) : node}
+							y={node.children && node.depth !== 0 ? -(node.data.value + (isUUID(node.data.name, 4) ? -3 : 5)) : node}
 							text-anchor={node.children ? "end" : "start"}
+							class={node.depth === 0 ? "root" : isUUID(node.data.name, 4) ? "dummy" : "real"}
 						>
 							{transformNodeName(node.data.name)}
 						</text>
@@ -150,6 +158,19 @@
 		fill: rgb(25, 213, 242);
 	}
 
+	.root {
+		font-size: 100%;
+		font-weight: bold;
+	}
+
+	.real {
+		font-size: 90%;
+	}
+
+	.dummy {
+		font-size: 75%;
+		fill: gray;
+	}
 
 	.node circle {
 		stroke: black;
@@ -158,10 +179,5 @@
 
 	.link {
 		fill: none;
-	}
-
-	.link:hover {
-		cursor: pointer;
-		stroke-width: 2px;
 	}
 </style>

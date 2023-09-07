@@ -27,7 +27,7 @@
 
 {#if $selectedCountryConfigJson?.states}
 	<div class="container">
-		<div class="row">
+		<div class="row justify-content-around">
 			{#each $selectedCountryConfigJson.states as state}
 				<div class="col">
 					<StateTree predecessorMap={getFilteredPredecessorMap(state)} />

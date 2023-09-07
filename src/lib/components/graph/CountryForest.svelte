@@ -4,15 +4,6 @@
 	import type { State } from '$lib/parser/state';
 	import type { States } from '$lib/model/states';
 
-    const predecessorMap = {
-		"Stuttgart": "Baden-Württemberg",
-		"Baden-Württemberg": "Baden-Württemberg",
-		"Mannheim": "7e86eb1f-b49f-494d-a7db-a51cf1bddce4",
-		"7e86eb1f-b49f-494d-a7db-a51cf1bddce4": "Baden-Württemberg",
-		"Karlsruhe": "a47871fd-485a-45c0-8c3a-300f83eade7b",
-		"a47871fd-485a-45c0-8c3a-300f83eade7b": "Baden-Württemberg"
-	};
-
     function findRootNoPathCompression(forest: States, node: string): string | undefined {
         /*
 		 * Recursively walk up the tree,
@@ -35,7 +26,13 @@
 </script>
 
 {#if $selectedCountryConfigJson?.states}
-    {#each $selectedCountryConfigJson.states as state}
-        <StateTree predecessorMap={getFilteredPredecessorMap(state)} />
-    {/each}
+	<div class="container">
+		<div class="row">
+			{#each $selectedCountryConfigJson.states as state}
+				<div class="col">
+					<StateTree predecessorMap={getFilteredPredecessorMap(state)} />
+				</div>
+			{/each}
+		</div>
+	</div>
 {/if}

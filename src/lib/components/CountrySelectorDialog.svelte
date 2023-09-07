@@ -1,7 +1,12 @@
 <script lang="ts">
 	import type { Config } from '$lib/parser/config';
 	import { ConfigParser } from '$lib/parser/config-parser';
-	import { selectedCountry, selectedCountryConfigJson, selectedCountryStatesForest, type CountryMeta } from '$lib/stores/selected-country';
+	import {
+		selectedCountry,
+		selectedCountryConfigJson,
+		selectedCountryStatesForest,
+		type CountryMeta
+	} from '$lib/stores/selected-country';
 	
 	let error: string | undefined
 	let countryJson: Promise<any>

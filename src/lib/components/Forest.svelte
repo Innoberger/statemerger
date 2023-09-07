@@ -1,6 +1,6 @@
 <script>
     import Tree from './Tree.svelte';
-	import { selectedCountry, selectedCountryConfigJson, selectedCountryStatesForest } from '$lib/stores/selected-country';
+	import { selectedCountryConfigJson, selectedCountryStatesForest } from '$lib/stores/selected-country';
 
     const predecessorMap = {
 		"Stuttgart": "Baden-Württemberg",

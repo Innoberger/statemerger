@@ -74,12 +74,11 @@
 	// declares a tree layout and assigns the size
 	const treemap = d3.tree().size([height, width]);
 
-		$: treeData = transformPredecessorMap(predecessorMap)
-		//  assigns the data to a hierarchy using parent-child relationships
-		$: nodes = d3.hierarchy(treeData);
-
-		//
-		$: nodes = treemap(nodes)
+	$: treeData = transformPredecessorMap(predecessorMap)
+	
+	//  assigns the data to a hierarchy using parent-child relationships
+	$: nodes = d3.hierarchy(treeData);
+	$: nodes = treemap(nodes)
 
 	function transformNodeName(name: string): string {
 		return isUUID(name, 4) ? name.split("-")[0] + "-..." : name

@@ -4,24 +4,35 @@
 	import type { State } from '$lib/parser/state';
 	import type { States } from '$lib/model/states';
 
-    function findRootNoPathCompression(forest: States, node: string): string | undefined {
+    function findRootWithDepthNoPathCompression(forest: States, node: string): { root: string, depth: number } | undefined {
         /*
 		 * Recursively walk up the tree,
 		 * but do not apply path compression.
-		 * This is for visualization purposes only
+		 * This is for visualization purposes only!
 		 */
         if (node !== forest.states.predecessor[node]) {
-            return findRootNoPathCompression(forest, forest.states.predecessor[node]!)!;
+			let _root = findRootWithDepthNoPathCompression(forest, forest.states.predecessor[node]!)!
+            return { root: _root.root, depth: _root.depth + 1}
         }
 
-        return forest.states.predecessor[node];
+        return { root: forest.states.predecessor[node], depth: 0};
     }
 
 	function getFilteredPredecessorMap(state: State): { [key: string]: string } {
 		const filteredPredecessors = Object.entries($selectedCountryStatesForest.states.predecessor)
-			.filter(([_name, _]) => findRootNoPathCompression($selectedCountryStatesForest, _name) === state.name)
+			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name)?.root === state.name)
 
 		return Object.fromEntries(filteredPredecessors)
+	}
+
+	function getFilteredLeavesDepthMap(state: State): { [key: string]: number } {
+		if (!$selectedCountryStatesForest) return {}
+
+		const leavesArray = Object.entries($selectedCountryStatesForest.states.rank)
+			.filter(([_name, _rank]) => _rank === 0 && findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name)?.root === state.name)
+			.map(([_name, _]) => [ _name, findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name)?.depth ])
+
+		return Object.fromEntries(leavesArray)
 	}
 </script>
 
@@ -30,7 +41,7 @@
 		<div class="row justify-content-around">
 			{#each $selectedCountryConfigJson.states as state}
 				<div class="col">
-					<StateTree predecessorMap={getFilteredPredecessorMap(state)} />
+					<StateTree predecessorMap={getFilteredPredecessorMap(state)} leavesDepthMap={getFilteredLeavesDepthMap(state)} />
 				</div>
 			{/each}
 		</div>

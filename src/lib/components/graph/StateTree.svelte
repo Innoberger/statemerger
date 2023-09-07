@@ -16,6 +16,31 @@
 	let nodes: d3.HierarchyNode<any> | d3.HierarchyNode<unknown>;
 
 	export let predecessorMap: { [key: string]: string };
+	export let leavesDepthMap: { [key: string]: number };
+
+	/**
+	 * ---
+	 * 
+	 * I took some of this code from https://www.developer.com/design/creating-a-tree-diagram-with-d3-js/
+	 * as a starting point with D3.js hierarchy trees.
+	 * Thanks to Robert Gravelle for his great article!
+	 * 
+	 * ---
+	 */
+
+	$: treeData = transformPredecessorMap(predecessorMap)
+
+	// set the dimensions and margins of the diagram
+	$: margin = {top: 10, right: getMarginRight(), bottom: 30, left: treeData.name.length * 11 + 15}
+	$: width  = 600 - margin.left - margin.right
+	$: height = getHeight() - margin.top - margin.bottom
+
+	// declares a tree layout and assigns the size
+	$: treemap = d3.tree().size([height, width]);
+	
+	//  assigns the data to a hierarchy using parent-child relationships
+	$: nodes = d3.hierarchy(treeData);
+	$: nodes = treemap(nodes)
 
 	function transformPredecessorMap(predecessorMap: { [key: string]: string }): TreeNode {
 		function getChildNodes(nodeName: string): TreeNode[] | undefined {
@@ -65,29 +90,21 @@
 		return isUUID(name, 4) ? name.split("-")[0] + "-..." : name
 	}
 
-	/**
-	 * ---
-	 * 
-	 * I took some of this code from https://www.developer.com/design/creating-a-tree-diagram-with-d3-js/
-	 * as a starting point with D3.js hierarchy trees.
-	 * Thanks to Robert Gravelle for his great article!
-	 * 
-	 * ---
-	 */
+	function getMarginRight() {
+		const orderedByDepth = Object.entries(leavesDepthMap).sort((a, b) => b[1] - a[1])
 
-	$: treeData = transformPredecessorMap(predecessorMap)
+		const orderedByNameLength = orderedByDepth
+			.filter(([_name, _depth]) => _depth === orderedByDepth[0][1] && !isUUID(_name, 4))
+			.sort((a, b) => b[0].length - a[0].length)
 
-	// set the dimensions and margins of the diagram
-	$: margin = {top: 20, right: 200, bottom: 30, left: treeData.name.length * 11 + 15}
-	$: width  = 600 - margin.left - margin.right
-	$: height = 500 - margin.top - margin.bottom
+		const longestNodeName = orderedByNameLength[0][0]
 
-	// declares a tree layout and assigns the size
-	$: treemap = d3.tree().size([height, width]);
-	
-	//  assigns the data to a hierarchy using parent-child relationships
-	$: nodes = d3.hierarchy(treeData);
-	$: nodes = treemap(nodes)
+		return longestNodeName.length * 12 + 20
+	}
+
+	function getHeight() {
+		return Object.entries(leavesDepthMap).length * 55 + 20
+	}
 </script>
 
 {#if nodes}

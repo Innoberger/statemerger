@@ -1,5 +1,5 @@
 <script>
-	import CountrySelectorButton from '$lib/components/CountrySelectorButton.svelte';
+	import CountrySelectorButton from '$lib/components/country-selector/CountrySelectorButton.svelte';
 
 	export let data;
 </script>

@@ -16,6 +16,7 @@
 	let nodes: d3.HierarchyNode<any> | d3.HierarchyNode<unknown>;
 
 	export let predecessorMap: { [key: string]: string };
+	export let rankMap: { [key: string]: number };
 	export let leavesDepthMap: { [key: string]: number };
 
 	/**
@@ -137,6 +138,14 @@
 							r={node.data.value}
 							style="fill: {node.data.level}"
 						/>
+						<text
+							text-anchor="middle"
+							fill="black"
+							dy=".33em"
+							font-size="60%"
+						>
+							{rankMap[node.data.name]}
+						</text>
 						<text
 							dy=".35em"
 							x={node.children ? (node.data.value + 5) * -1 : node.data.value + 5}

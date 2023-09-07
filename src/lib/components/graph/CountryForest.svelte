@@ -25,6 +25,13 @@
 		return Object.fromEntries(filteredPredecessors)
 	}
 
+	function getFilteredRankMap(state: State): { [key: string]: number } {
+		const filteredPredecessors = Object.entries($selectedCountryStatesForest.states.rank)
+			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name)?.root === state.name)
+
+		return Object.fromEntries(filteredPredecessors)
+	}
+
 	function getFilteredLeavesDepthMap(state: State): { [key: string]: number } {
 		if (!$selectedCountryStatesForest) return {}
 
@@ -41,7 +48,7 @@
 		<div class="row justify-content-around">
 			{#each $selectedCountryConfigJson.states as state}
 				<div class="col">
-					<StateTree predecessorMap={getFilteredPredecessorMap(state)} leavesDepthMap={getFilteredLeavesDepthMap(state)} />
+					<StateTree predecessorMap={getFilteredPredecessorMap(state)} rankMap={getFilteredRankMap(state)} leavesDepthMap={getFilteredLeavesDepthMap(state)} />
 				</div>
 			{/each}
 		</div>

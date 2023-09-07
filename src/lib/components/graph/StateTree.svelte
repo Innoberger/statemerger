@@ -143,6 +143,7 @@
 							fill="black"
 							dy=".33em"
 							font-size="60%"
+							class="rank"
 						>
 							{rankMap[node.data.name]}
 						</text>
@@ -151,7 +152,7 @@
 							x={node.children ? (node.data.value + 5) * -1 : node.data.value + 5}
 							y={node.children && node.depth !== 0 ? -(node.data.value + (isUUID(node.data.name, 4) ? -3 : 5)) : node}
 							text-anchor={node.children ? "end" : "start"}
-							class={node.depth === 0 ? "root" : isUUID(node.data.name, 4) ? "dummy" : "real"}
+							class="node-descriptor {node.depth === 0 ? "root" : isUUID(node.data.name, 4) ? "dummy" : "real"}"
 						>
 							{transformNodeName(node.data.name)}
 						</text>
@@ -167,21 +168,16 @@
 		pointer-events: bounding-box;
 	}
 	
-	.node:hover {
+	.node:hover, .node-descriptor:hover, .node circle:hover {
 		pointer-events: bounding-box;
 		cursor: pointer;
 		stroke: rgb(25, 213, 242);
 		fill: rgb(25, 213, 242);
 	}
 
-	.node circle:hover {
-		stroke: rgb(25, 213, 242);
-		fill: rgb(25, 213, 242);
-	}
-
-	.node text:hover {
-		stroke: rgb(25, 213, 242);
-		fill: rgb(25, 213, 242);
+	.node:hover .rank, .rank:hover {
+		stroke: none !important;
+		fill: black !important;
 	}
 
 	.root {

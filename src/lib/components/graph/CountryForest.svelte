@@ -61,13 +61,16 @@
 		$selectedCountryStatesForest.union(state, firstSelectedState)
 	}
 </script>
-<!-- I need to alter the functions 
+<!-- TODO: I need to alter the functions 
 		predecessorMap={getFilteredPredecessorMap(state)}
 		rankMap={getFilteredRankMap(state)}
 		leavesDepthMap={getFilteredLeavesDepthMap(state)}
 
 to not have a reference from the config as input. Otherwise, this wll not work because I cannot alter the parsed config.
 -->
+
+<!-- TODO: Display delected states here -->
+
 {#if $selectedCountryConfigJson?.states}
 	<div class="container">
 		<div class="row justify-content-around">

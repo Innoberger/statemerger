@@ -1,6 +1,5 @@
 <script lang="ts">
 	//@ts-nocheck
-	import type { State } from '$lib/parser/state';
 	import { isUUID } from 'class-validator';
 	import * as d3 from 'd3';
 
@@ -108,6 +107,11 @@
 	function getHeight() {
 		return Object.entries(leavesDepthMap).length * 55 + 20
 	}
+
+	function alertInfo(nodeName: string) {
+		let modifiedName = nodeName + (isUUID(nodeName, 4) ? " (Hilfsknoten)" : "")
+		alert(`Name: ${modifiedName} \nRang: ${rankMap[nodeName]}\nDirekter Vorgänger: ${predecessorMap[nodeName]}`)
+	}
 </script>
 
 {#if nodes}
@@ -134,7 +138,7 @@
 					<g
 						class="node {node.children ? " node--internal" : " node--leaf"}"
 						transform="translate({node.y},{node.x})"
-						on:click={() => node.depth !== 0 ? alert(node.data.name) : unionFunction(node.data.name)}
+						on:click={() => node.depth !== 0 ? alertInfo(node.data.name) : unionFunction(node.data.name)}
 					>
 						<circle
 							r={node.data.value}

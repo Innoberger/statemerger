@@ -4,6 +4,8 @@
 	import type { State } from '$lib/parser/state';
 	import type { States } from '$lib/model/states';
 
+	let firstSelectedState: string | undefined;
+
     function findRootWithDepthNoPathCompression(forest: States, node: string): { root: string, depth: number } | undefined {
         /*
 		 * Recursively walk up the tree,
@@ -41,14 +43,42 @@
 
 		return Object.fromEntries(leavesArray)
 	}
-</script>
 
+	function unionFunction(state: string) {
+		if (undefined === firstSelectedState) {
+			alert("1ST union function called by " + state)
+			firstSelectedState = state
+			return
+		}
+
+		if (firstSelectedState === state) {
+			alert("union cannot merge a state with itself")
+			return
+		}
+
+		alert("2ND union function called by " + state + ", first was " + firstSelectedState)
+
+		$selectedCountryStatesForest.union(state, firstSelectedState)
+	}
+</script>
+<!-- I need to alter the functions 
+		predecessorMap={getFilteredPredecessorMap(state)}
+		rankMap={getFilteredRankMap(state)}
+		leavesDepthMap={getFilteredLeavesDepthMap(state)}
+
+to not have a reference from the config as input. Otherwise, this wll not work because I cannot alter the parsed config.
+-->
 {#if $selectedCountryConfigJson?.states}
 	<div class="container">
 		<div class="row justify-content-around">
 			{#each $selectedCountryConfigJson.states as state}
 				<div class="col">
-					<StateTree predecessorMap={getFilteredPredecessorMap(state)} rankMap={getFilteredRankMap(state)} leavesDepthMap={getFilteredLeavesDepthMap(state)} />
+					<StateTree
+						predecessorMap={getFilteredPredecessorMap(state)}
+						rankMap={getFilteredRankMap(state)}
+						leavesDepthMap={getFilteredLeavesDepthMap(state)}
+						{unionFunction}
+					/>
 				</div>
 			{/each}
 		</div>

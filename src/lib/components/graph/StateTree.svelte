@@ -1,5 +1,6 @@
 <script lang="ts">
 	//@ts-nocheck
+	import type { State } from '$lib/parser/state';
 	import { isUUID } from 'class-validator';
 	import * as d3 from 'd3';
 
@@ -11,13 +12,14 @@
 		children?: TreeNode[]; // Optional for children
 	}
 
-	let treeData: TreeNode;
-	let treemap, margin, width, height;
-	let nodes: d3.HierarchyNode<any> | d3.HierarchyNode<unknown>;
-
 	export let predecessorMap: { [key: string]: string };
 	export let rankMap: { [key: string]: number };
 	export let leavesDepthMap: { [key: string]: number };
+	export let unionFunction: (state: string) => void;
+
+	let treeData: TreeNode;
+	let treemap, margin, width, height;
+	let nodes: d3.HierarchyNode<any> | d3.HierarchyNode<unknown>;
 
 	/**
 	 * ---
@@ -132,7 +134,7 @@
 					<g
 						class="node {node.children ? " node--internal" : " node--leaf"}"
 						transform="translate({node.y},{node.x})"
-						on:click={() => alert(node.data.name)}
+						on:click={() => node.depth !== 0 ? alert(node.data.name) : unionFunction(node.data.name)}
 					>
 						<circle
 							r={node.data.value}

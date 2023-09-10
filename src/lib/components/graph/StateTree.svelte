@@ -15,7 +15,11 @@
 	export let predecessorMap: { [key: string]: string };
 	export let rankMap: { [key: string]: number };
 	export let leavesDepthMap: { [key: string]: number };
-	export let unionFunction: (state: string) => void;
+	export let unionFunction: (secondNode: string) => void;
+	export let selectedNodes: {
+		first: string | undefined;
+		second: string | undefined
+	};
 
 	let treeData: TreeNode;
 	let treemap, margin, width, height;
@@ -118,12 +122,12 @@
 	}
 </script>
 
-<Modal title={selectedNode} bind:open={modalOpen}>
+<Modal title={selectedNode} bind:open={modalOpen} {unionFunction} {selectedNodes}>
 	<table class="table table-borderless">
 		<tbody>
 			<tr>
 				<th scope="row">Knotentyp</th>
-				<td>{isUUID(selectedNode, 4) ? "Hilfsknoten" : "Stadt"}</td>
+				<td>{predecessorMap[selectedNode] === selectedNode ? "Bundesland (Root)" : isUUID(selectedNode, 4) ? "Hilfsknoten" : "Stadt oder vereintes Bundesland"}</td>
 			</tr>
 			<tr>
 				<th scope="row">Rang</th>
@@ -140,12 +144,6 @@
 		</tbody>
 	</table>
 </Modal>
-
-<!-- TODO:
-		- Also show modal on root nodes.
-		- The union function shall available as button on the modal,
-		  also for non-root nodes.default
--->
 
 {#if nodes}
 	<div id="tree-container">
@@ -171,7 +169,7 @@
 					<g
 						class="node {node.children ? " node--internal" : " node--leaf"}"
 						transform="translate({node.y},{node.x})"
-						on:click={() => node.depth !== 0 ? openModal(node.data.name) : unionFunction(node.data.name)}
+						on:click={() => openModal(node.data.name)}
 					>
 						<circle
 							r={node.data.value}

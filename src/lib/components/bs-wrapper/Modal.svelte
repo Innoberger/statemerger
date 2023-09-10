@@ -14,9 +14,18 @@
 	export let open = false;
 	export let showBackdrop = true;
 	export let title = "Modal title";
+	export let unionFunction: (secondNode: string) => void;
+	export let selectedNodes: {
+		first: string | undefined;
+		second: string | undefined
+	};
 
 	const modalClose = () => {
 		open = false;
+	}
+
+	function selectNode() {
+		selectedNodes.first = title
 	}
 </script>
 
@@ -32,7 +41,22 @@
 					<slot></slot>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" on:click={() => modalClose()}>Ok</button>
+					<button type="button" class="btn btn-secondary" on:click={() => modalClose()}>Schließen</button>
+					{#if selectedNodes?.first}
+						{#if selectedNodes.first === title}
+							<button type="button" class="btn btn-danger" disabled title="Verenigung nicht mit selben Knoten möglich">
+								Vereinigen mit <strong>{selectedNodes.first}</strong>
+							</button>
+						{:else}
+							<button type="button" class="btn btn-danger" on:click={() => { modalClose(); unionFunction(title); }}>
+								Vereinigen mit <strong>{selectedNodes.first}</strong>
+							</button>
+						{/if}
+					{:else}
+						<button type="button" class="btn btn-success" on:click={() => { modalClose(); selectNode(); }}>
+							zur Vereinigung markieren
+						</button>
+					{/if}
 				</div>
 			</div>
 		</div>

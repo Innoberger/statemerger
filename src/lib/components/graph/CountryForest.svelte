@@ -3,8 +3,14 @@
 	import { selectedCountryStatesForest } from '$lib/stores/selected-country';
 	import type { States } from '$lib/model/states';
 
-	let firstSelectedState: string | undefined;
 	let stateNames: string[];
+	let selectedNodes: {
+		first: string | undefined;
+		second: string | undefined
+	} = {
+		first: undefined,
+		second: undefined
+	};
 
 	$: stateNames = getStateNames($selectedCountryStatesForest)
 
@@ -46,24 +52,23 @@
 		return Object.fromEntries(leavesArray)
 	}
 
-	function unionFunction(state: string) {
-		if (undefined === firstSelectedState) {
-			alert("1ST union function called by " + state)
-			firstSelectedState = state
-			return
-		}
+	function unionFunction(secondNode: string) {
+		if (!(selectedNodes && selectedNodes.first)) return;
 
-		if (firstSelectedState === state) {
+		selectedNodes.second = secondNode
+
+		if (selectedNodes.first === selectedNodes.second) {
 			alert("union cannot merge a state with itself")
 			return
 		}
 
-		alert("2ND union function called by " + state + ", first was " + firstSelectedState)
-
-		$selectedCountryStatesForest.union(state, firstSelectedState)
+		$selectedCountryStatesForest.union(selectedNodes.first, selectedNodes.second)
 		stateNames = getStateNames($selectedCountryStatesForest)
 
-		firstSelectedState = undefined;
+		selectedNodes = {
+			first: undefined,
+			second: undefined
+		}
 	}
 
 	function getStateNames(states: States) {
@@ -79,6 +84,8 @@
 
 <!-- TODO:
 		- Display selected states here
+		- Adjust the row/col divs (after some merges use full row instead of one column or so)
+		- Button to unselect selectedNodes.first
 		- Settings
 			* toggle for show uuid node names
 			* toggle for show non-root and non-leave node names
@@ -94,6 +101,7 @@
 						predecessorMap={getFilteredPredecessorMap(state)}
 						rankMap={getFilteredRankMap(state)}
 						leavesDepthMap={getFilteredLeavesDepthMap(state)}
+						{selectedNodes}
 						{unionFunction}
 					/>
 				</div>

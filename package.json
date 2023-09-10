@@ -1,5 +1,5 @@
 {
-	"name": "hka-projektarbeit-2-app",
+	"name": "statemerger",
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "vite dev",

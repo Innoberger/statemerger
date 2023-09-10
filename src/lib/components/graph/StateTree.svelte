@@ -3,6 +3,7 @@
 	import { isUUID } from 'class-validator';
 	import * as d3 from 'd3';
 	import Modal from '../bs-wrapper/Modal.svelte';
+	import CountryForest from './CountryForest.svelte';
 
 	type TreeNode = {
 		name: string;
@@ -120,6 +121,14 @@
 		selectedNode = nodeName;
 		modalOpen = true;
 	}
+
+	function getNodeType(nodeName: string) {
+		if (predecessorMap[nodeName] === nodeName) return "Bundesland (Root)";
+		if (isUUID(nodeName, 4)) return "Hilfsknoten";
+		if (Object.entries(leavesDepthMap).find(([_name, _]) => _name === nodeName)) return "Blattknoten";
+
+		return "Stadt oder vereintes Bundesland";
+	}
 </script>
 
 <Modal title={selectedNode} bind:open={modalOpen} {unionFunction} {selectedNodes}>
@@ -127,7 +136,7 @@
 		<tbody>
 			<tr>
 				<th scope="row">Knotentyp</th>
-				<td>{predecessorMap[selectedNode] === selectedNode ? "Bundesland (Root)" : isUUID(selectedNode, 4) ? "Hilfsknoten" : "Stadt oder vereintes Bundesland"}</td>
+				<td>{getNodeType(selectedNode)}</td>
 			</tr>
 			<tr>
 				<th scope="row">Rang</th>
@@ -187,7 +196,7 @@
 						<text
 							dy=".35em"
 							x={node.children ? (node.data.value + 5) * -1 : node.data.value + 5}
-							y={node.children && node.depth !== 0 ? -(node.data.value + (isUUID(node.data.name, 4) ? -3 : 5)) : node}
+							y={node.children && node.depth !== 0 ? -(node.data.value + (isUUID(node.data.name, 4) ? -3 : 5)) : 0}
 							text-anchor={node.children ? "end" : "start"}
 							class="node-descriptor {node.depth === 0 ? "root" : isUUID(node.data.name, 4) ? "dummy" : "real"}"
 						>

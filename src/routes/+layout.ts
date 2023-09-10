@@ -9,16 +9,9 @@ export function load() {
 				"headline": false
 			},
 			{
-				"title": "Karte",
-				"link": "map",
-				"icon": "map-fill",
-				"description": "Kartenansicht für den StateMerger",
-				"headline": true
-			},
-			{
-				"title": "Baum",
-				"link": "tree",
-				"icon": "tree-fill",
+				"title": "Graph",
+				"link": "graph",
+				"icon": "diagram-3-fill",
 				"description": "Baumansicht für den StateMerger",
 				"headline": true
 			},

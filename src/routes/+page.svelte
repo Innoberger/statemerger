@@ -14,7 +14,7 @@
 		<div class="container px-5">
 			<h1 class="masthead-heading mb-0">StateMerger</h1>
 			<h2 class="masthead-subheading mb-0">Optimierung der Bundesrepublik</h2>
-			<a class="btn btn-outline-light btn-lg mt-5 px-5 py-3" href="/map">Jetzt starten</a>
+			<a class="btn btn-outline-light btn-lg mt-5 px-5 py-3" href="/graph">Jetzt starten</a>
 		</div>
 	</div>
 	<div class="bg-circle-1 bg-circle"></div>

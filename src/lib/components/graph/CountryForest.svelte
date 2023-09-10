@@ -3,7 +3,7 @@
 	import { selectedCountryStatesForest } from '$lib/stores/selected-country';
 	import type { States } from '$lib/model/states';
 
-	let stateNames: string[];
+	let stateNames: string[] = [];
 	let selectedNodes: {
 		first: string | undefined;
 		second: string | undefined
@@ -82,30 +82,18 @@
 	}
 </script>
 
-<!-- TODO:
-		- Display selected states here
-		- Adjust the row/col divs (after some merges use full row instead of one column or so)
-		- Button to unselect selectedNodes.first
-		- Settings
-			* toggle for show uuid node names
-			* toggle for show non-root and non-leave node names
-			* toggle for show ranks in node circles
--->
-
-{#if stateNames}
-	<div class="container">
-		<div class="row justify-content-around">
-			{#each stateNames as state}
-				<div class="col">
-					<StateTree
-						predecessorMap={getFilteredPredecessorMap(state)}
-						rankMap={getFilteredRankMap(state)}
-						leavesDepthMap={getFilteredLeavesDepthMap(state)}
-						{selectedNodes}
-						{unionFunction}
-					/>
-				</div>
-			{/each}
-		</div>
+<div class="container">
+	<div class="row justify-content-around">
+		{#each stateNames as state}
+			<div class="col">
+				<StateTree
+					predecessorMap={getFilteredPredecessorMap(state)}
+					rankMap={getFilteredRankMap(state)}
+					leavesDepthMap={getFilteredLeavesDepthMap(state)}
+					{selectedNodes}
+					{unionFunction}
+				/>
+			</div>
+		{/each}
 	</div>
-{/if}
+</div>

@@ -3,7 +3,6 @@
 	import { ConfigParser } from '$lib/parser/config-parser';
 	import {
 		selectedCountry,
-		selectedCountryConfigJson,
 		selectedCountryStatesForest,
 		type CountryMeta
 	} from '$lib/stores/selected-country';
@@ -27,7 +26,6 @@
 	}
 
 	function makeDisjointSetForest(responseJson: Config) {
-		$selectedCountryConfigJson = responseJson
 		$selectedCountryStatesForest = new ConfigParser(JSON.stringify(responseJson)).buildStates()
 	}
 

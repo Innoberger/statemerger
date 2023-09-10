@@ -76,15 +76,14 @@
 			.map(([_name, _predecessor]) => _name)
 	}
 </script>
-<!-- TODO: I need to alter the functions 
-		predecessorMap={getFilteredPredecessorMap(state)}
-		rankMap={getFilteredRankMap(state)}
-		leavesDepthMap={getFilteredLeavesDepthMap(state)}
 
-to not have a reference from the config as input. Otherwise, this wll not work because I cannot alter the parsed config.
+<!-- TODO:
+		- Display selected states here
+		- Settings
+			* toggle for show uuid node names
+			* toggle for show non-root and non-leave node names
+			* toggle for show ranks in node circles
 -->
-
-<!-- TODO: Display delected states here -->
 
 {#if stateNames}
 	<div class="container">

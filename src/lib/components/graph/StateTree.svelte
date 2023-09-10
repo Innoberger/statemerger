@@ -141,6 +141,12 @@
 	</table>
 </Modal>
 
+<!-- TODO:
+		- Also show modal on root nodes.
+		- The union function shall available as button on the modal,
+		  also for non-root nodes.default
+-->
+
 {#if nodes}
 	<div id="tree-container">
 		<svg

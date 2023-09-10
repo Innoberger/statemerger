@@ -1,4 +1,13 @@
 <script lang="ts">
+	/**
+	 * ---
+	 * 
+	 * I took some of this code from https://www.eternaldev.com/blog/using-bootstrap-modal-in-svelte/
+	 * to handle bootstrap modals with svelte.
+	 * Thanks to Sriram Thiagarajan for his great article!
+	 * 
+	 * ---
+	 */
 	import { fade, fly } from "svelte/transition";
 	import { quintOut } from "svelte/easing";
 

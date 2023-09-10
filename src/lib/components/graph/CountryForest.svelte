@@ -1,10 +1,12 @@
 <script lang="ts">
     import StateTree from './StateTree.svelte';
-	import { selectedCountryConfigJson, selectedCountryStatesForest } from '$lib/stores/selected-country';
-	import type { State } from '$lib/parser/state';
+	import { selectedCountryStatesForest } from '$lib/stores/selected-country';
 	import type { States } from '$lib/model/states';
 
 	let firstSelectedState: string | undefined;
+	let stateNames: string[];
+
+	$: stateNames = getStateNames($selectedCountryStatesForest)
 
     function findRootWithDepthNoPathCompression(forest: States, node: string): { root: string, depth: number } | undefined {
         /*
@@ -20,25 +22,25 @@
         return { root: forest.states.predecessor[node], depth: 0};
     }
 
-	function getFilteredPredecessorMap(state: State): { [key: string]: string } {
+	function getFilteredPredecessorMap(stateName: string): { [key: string]: string } {
 		const filteredPredecessors = Object.entries($selectedCountryStatesForest.states.predecessor)
-			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name)?.root === state.name)
+			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name)?.root === stateName)
 
 		return Object.fromEntries(filteredPredecessors)
 	}
 
-	function getFilteredRankMap(state: State): { [key: string]: number } {
+	function getFilteredRankMap(stateName: string): { [key: string]: number } {
 		const filteredPredecessors = Object.entries($selectedCountryStatesForest.states.rank)
-			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name)?.root === state.name)
+			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name)?.root === stateName)
 
 		return Object.fromEntries(filteredPredecessors)
 	}
 
-	function getFilteredLeavesDepthMap(state: State): { [key: string]: number } {
+	function getFilteredLeavesDepthMap(stateName: string): { [key: string]: number } {
 		if (!$selectedCountryStatesForest) return {}
 
 		const leavesArray = Object.entries($selectedCountryStatesForest.states.rank)
-			.filter(([_name, _rank]) => _rank === 0 && findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name)?.root === state.name)
+			.filter(([_name, _rank]) => _rank === 0 && findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name)?.root === stateName)
 			.map(([_name, _]) => [ _name, findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name)?.depth ])
 
 		return Object.fromEntries(leavesArray)
@@ -59,6 +61,19 @@
 		alert("2ND union function called by " + state + ", first was " + firstSelectedState)
 
 		$selectedCountryStatesForest.union(state, firstSelectedState)
+		stateNames = getStateNames($selectedCountryStatesForest)
+
+		firstSelectedState = undefined;
+	}
+
+	function getStateNames(states: States) {
+		console.log("getStateNames called")
+
+		if (!states) return []
+
+		return Object.entries(states.states.predecessor)
+			.filter(([_name, _predecessor]) => _name === _predecessor)
+			.map(([_name, _predecessor]) => _name)
 	}
 </script>
 <!-- TODO: I need to alter the functions 
@@ -71,10 +86,10 @@ to not have a reference from the config as input. Otherwise, this wll not work b
 
 <!-- TODO: Display delected states here -->
 
-{#if $selectedCountryConfigJson?.states}
+{#if stateNames}
 	<div class="container">
 		<div class="row justify-content-around">
-			{#each $selectedCountryConfigJson.states as state}
+			{#each stateNames as state}
 				<div class="col">
 					<StateTree
 						predecessorMap={getFilteredPredecessorMap(state)}

@@ -2,6 +2,7 @@
 	//@ts-nocheck
 	import { isUUID } from 'class-validator';
 	import * as d3 from 'd3';
+	import Modal from '../bs-wrapper/Modal.svelte';
 
 	type TreeNode = {
 		name: string;
@@ -19,6 +20,9 @@
 	let treeData: TreeNode;
 	let treemap, margin, width, height;
 	let nodes: d3.HierarchyNode<any> | d3.HierarchyNode<unknown>;
+
+	let selectedNode: string;
+	let modalOpen: boolean;
 
 	/**
 	 * ---
@@ -108,11 +112,34 @@
 		return Object.entries(leavesDepthMap).length * 55 + 20
 	}
 
-	function alertInfo(nodeName: string) {
-		let modifiedName = nodeName + (isUUID(nodeName, 4) ? " (Hilfsknoten)" : "")
-		alert(`Name: ${modifiedName} \nRang: ${rankMap[nodeName]}\nDirekter Vorgänger: ${predecessorMap[nodeName]}`)
+	function openModal(nodeName: string) {
+		selectedNode = nodeName;
+		modalOpen = true;
 	}
 </script>
+
+<Modal title={selectedNode} bind:open={modalOpen}>
+	<table class="table table-borderless">
+		<tbody>
+			<tr>
+				<th scope="row">Knotentyp</th>
+				<td>{isUUID(selectedNode, 4) ? "Hilfsknoten" : "Stadt"}</td>
+			</tr>
+			<tr>
+				<th scope="row">Rang</th>
+				<td>{rankMap[selectedNode]}</td>
+			</tr>
+			<tr>
+				<th scope="row">Direkter Vorgänger</th>
+				<td>{predecessorMap[selectedNode]}</td>
+			</tr>
+			<tr>
+				<th scope="row">Bundesland (Root)</th>
+				<td>{treeData.name}</td>
+			</tr>
+		</tbody>
+	</table>
+</Modal>
 
 {#if nodes}
 	<div id="tree-container">
@@ -138,7 +165,7 @@
 					<g
 						class="node {node.children ? " node--internal" : " node--leaf"}"
 						transform="translate({node.y},{node.x})"
-						on:click={() => node.depth !== 0 ? alertInfo(node.data.name) : unionFunction(node.data.name)}
+						on:click={() => node.depth !== 0 ? openModal(node.data.name) : unionFunction(node.data.name)}
 					>
 						<circle
 							r={node.data.value}

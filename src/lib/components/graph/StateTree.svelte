@@ -2,8 +2,6 @@
 	//@ts-nocheck
 	import { isUUID } from 'class-validator';
 	import * as d3 from 'd3';
-	import Modal from '../bs-wrapper/Modal.svelte';
-	import CountryForest from './CountryForest.svelte';
 
 	type TreeNode = {
 		name: string;
@@ -16,18 +14,15 @@
 	export let predecessorMap: { [key: string]: string };
 	export let rankMap: { [key: string]: number };
 	export let leavesDepthMap: { [key: string]: number };
-	export let unionFunction: (secondNode: string) => void;
-	export let selectedNodes: {
-		first: string | undefined;
-		second: string | undefined
-	};
+	export let selectNode: (nodeName: string) => void;
 
 	let treeData: TreeNode;
-	let treemap, margin, width, height;
+	let treemap: number,
+		margin: { left: number; right: number; top: number; bottom: number; },
+		width: number,
+		height: number;
 	let nodes: d3.HierarchyNode<any> | d3.HierarchyNode<unknown>;
-
-	let selectedNode: string;
-	let modalOpen: boolean;
+	let clientWidth: number;
 
 	/**
 	 * ---
@@ -43,7 +38,7 @@
 
 	// set the dimensions and margins of the diagram
 	$: margin = {top: 10, right: getMarginRight(), bottom: 30, left: treeData.name.length * 11 + 15}
-	$: width  = 600 - margin.left - margin.right
+	$: width  = clientWidth - margin.left - margin.right
 	$: height = getHeight() - margin.top - margin.bottom
 
 	// declares a tree layout and assigns the size
@@ -116,48 +111,12 @@
 	function getHeight() {
 		return Object.entries(leavesDepthMap).length * 55 + 20
 	}
-
-	function openModal(nodeName: string) {
-		selectedNode = nodeName;
-		modalOpen = true;
-	}
-
-	function getNodeType(nodeName: string) {
-		if (predecessorMap[nodeName] === nodeName) return "Bundesland (Root)";
-		if (isUUID(nodeName, 4)) return "Hilfsknoten";
-		if (Object.entries(leavesDepthMap).find(([_name, _]) => _name === nodeName)) return "Blattknoten";
-
-		return "Stadt oder vereintes Bundesland";
-	}
 </script>
 
-<Modal title={selectedNode} bind:open={modalOpen} {unionFunction} {selectedNodes}>
-	<table class="table table-borderless">
-		<tbody>
-			<tr>
-				<th scope="row">Knotentyp</th>
-				<td>{getNodeType(selectedNode)}</td>
-			</tr>
-			<tr>
-				<th scope="row">Rang</th>
-				<td>{rankMap[selectedNode]}</td>
-			</tr>
-			<tr>
-				<th scope="row">Direkter Vorgänger</th>
-				<td>{predecessorMap[selectedNode]}</td>
-			</tr>
-			<tr>
-				<th scope="row">Bundesland (Root)</th>
-				<td>{treeData.name}</td>
-			</tr>
-		</tbody>
-	</table>
-</Modal>
-
 {#if nodes}
-	<div id="tree-container">
+	<div id="tree-container" bind:clientWidth={clientWidth}>
 		<svg
-			class="m-2 p-2"
+			class="my-2 p-2"
 			id="svg-container"
 			width={width + margin.left + margin.right}
 			height={height + margin.top + margin.bottom}
@@ -178,7 +137,7 @@
 					<g
 						class="node {node.children ? " node--internal" : " node--leaf"}"
 						transform="translate({node.y},{node.x})"
-						on:click={() => openModal(node.data.name)}
+						on:click={() => selectNode(node.data.name)}
 					>
 						<circle
 							r={node.data.value}

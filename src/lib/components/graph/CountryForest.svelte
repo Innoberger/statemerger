@@ -2,9 +2,19 @@
     import StateTree from './StateTree.svelte';
 	import { selectedCountryStatesForest } from '$lib/stores/selected-country';
 	import type { States } from '$lib/model/states';
+	import Modal from '../bs-wrapper/Modal.svelte';
+	import { isUUID } from 'class-validator';
 
 	let stateNames: string[] = [];
-	let selectedNodes: {
+	let modalOpen: boolean;
+
+	let selectedNode: {
+		name: string,
+		depth: number,
+		root: string
+	};
+
+	let mergeNodes: {
 		first: string | undefined;
 		second: string | undefined
 	} = {
@@ -53,19 +63,14 @@
 	}
 
 	function unionFunction(secondNode: string) {
-		if (!(selectedNodes && selectedNodes.first)) return;
+		if (!(mergeNodes && mergeNodes.first)) return;
 
-		selectedNodes.second = secondNode
+		mergeNodes.second = secondNode
 
-		if (selectedNodes.first === selectedNodes.second) {
-			alert("union cannot merge a state with itself")
-			return
-		}
-
-		$selectedCountryStatesForest.union(selectedNodes.first, selectedNodes.second)
+		$selectedCountryStatesForest.union(mergeNodes.first, mergeNodes.second)
 		stateNames = getStateNames($selectedCountryStatesForest)
 
-		selectedNodes = {
+		mergeNodes = {
 			first: undefined,
 			second: undefined
 		}
@@ -80,18 +85,67 @@
 			.filter(([_name, _predecessor]) => _name === _predecessor)
 			.map(([_name, _predecessor]) => _name)
 	}
+
+	function selectNode(nodeName: string) {
+		console.log("called")
+		let rootNode = findRootWithDepthNoPathCompression($selectedCountryStatesForest, nodeName)!
+		selectedNode = {
+			name: nodeName,
+			depth: rootNode.depth,
+			root: rootNode.root
+		}
+		modalOpen = true;
+	}
+
+	function getNodeType(nodeName: string) {
+		if ($selectedCountryStatesForest.states.predecessor[nodeName] === nodeName) return "Bundesland (Root)";
+		if (isUUID(nodeName, 4)) return "Hilfsknoten";
+		if (!Object.entries($selectedCountryStatesForest.states.predecessor).find(([_, _predecessor]) => _predecessor === nodeName)) return "Blattknoten";
+
+		return "Stadt oder vereintes Bundesland";
+	}
+
+	function getMaxDepth(stateName: string): number {
+		return Object.entries(getFilteredLeavesDepthMap(stateName)).sort((a, b) => b[1] - a[1])[0][1]
+	}
 </script>
+
+<Modal title={selectedNode?.name} bind:open={modalOpen} {unionFunction} {mergeNodes}>
+	<table class="table table-borderless">
+		<tbody>
+			<tr>
+				<th scope="row">Knotentyp</th>
+				<td>{getNodeType(selectedNode.name)}</td>
+			</tr>
+			<tr>
+				<th scope="row">Rang</th>
+				<td>{$selectedCountryStatesForest.states.rank[selectedNode.name]}</td>
+			</tr>
+			<tr>
+				<th scope="row">Bundesland (Root)</th>
+				<td>{selectedNode.root}</td>
+			</tr>
+			<tr>
+				<th scope="row">Direkter Vorgänger</th>
+				<td>{$selectedCountryStatesForest.states.predecessor[selectedNode.name]}</td>
+			</tr>
+			<tr>
+				<th scope="row">Ebene / Tiefe</th>
+				<td>{selectedNode.depth}</td>
+			</tr>
+		</tbody>
+	</table>
+</Modal>
 
 <div class="container">
 	<div class="row justify-content-around">
 		{#each stateNames as state}
-			<div class="col">
+			<div class="col{getMaxDepth(state) < 3 ? '-xl-6' : '-12'}">
 				<StateTree
 					predecessorMap={getFilteredPredecessorMap(state)}
 					rankMap={getFilteredRankMap(state)}
 					leavesDepthMap={getFilteredLeavesDepthMap(state)}
-					{selectedNodes}
-					{unionFunction}
+					{selectNode}
 				/>
 			</div>
 		{/each}

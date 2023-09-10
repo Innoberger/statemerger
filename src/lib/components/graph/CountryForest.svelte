@@ -104,10 +104,6 @@
 
 		return "Stadt oder vereintes Bundesland";
 	}
-
-	function getMaxDepth(stateName: string): number {
-		return Object.entries(getFilteredLeavesDepthMap(stateName)).sort((a, b) => b[1] - a[1])[0][1]
-	}
 </script>
 
 <Modal title={selectedNode?.name} bind:open={modalOpen} {unionFunction} {mergeNodes}>
@@ -140,7 +136,7 @@
 <div class="container">
 	<div class="row justify-content-around">
 		{#each stateNames as state}
-			<div class="col{getMaxDepth(state) < 3 ? '-xl-6' : '-12'}">
+			<div class="col{$selectedCountryStatesForest.states.rank[state] < 3 ? '-xl-6' : '-12'}">
 				<StateTree
 					predecessorMap={getFilteredPredecessorMap(state)}
 					rankMap={getFilteredRankMap(state)}

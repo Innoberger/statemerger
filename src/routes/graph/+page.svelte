@@ -5,8 +5,8 @@
 
 
 <!-- TODO:
-		- Display selected states here
-		- Adjust the row/col divs (after some merges use full row instead of one column or so)
+		- Display selected nodes here
+		- Display the amount of trees in the forest here
 		- Button to unselect selectedNodes.first
 		- Forms for Make-State, Find-State and Union
 		- Settings

@@ -1,4 +1,4 @@
-# HKA INFM Projektarbeit 2 - StateMerger Application
+# StateMerger
 
 This repository is part of the module "Projektarbeit 2" of the computer science M.Sc. study programm at [Karlsruhe University of Applied Sciences](https://www.h-ka.de/en/) accompanied by Prof. Dr. Körner.
 
@@ -28,7 +28,7 @@ Es ist möglich, eine Datenstruktur zu erstellen, die alle diese Operationen in 
 
 ## How to {build, test, run}
 
-You will need [Node Package Manager](https://nodejs.org/en/download/package-manager) and an internet connection to install the node modules.
+You need the [Node Package Manager](https://nodejs.org/en/download/package-manager) and an internet connection to install the node modules.
 
 ### Getting started
 

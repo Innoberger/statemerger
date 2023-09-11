@@ -3,10 +3,10 @@
 	import { selectedCountryStatesForest } from '$lib/stores/selected-country';
 	import type { States } from '$lib/model/states';
 	import NodeInfoModal from '../modal/NodeInfoModal.svelte';
-	import { isUUID } from 'class-validator';
 
 	export let stateNames: string[];
 	export let unionFunction: () => void;
+	export let inSameTree: (first: string, second: string) => boolean;
 	export let findRootWithDepthNoPathCompression: (forest: States, node: string) => { root: string | undefined, depth: number };
 	export let mergeNodes: {
 		first: string | undefined;
@@ -54,50 +54,14 @@
 		}
 		modalOpen = true;
 	}
-
-	function getNodeType(nodeName: string) {
-		if ($selectedCountryStatesForest.states.predecessor[nodeName] === nodeName) return "Bundesland (Root)";
-		if (isUUID(nodeName, 4)) return "Hilfsknoten";
-		if (!Object.entries($selectedCountryStatesForest.states.predecessor).find(([_, _predecessor]) => _predecessor === nodeName)) return "Blattknoten";
-
-		return "Stadt oder vereintes Bundesland";
-	}
-
-	function inSameTree(first: string, second: string): boolean {
-		return findRootWithDepthNoPathCompression($selectedCountryStatesForest, first).root === findRootWithDepthNoPathCompression($selectedCountryStatesForest, second).root
-	}
 </script>
 
 <!-- TODO:
-		- Automatically scroll to merged tree after union
+		- Automatically scroll to a node after Find-State
+		- Automatically scroll to merged tree after Union
 -->
 
-<NodeInfoModal title={selectedNode?.name} bind:open={modalOpen} {unionFunction} bind:mergeNodes={mergeNodes} {inSameTree}>
-	<table class="table table-borderless">
-		<tbody>
-			<tr>
-				<th scope="row">Knotentyp</th>
-				<td>{getNodeType(selectedNode.name)}</td>
-			</tr>
-			<tr>
-				<th scope="row">Rang</th>
-				<td>{$selectedCountryStatesForest.states.rank[selectedNode.name]}</td>
-			</tr>
-			<tr>
-				<th scope="row">Bundesland (Root)</th>
-				<td>{selectedNode.root}</td>
-			</tr>
-			<tr>
-				<th scope="row">Direkter Vorgänger</th>
-				<td>{$selectedCountryStatesForest.states.predecessor[selectedNode.name]}</td>
-			</tr>
-			<tr>
-				<th scope="row">Ebene / Tiefe</th>
-				<td>{selectedNode.depth}</td>
-			</tr>
-		</tbody>
-	</table>
-</NodeInfoModal>
+<NodeInfoModal {selectedNode} bind:open={modalOpen} {unionFunction} bind:mergeNodes={mergeNodes} {inSameTree} />
 
 <div class="container">
 	<div class="row justify-content-around">

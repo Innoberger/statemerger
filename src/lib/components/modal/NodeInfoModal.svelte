@@ -10,15 +10,21 @@
 	 */
 	import { fade, fly } from "svelte/transition";
 	import { quintOut } from "svelte/easing";
+	import { isUUID } from "class-validator";
+	import { selectedCountryStatesForest } from "$lib/stores/selected-country";
 
 	export let open = false;
 	export let showBackdrop = true;
-	export let title = "Modal title";
 	export let unionFunction: () => void;
 	export let inSameTree: (first: string, second: string) => boolean;
 	export let mergeNodes: {
 		first: string | undefined;
 		second: string | undefined
+	};
+	export let selectedNode: {
+		name: string,
+		depth: number,
+		root: string
 	};
 
 	const modalClose = () => {
@@ -26,7 +32,15 @@
 	}
 
 	function selectNode() {
-		mergeNodes.first = title
+		mergeNodes.first = selectedNode.name
+	}
+
+	function getNodeType(nodeName: string) {
+		if ($selectedCountryStatesForest.states.predecessor[nodeName] === nodeName) return "Bundesland (Root)";
+		if (isUUID(nodeName, 4)) return "Hilfsknoten";
+		if (!Object.entries($selectedCountryStatesForest.states.predecessor).find(([_, _predecessor]) => _predecessor === nodeName)) return "Blattknoten";
+
+		return "Stadt oder vereintes Bundesland";
 	}
 </script>
 
@@ -35,21 +49,44 @@
 		<div class="modal-dialog" role="document" in:fly={{ y: -50, duration: 300 }} out:fly={{ y: -50, duration: 300, easing: quintOut }}>
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="nodeInfoModalLabel">{title}</h4>
+					<h4 class="modal-title" id="nodeInfoModalLabel">{selectedNode.name}</h4>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" on:click={() => modalClose()}></button>
 				</div>
 				<div class="modal-body">
-					<slot></slot>
+					<table class="table table-borderless">
+						<tbody>
+							<tr>
+								<th scope="row">Knotentyp</th>
+								<td>{getNodeType(selectedNode.name)}</td>
+							</tr>
+							<tr>
+								<th scope="row">Rang</th>
+								<td>{$selectedCountryStatesForest.states.rank[selectedNode.name]}</td>
+							</tr>
+							<tr>
+								<th scope="row">Bundesland (Root)</th>
+								<td>{selectedNode.root}</td>
+							</tr>
+							<tr>
+								<th scope="row">Direkter Vorgänger</th>
+								<td>{$selectedCountryStatesForest.states.predecessor[selectedNode.name]}</td>
+							</tr>
+							<tr>
+								<th scope="row">Ebene / Tiefe</th>
+								<td>{selectedNode.depth}</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" on:click={() => modalClose()}>Schließen</button>
 					{#if mergeNodes?.first}
-						{#if inSameTree(mergeNodes.first, title)}
+						{#if inSameTree(mergeNodes.first, selectedNode.name)}
 							<button type="button" class="btn btn-danger" disabled>
 								Vereinigen mit <strong>{mergeNodes.first}</strong> nicht möglich
 							</button>
 						{:else}
-							<button type="button" class="btn btn-success" on:click={() => { modalClose(); mergeNodes.second = title; unionFunction(); }}>
+							<button type="button" class="btn btn-success" on:click={() => { modalClose(); mergeNodes.second = selectedNode.name; unionFunction(); }}>
 								Vereinigen mit <strong>{mergeNodes.first}</strong>
 							</button>
 						{/if}

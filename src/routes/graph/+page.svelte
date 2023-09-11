@@ -2,12 +2,14 @@
 	import ErrorModal from '$lib/components/modal/ErrorModal.svelte';
 	import CountrySelectorButton from '$lib/components/country-selector/CountrySelectorButton.svelte';
 	import CountryForest from '$lib/components/graph/CountryForest.svelte'
+	import NodeInfoModal from '$lib/components/modal/NodeInfoModal.svelte';
 	import Operations from '$lib/components/operations/Operations.svelte';
 	import type { States } from '$lib/model/states';
 	import { selectedCountryStatesForest } from '$lib/stores/selected-country';
 
 
 	let stateNames: string[] = [];
+	let nodeInfoModal = false;
 
 	let mergeNodes: {
 		first: string | undefined;
@@ -26,6 +28,12 @@
         error: "",
         open: false
     }
+
+	let selectedNode: {
+		name: string,
+		depth: number,
+		root: string
+	};
 
 	$: stateNames = getStateNames($selectedCountryStatesForest);
 
@@ -51,15 +59,45 @@
 			.map(([_name, _predecessor]) => _name)
 	}
 
+	function inSameTree(first: string, second: string): boolean {
+		return findRootWithDepthNoPathCompression($selectedCountryStatesForest, first).root === findRootWithDepthNoPathCompression($selectedCountryStatesForest, second).root
+	}
+
+	function findStateFunction(search: string) {
+		let result = $selectedCountryStatesForest.findState(search!);
+		let nodeInfo = findRootWithDepthNoPathCompression($selectedCountryStatesForest, search)
+
+		if (undefined === result) {
+			errorModal = { title: "404 Not Found", error: `Die gesuchte Stadt bzw. der gesuchte Knoten wurden in keinem Bundesland gefunden.`, open: true };
+			return;
+		}
+
+		selectedNode = {
+			name: search,
+			depth: nodeInfo.depth,
+			root: nodeInfo.root!
+		}
+
+		nodeInfoModal = true
+		stateNames = getStateNames($selectedCountryStatesForest);
+	}
+
 	function unionFunction() {
 		if (!(mergeNodes && mergeNodes.first && mergeNodes.second)) {
 			errorModal = { title: "Vereinigung fehlgeschlagen", error: "Erster und zweiter Knoten müssen ausgewählt werden.", open: true }
 			return;
 		}
 
-		if (undefined === findRootWithDepthNoPathCompression($selectedCountryStatesForest, mergeNodes.first).root ||
-			undefined === findRootWithDepthNoPathCompression($selectedCountryStatesForest, mergeNodes.second).root) {
-			errorModal = { title: "Vereinigung fehlgeschlagen", error: `Erster oder zweiter Knoten existiert nicht.`, open: true }
+		let firstRoot = findRootWithDepthNoPathCompression($selectedCountryStatesForest, mergeNodes.first).root
+		let secondRoot = findRootWithDepthNoPathCompression($selectedCountryStatesForest, mergeNodes.second).root
+
+		if (undefined === firstRoot || undefined === secondRoot) {
+			errorModal = { title: "Vereinigung fehlgeschlagen", error: "Erster oder zweiter Knoten existiert nicht.", open: true }
+			return;
+		}
+
+		if (firstRoot === secondRoot) {
+			errorModal = { title: "Vereinigung fehlgeschlagen", error: "Vereinigung innerhalb eines Baumes nicht möglich.", open: true }
 			return;
 		}
 
@@ -88,6 +126,22 @@
     {errorModal.error}
 </ErrorModal>
 
+<NodeInfoModal {selectedNode} bind:open={nodeInfoModal} {unionFunction} bind:mergeNodes={mergeNodes} {inSameTree} />
+
 <CountrySelectorButton />
-<Operations bind:mergeNodes={mergeNodes} {unionFunction}/>
-<CountryForest bind:mergeNodes={mergeNodes} {stateNames} {unionFunction} {findRootWithDepthNoPathCompression}/>
+
+
+<Operations bind:mergeNodes={mergeNodes} {findStateFunction} {unionFunction}/>
+
+{#if !$selectedCountryStatesForest}
+	<div class="alert alert-info d-flex align-items-center" role="alert">
+		<div class="me-3">
+			<i class="bi-info-circle-fill"></i>
+		</div>
+		<div>
+			Um zu beginnen, bitte zunächst ein Land auswählen oder mit Make-State erstellen.
+		</div>
+	</div>
+{/if}
+
+<CountryForest bind:mergeNodes={mergeNodes} {stateNames} {unionFunction} {inSameTree} {findRootWithDepthNoPathCompression}/>

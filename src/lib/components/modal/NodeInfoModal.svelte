@@ -39,9 +39,9 @@
 	}
 
 	function getNodeType(nodeName: string) {
-		if ($selectedCountryStatesForest.states.predecessor[nodeName] === nodeName) return "Bundesland (Root)";
+		if ($selectedCountryStatesForest!.states.predecessor[nodeName] === nodeName) return "Bundesland (Root)";
 		if (isUUID(nodeName, 4)) return "Hilfsknoten";
-		if (!Object.entries($selectedCountryStatesForest.states.predecessor).find(([_, _predecessor]) => _predecessor === nodeName)) return "Blattknoten";
+		if (!Object.entries($selectedCountryStatesForest!.states.predecessor).find(([_, _predecessor]) => _predecessor === nodeName)) return "Blattknoten";
 
 		return "Stadt oder vereintes Bundesland";
 	}
@@ -64,7 +64,7 @@
 							</tr>
 							<tr>
 								<th scope="row">Rang</th>
-								<td>{$selectedCountryStatesForest.states.rank[selectedNode.name]}</td>
+								<td>{$selectedCountryStatesForest?.states.rank[selectedNode.name]}</td>
 							</tr>
 							<tr>
 								<th scope="row">Bundesland (Root)</th>
@@ -72,7 +72,7 @@
 							</tr>
 							<tr>
 								<th scope="row">Direkter Vorgänger</th>
-								<td>{$selectedCountryStatesForest.states.predecessor[selectedNode.name]}</td>
+								<td>{$selectedCountryStatesForest?.states.predecessor[selectedNode.name]}</td>
 							</tr>
 							<tr>
 								<th scope="row">Ebene / Tiefe</th>

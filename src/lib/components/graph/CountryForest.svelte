@@ -23,15 +23,15 @@
 	};
 
 	function getFilteredPredecessorMap(stateName: string): { [key: string]: string } {
-		const filteredPredecessors = Object.entries($selectedCountryStatesForest.states.predecessor)
-			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name).root === stateName)
+		const filteredPredecessors = Object.entries($selectedCountryStatesForest!.states.predecessor)
+			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest!, _name).root === stateName)
 
 		return Object.fromEntries(filteredPredecessors)
 	}
 
 	function getFilteredRankMap(stateName: string): { [key: string]: number } {
-		const filteredPredecessors = Object.entries($selectedCountryStatesForest.states.rank)
-			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name).root === stateName)
+		const filteredPredecessors = Object.entries($selectedCountryStatesForest!.states.rank)
+			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest!, _name).root === stateName)
 
 		return Object.fromEntries(filteredPredecessors)
 	}
@@ -40,14 +40,14 @@
 		if (!$selectedCountryStatesForest) return {}
 
 		const leavesArray = Object.entries($selectedCountryStatesForest.states.rank)
-			.filter(([_name, _rank]) => _rank === 0 && findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name).root === stateName)
-			.map(([_name, _]) => [ _name, findRootWithDepthNoPathCompression($selectedCountryStatesForest, _name).depth ])
+			.filter(([_name, _rank]) => _rank === 0 && findRootWithDepthNoPathCompression($selectedCountryStatesForest!, _name).root === stateName)
+			.map(([_name, _]) => [ _name, findRootWithDepthNoPathCompression($selectedCountryStatesForest!, _name).depth ])
 
 		return Object.fromEntries(leavesArray)
 	}
 
 	function selectNode(nodeName: string) {
-		let rootNode = findRootWithDepthNoPathCompression($selectedCountryStatesForest, nodeName)
+		let rootNode = findRootWithDepthNoPathCompression($selectedCountryStatesForest!, nodeName)
 		selectedNode = {
 			name: nodeName,
 			depth: rootNode.depth,
@@ -68,7 +68,7 @@
 <div class="container">
 	<div class="row justify-content-around">
 		{#each stateNames as state}
-			<div class="col{$selectedCountryStatesForest.states.rank[state] < 3 ? '-xl-6' : '-12'}">
+			<div class="col{$selectedCountryStatesForest ? ($selectedCountryStatesForest.states.rank[state] < 3 ? '-xl-6' : '-12') : ''}">
 				<StateTree
 					predecessorMap={getFilteredPredecessorMap(state)}
 					rankMap={getFilteredRankMap(state)}

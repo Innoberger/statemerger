@@ -11,4 +11,4 @@ export type CountryMeta = {
 }
 
 export const selectedCountry: Writable<CountryMeta | undefined> = writable();
-export const selectedCountryStatesForest: Writable<States> = writable();
+export const selectedCountryStatesForest: Writable<States | undefined> = writable();

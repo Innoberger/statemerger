@@ -17,7 +17,7 @@
 		</button>
 	{/if}
 	{#if $selectedCountryStatesForest}
-		<button class="btn btn-outline-danger" type="button" on:click={() => { $selectedCountry = undefined; $selectedCountryStatesForest = new States(); }}>
+		<button class="btn btn-outline-danger" type="button" on:click={() => { $selectedCountry = undefined; $selectedCountryStatesForest = undefined; }}>
 			Graph leeren
 		</button>
 	{/if}

@@ -36,7 +36,7 @@
 		path: string[]
 	};
 
-	$: stateNames = getStateNames($selectedCountryStatesForest);
+	$: stateNames = getStateNames($selectedCountryStatesForest!);
 
 	function findRootWithDepthNoPathCompression(forest: States, node: string): { root: string | undefined, depth: number, path: string[] } {
 		/*
@@ -62,12 +62,12 @@
 	}
 
 	function inSameTree(first: string, second: string): boolean {
-		return findRootWithDepthNoPathCompression($selectedCountryStatesForest, first).root === findRootWithDepthNoPathCompression($selectedCountryStatesForest, second).root
+		return findRootWithDepthNoPathCompression($selectedCountryStatesForest!, first).root === findRootWithDepthNoPathCompression($selectedCountryStatesForest!, second).root
 	}
 
 	function findStateFunction(search: string) {
-		let result = $selectedCountryStatesForest.findState(search!);
-		let nodeInfo = findRootWithDepthNoPathCompression($selectedCountryStatesForest, search)
+		let result = $selectedCountryStatesForest!.findState(search!);
+		let nodeInfo = findRootWithDepthNoPathCompression($selectedCountryStatesForest!, search)
 
 		if (undefined === result) {
 			errorModal = { title: "404 Not Found", error: `Die gesuchte Stadt bzw. der gesuchte Knoten wurden in keinem Bundesland gefunden.`, open: true };
@@ -82,7 +82,7 @@
 		}
 
 		nodeInfoModal = true
-		stateNames = getStateNames($selectedCountryStatesForest);
+		stateNames = getStateNames($selectedCountryStatesForest!);
 	}
 
 	function unionFunction() {
@@ -96,8 +96,8 @@
 			return;
 		}
 
-		let firstRoot = findRootWithDepthNoPathCompression($selectedCountryStatesForest, mergeNodes.first).root
-		let secondRoot = findRootWithDepthNoPathCompression($selectedCountryStatesForest, mergeNodes.second).root
+		let firstRoot = findRootWithDepthNoPathCompression($selectedCountryStatesForest!, mergeNodes.first).root
+		let secondRoot = findRootWithDepthNoPathCompression($selectedCountryStatesForest!, mergeNodes.second).root
 
 		if (undefined === firstRoot || undefined === secondRoot) {
 			errorModal = { title: "Union fehlgeschlagen", error: "Erster oder zweiter Knoten existiert nicht.", open: true }
@@ -109,8 +109,8 @@
 			return;
 		}
 
-		$selectedCountryStatesForest.union(mergeNodes.first, mergeNodes.second)
-		stateNames = getStateNames($selectedCountryStatesForest)
+		$selectedCountryStatesForest!.union(mergeNodes.first, mergeNodes.second)
+		stateNames = getStateNames($selectedCountryStatesForest!)
 
 		mergeNodes = {
 			first: undefined,

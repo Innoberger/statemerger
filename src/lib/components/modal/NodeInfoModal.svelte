@@ -32,11 +32,18 @@
 		open = false;
 	}
 
+	/**
+	 * Sets the first argument for merging nodes.
+	 */
 	function selectNode() {
 		mergeNodes.first = selectedNode.name
 	}
 
-	function getNodeType(nodeName: string) {
+	/**
+	 * Retrieves the 
+	 * @param nodeName
+	 */
+	function getNodeType(nodeName: string): string {
 		if ($selectedCountryStatesForest!.states.predecessor[nodeName] === nodeName) return "Bundesland (Root)";
 		if (isUUID(nodeName, 4)) return "Hilfsknoten";
 		if (!Object.entries($selectedCountryStatesForest!.states.predecessor).find(([_, _predecessor]) => _predecessor === nodeName)) return "Blattknoten";

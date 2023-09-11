@@ -2,8 +2,6 @@
 	export let findStateFunction: (search: string) => void;
 
 	let search: string | undefined
-
-
 </script>
 
 <div class="input-group mb-2">

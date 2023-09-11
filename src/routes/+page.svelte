@@ -1,7 +1,3 @@
-<script>
-
-</script>
-
 <!--
 	This route style is inspired by:
 	https://github.com/startbootstrap/startbootstrap-one-page-wonder

@@ -4,6 +4,10 @@
 	let city: string | undefined;
 	let state: string | undefined;
 
+	/**
+	 * Executes `makeStateFunction` of this component.
+	 * If successful, `city` and `state` will be cleared.
+	 */
 	function execMakeState() {
 		if (!makeStateFunction(city ?? "", state ?? "")) return;
 

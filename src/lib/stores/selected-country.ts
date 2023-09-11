@@ -1,5 +1,4 @@
 import type { States } from '$lib/model/states';
-import type { Config } from '$lib/parser/config';
 import { writable, type Writable } from 'svelte/store';
 
 /*

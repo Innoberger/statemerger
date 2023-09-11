@@ -32,12 +32,13 @@
 	let selectedNode: {
 		name: string,
 		depth: number,
-		root: string
+		root: string,
+		path: string[]
 	};
 
 	$: stateNames = getStateNames($selectedCountryStatesForest);
 
-	function findRootWithDepthNoPathCompression(forest: States, node: string): { root: string | undefined, depth: number } {
+	function findRootWithDepthNoPathCompression(forest: States, node: string): { root: string | undefined, depth: number, path: string[] } {
 		/*
 		* Recursively walk up the tree,
 		* but do not apply path compression.
@@ -45,10 +46,11 @@
 		*/
 		if (node !== forest.states.predecessor[node]) {
 			let _root = findRootWithDepthNoPathCompression(forest, forest.states.predecessor[node]!)!
-			return { root: _root.root, depth: _root.depth + 1}
+			_root.path.push(node)
+			return { root: _root.root, depth: _root.depth + 1, path: _root.path }
 		}
 
-		return { root: forest.states.predecessor[node], depth: 0};
+		return { root: forest.states.predecessor[node], depth: 0, path: [node] };
 	}
 
 	function getStateNames(states: States): string[] {
@@ -75,7 +77,8 @@
 		selectedNode = {
 			name: search,
 			depth: nodeInfo.depth,
-			root: nodeInfo.root!
+			root: nodeInfo.root!,
+			path: nodeInfo.path
 		}
 
 		nodeInfoModal = true
@@ -129,7 +132,6 @@
 <NodeInfoModal {selectedNode} bind:open={nodeInfoModal} {unionFunction} bind:mergeNodes={mergeNodes} {inSameTree} />
 
 <CountrySelectorButton />
-
 
 <Operations bind:mergeNodes={mergeNodes} {findStateFunction} {unionFunction}/>
 

@@ -12,6 +12,8 @@
 	import { quintOut } from "svelte/easing";
 	import { isUUID } from "class-validator";
 	import { selectedCountryStatesForest } from "$lib/stores/selected-country";
+	import type { States } from "$lib/model/states";
+	import { reverse } from "d3";
 
 	export let open = false;
 	export let showBackdrop = true;
@@ -24,7 +26,8 @@
 	export let selectedNode: {
 		name: string,
 		depth: number,
-		root: string
+		root: string,
+		path: string[]
 	};
 
 	const modalClose = () => {
@@ -74,6 +77,16 @@
 							<tr>
 								<th scope="row">Ebene / Tiefe</th>
 								<td>{selectedNode.depth}</td>
+							</tr>
+							<tr>
+								<th scope="row">Pfad</th>
+								<td>
+									<ol class="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+										{#each selectedNode.path.reverse() as _node}
+											<li class="breadcrumb-item">{_node}</li>
+										{/each}
+									</ol>
+								</td>
 							</tr>
 						</tbody>
 					</table>

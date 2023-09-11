@@ -7,7 +7,7 @@
 	export let stateNames: string[];
 	export let unionFunction: () => void;
 	export let inSameTree: (first: string, second: string) => boolean;
-	export let findRootWithDepthNoPathCompression: (forest: States, node: string) => { root: string | undefined, depth: number };
+	export let findRootWithDepthNoPathCompression: (forest: States, node: string) => { root: string | undefined, depth: number, path: string[] };
 	export let mergeNodes: {
 		first: string | undefined;
 		second: string | undefined
@@ -18,7 +18,8 @@
 	let selectedNode: {
 		name: string,
 		depth: number,
-		root: string
+		root: string,
+		path: string[]
 	};
 
 	function getFilteredPredecessorMap(stateName: string): { [key: string]: string } {
@@ -50,7 +51,8 @@
 		selectedNode = {
 			name: nodeName,
 			depth: rootNode.depth,
-			root: rootNode.root!
+			root: rootNode.root!,
+			path: rootNode.path
 		}
 		modalOpen = true;
 	}

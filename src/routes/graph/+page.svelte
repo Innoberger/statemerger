@@ -6,6 +6,7 @@
 	import Operations from '$lib/components/operations/Operations.svelte';
 	import { States } from '$lib/model/states';
 	import { selectedCountryStatesForest } from '$lib/stores/selected-country';
+	import CountrySelectorDialog from '$lib/components/country-selector/CountrySelectorDialog.svelte';
 
 
 	let stateNames: string[] = [];
@@ -19,6 +20,16 @@
 		first: undefined,
 		second: undefined
 	};
+
+	let graphSettings: {
+		toggleUuidNodeLabels: boolean,
+		toggleInnerNodeLabels: boolean,
+		toggleNodeRanks: boolean
+	} = {
+		toggleUuidNodeLabels: false,
+		toggleInnerNodeLabels: false,
+		toggleNodeRanks: false
+	}
 
 	let errorModal: {
 		title: string,
@@ -142,17 +153,10 @@
 
 	function countNodes(states: string[]): number {
 		if (!(states && $selectedCountryStatesForest)) return 0;
-		
+
 		return Object.entries($selectedCountryStatesForest.states.predecessor).length;
 	}
 </script>
-
-<!-- TODO:
-		- Settings
-			* toggle for show uuid node names
-			* toggle for show non-root and non-leave node names
-			* toggle for show ranks in node circles
--->
 
 <ErrorModal title={errorModal.title} bind:open={errorModal.open}>
     {errorModal.error}
@@ -161,6 +165,7 @@
 <NodeInfoModal {selectedNode} bind:open={nodeInfoModal} {unionFunction} bind:mergeNodes={mergeNodes} {inSameTree} />
 
 <CountrySelectorButton />
+<CountrySelectorDialog bind:graphSettings={graphSettings} />
 
 <Operations bind:mergeNodes={mergeNodes} {findStateFunction} {unionFunction} {makeStateFunction}/>
 
@@ -181,4 +186,4 @@
 	</div>
 </div>
 
-<CountryForest bind:mergeNodes={mergeNodes} {stateNames} {unionFunction} {inSameTree} {findRootWithDepthNoPathCompression}/>
+<CountryForest bind:mergeNodes={mergeNodes} {stateNames} {unionFunction} {inSameTree} {findRootWithDepthNoPathCompression} {graphSettings}/>

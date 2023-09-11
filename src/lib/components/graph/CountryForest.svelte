@@ -12,6 +12,11 @@
 		first: string | undefined;
 		second: string | undefined
 	};
+	export let graphSettings: {
+		toggleUuidNodeLabels: boolean,
+		toggleInnerNodeLabels: boolean,
+		toggleNodeRanks: boolean
+	}
 
 	let modalOpen: boolean = false;
 
@@ -73,6 +78,7 @@
 					predecessorMap={getFilteredPredecessorMap(state)}
 					rankMap={getFilteredRankMap(state)}
 					leavesDepthMap={getFilteredLeavesDepthMap(state)}
+					{graphSettings}
 					{selectNode}
 				/>
 			</div>

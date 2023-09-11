@@ -15,6 +15,11 @@
 	export let rankMap: { [key: string]: number };
 	export let leavesDepthMap: { [key: string]: number };
 	export let selectNode: (nodeName: string) => void;
+	export let graphSettings: {
+		toggleUuidNodeLabels: boolean,
+		toggleInnerNodeLabels: boolean,
+		toggleNodeRanks: boolean
+	}
 
 	let treeData: TreeNode;
 	let treemap: number,
@@ -147,24 +152,30 @@
 							r={node.data.value}
 							style="fill: {node.data.level}"
 						/>
-						<text
-							text-anchor="middle"
-							fill="black"
-							dy=".33em"
-							font-size="60%"
-							class="rank"
-						>
-							{rankMap[node.data.name]}
-						</text>
-						<text
-							dy=".35em"
-							x={node.children ? (node.data.value + 5) * -1 : node.data.value + 5}
-							y={node.children && node.depth !== 0 ? -(node.data.value + (isUUID(node.data.name, 4) ? -3 : 5)) : 0}
-							text-anchor={node.children ? "end" : "start"}
-							class="node-descriptor {node.depth === 0 ? "root" : isUUID(node.data.name, 4) ? "dummy" : "real"}"
-						>
-							{transformNodeName(node.data.name)}
-						</text>
+						{#if graphSettings.toggleNodeRanks}
+							<text
+								text-anchor="middle"
+								fill="black"
+								dy=".33em"
+								font-size="60%"
+								class="rank"
+							>
+								{rankMap[node.data.name]}
+							</text>
+						{/if}
+						{#if	(isUUID(node.data.name, 4) && graphSettings.toggleUuidNodeLabels || !isUUID(node.data.name, 4)) &&
+								(node.data.level === "orange" && graphSettings.toggleInnerNodeLabels || node.data.level !== "orange")
+							}
+							<text
+								dy=".35em"
+								x={node.children ? (node.data.value + 5) * -1 : node.data.value + 5}
+								y={node.children && node.depth !== 0 ? -(node.data.value + (isUUID(node.data.name, 4) ? -3 : 5)) : 0}
+								text-anchor={node.children ? "end" : "start"}
+								class="node-descriptor {node.depth === 0 ? "root" : isUUID(node.data.name, 4) ? "dummy" : "real"}"
+							>
+								{transformNodeName(node.data.name)}
+							</text>
+						{/if}
 					</g>
 				{/each}
 			</g>

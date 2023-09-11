@@ -13,6 +13,12 @@
 		toggleNodeRanks: boolean
 	}
 
+	/**
+	 * Retrieves all forest's predecessor map entries that are part of a single state.
+	 * 
+	 * @param stateName A state name to filter the predecessor map for.
+	 * @returns Filtered predecessor map.
+	 */
 	function getFilteredPredecessorMap(stateName: string): { [key: string]: string } {
 		const filteredPredecessors = Object.entries($selectedCountryStatesForest!.states.predecessor)
 			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest!, _name).root === stateName)
@@ -20,6 +26,12 @@
 		return Object.fromEntries(filteredPredecessors)
 	}
 
+	/**
+	 * Retrieves all forest's rank map entries that are part of a single state.
+	 * 
+	 * @param stateName A state name to filter the rank map for.
+	 * @returns Filtered rank map.
+	 */
 	function getFilteredRankMap(stateName: string): { [key: string]: number } {
 		const filteredPredecessors = Object.entries($selectedCountryStatesForest!.states.rank)
 			.filter(([_name, _]) => findRootWithDepthNoPathCompression($selectedCountryStatesForest!, _name).root === stateName)
@@ -27,6 +39,12 @@
 		return Object.fromEntries(filteredPredecessors)
 	}
 
+	/**
+	 * Retrieves a map of leave nodes and their depth in the tree, for a single state.
+	 * 
+	 * @param stateName A state name to filter for.
+	 * @returns A map of the state's leave nodes and their depth.
+	 */
 	function getFilteredLeavesDepthMap(stateName: string): { [key: string]: number } {
 		if (!$selectedCountryStatesForest) return {}
 

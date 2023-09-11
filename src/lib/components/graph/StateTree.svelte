@@ -53,8 +53,20 @@
 	$: nodes = d3.hierarchy(treeData);
 	$: nodes = treemap(nodes)
 
+	/**
+	 * Transforms the `predecessorMap` into a TreeNode structure, which is required by d3 library.
+	 * 
+	 * @param predecessorMap A tree's predecessor map, indicating it's parent node.
+	 * @returns Transformed `predecessorMap` as TreeNode structure
+	 */
 	function transformPredecessorMap(predecessorMap: { [key: string]: string }): TreeNode {
-		function getChildNodes(nodeName: string): TreeNode[] | undefined {
+		/**
+		 * Retrieves a node's descendant nodes.
+		 * 
+		 * @param nodeName A node name.
+		 * @returns The node's descendant in a TreeNode array.
+		 */
+		function getChildNodes(nodeName: string): TreeNode[] {
 			return Object.entries(predecessorMap).filter(([node, parent]) => {
 				return node !== parent && parent === nodeName
 			}).map(([node, _]) => {
@@ -68,6 +80,11 @@
 			})
 		}
 
+		/**
+		 * Retrives the tree's root and turns it into a TreeNode.
+		 * 
+		 * @returns A TreeNode containing the tree's root.
+		 */
 		function getRootNode(): TreeNode {
 			let name = Object.entries(predecessorMap).find(([node, parent]) => {
 				return	parent === node
@@ -82,8 +99,15 @@
 			} as TreeNode
 		}
 
+		/**
+		 * Recursively sets the descendant nodes of a node.
+		 * 
+		 * @param node A TreeNode.
+		 * @param root The tree's root node.
+		 * @returns The updated tree.
+		 */
 		function setChildNodes(node: TreeNode, root: TreeNode): TreeNode {
-			node.children = getChildNodes(node.name)?.map((childNode) => setChildNodes(childNode, root))
+			node.children = getChildNodes(node.name).map((childNode) => setChildNodes(childNode, root))
 
 			if (node.name !== root.name && node.children?.length) node.level = "orange"
 
@@ -97,11 +121,24 @@
 		return tree
 	}
 
+	/**
+	 * Collapses a node's `name` if it is an UUID.
+	 * 
+	 * This is done for better readability. Otherwise, the graph will look messy.
+	 * 
+	 * @param name A node's name.
+	 */
 	function transformNodeName(name: string): string {
 		return isUUID(name, 4) ? name.split("-")[0] + "-..." : name
 	}
 
-	function getMarginRight() {
+	/**
+	 * Dynamically calculates the height of the tree visualization.
+	 * The calculation is based on the (in terms of letter amount) longest leave node name that is not a UUID.
+	 * 
+	 * @returns Calculated right margin.
+	 */
+	function getMarginRight(): number {
 		const orderedByDepth = Object.entries(leavesDepthMap).sort((a, b) => b[1] - a[1])
 
 		const orderedByNameLength = orderedByDepth
@@ -113,14 +150,15 @@
 		return longestNodeName.length * 12 + 20
 	}
 
-	function getHeight() {
+	/**
+	 * Dynamically calculates the height of the tree visualization based on the amount of leave nodes.
+	 * 
+	 * @returns Calculated height.
+	 */
+	function getHeight(): number {
 		return Object.entries(leavesDepthMap).length * 55 + 20
 	}
 </script>
-
-<!-- TODO:
-		- maybe some animations/transitions?
--->
 
 {#if nodes}
 	<div id="tree-container" bind:clientWidth={clientWidth}>

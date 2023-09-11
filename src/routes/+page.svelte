@@ -5,7 +5,7 @@
 	Copyright (c) 2013-2023 Start Bootstrap LLC
 	MIT License
 -->
-<header class="masthead text-center text-white">
+<header class="masthead text-center text-light">
 	<div class="masthead-content">
 		<div class="container px-5">
 			<h1 class="masthead-heading mb-0">StateMerger</h1>
@@ -17,6 +17,10 @@
 	<div class="bg-circle-2 bg-circle"></div>
 	<div class="bg-circle-3 bg-circle"></div>
 	<div class="bg-circle-4 bg-circle"></div>
+
+	<div class="fixed-bottom py-5">
+		Eine Projektarbeit an der <a class="link-light" href="https://www.h-ka.de/">Hochschule Karlsruhe</a>.
+	</div>
 </header>
 
 <style>

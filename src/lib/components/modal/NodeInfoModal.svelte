@@ -14,7 +14,7 @@
 	export let open = false;
 	export let showBackdrop = true;
 	export let title = "Modal title";
-	export let unionFunction: (secondNode: string) => void;
+	export let unionFunction: () => void;
 	export let inSameTree: (first: string, second: string) => boolean;
 	export let mergeNodes: {
 		first: string | undefined;
@@ -46,16 +46,16 @@
 					{#if mergeNodes?.first}
 						{#if inSameTree(mergeNodes.first, title)}
 							<button type="button" class="btn btn-danger" disabled>
-								Vereinigen mit <strong>{mergeNodes.first} nicht möglich</strong>
+								Vereinigen mit <strong>{mergeNodes.first}</strong> nicht möglich
 							</button>
 						{:else}
-							<button type="button" class="btn btn-success" on:click={() => { modalClose(); unionFunction(title); }}>
+							<button type="button" class="btn btn-success" on:click={() => { modalClose(); mergeNodes.second = title; unionFunction(); }}>
 								Vereinigen mit <strong>{mergeNodes.first}</strong>
 							</button>
 						{/if}
 					{:else}
 						<button type="button" class="btn btn-primary" on:click={() => { modalClose(); selectNode(); }}>
-							zur Vereinigung markieren
+							zur Vereinigung auswählen
 						</button>
 					{/if}
 				</div>

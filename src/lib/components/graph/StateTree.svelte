@@ -113,6 +113,10 @@
 	}
 </script>
 
+<!-- TODO:
+		- maybe some animations/transitions?
+-->
+
 {#if nodes}
 	<div id="tree-container" bind:clientWidth={clientWidth}>
 		<svg

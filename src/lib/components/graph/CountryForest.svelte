@@ -77,8 +77,6 @@
 	}
 
 	function getStateNames(states: States) {
-		console.log("getStateNames called")
-
 		if (!states) return []
 
 		return Object.entries(states.states.predecessor)
@@ -87,7 +85,6 @@
 	}
 
 	function selectNode(nodeName: string) {
-		console.log("called")
 		let rootNode = findRootWithDepthNoPathCompression($selectedCountryStatesForest, nodeName)!
 		selectedNode = {
 			name: nodeName,
@@ -104,9 +101,13 @@
 
 		return "Stadt oder vereintes Bundesland";
 	}
+
+	function inSameTree(first: string, second: string): boolean {
+		return findRootWithDepthNoPathCompression($selectedCountryStatesForest, first)?.root === findRootWithDepthNoPathCompression($selectedCountryStatesForest, second)?.root
+	}
 </script>
 
-<Modal title={selectedNode?.name} bind:open={modalOpen} {unionFunction} {mergeNodes}>
+<Modal title={selectedNode?.name} bind:open={modalOpen} {unionFunction} {mergeNodes} {inSameTree}>
 	<table class="table table-borderless">
 		<tbody>
 			<tr>

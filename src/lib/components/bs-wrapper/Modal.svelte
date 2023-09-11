@@ -15,6 +15,7 @@
 	export let showBackdrop = true;
 	export let title = "Modal title";
 	export let unionFunction: (secondNode: string) => void;
+	export let inSameTree: (first: string, second: string) => boolean;
 	export let mergeNodes: {
 		first: string | undefined;
 		second: string | undefined
@@ -28,10 +29,6 @@
 		mergeNodes.first = title
 	}
 </script>
-
-<!-- TODO:
-		- disable union if in same tree
--->
 
 {#if open}  
 	<div class="modal" id="nodeInfoModal" tabindex="-1" role="dialog" aria-labelledby="nodeInfoModalLabel" aria-hidden={false} on:click|self={() => modalClose()}>
@@ -47,17 +44,17 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" on:click={() => modalClose()}>Schließen</button>
 					{#if mergeNodes?.first}
-						{#if mergeNodes.first === title}
-							<button type="button" class="btn btn-danger" disabled title="Verenigung nicht mit selben Knoten möglich">
-								Vereinigen mit <strong>{mergeNodes.first}</strong>
+						{#if inSameTree(mergeNodes.first, title)}
+							<button type="button" class="btn btn-danger" disabled>
+								Vereinigen mit <strong>{mergeNodes.first} nicht möglich</strong>
 							</button>
 						{:else}
-							<button type="button" class="btn btn-danger" on:click={() => { modalClose(); unionFunction(title); }}>
+							<button type="button" class="btn btn-success" on:click={() => { modalClose(); unionFunction(title); }}>
 								Vereinigen mit <strong>{mergeNodes.first}</strong>
 							</button>
 						{/if}
 					{:else}
-						<button type="button" class="btn btn-success" on:click={() => { modalClose(); selectNode(); }}>
+						<button type="button" class="btn btn-primary" on:click={() => { modalClose(); selectNode(); }}>
 							zur Vereinigung markieren
 						</button>
 					{/if}

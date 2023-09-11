@@ -11,7 +11,7 @@
 		headline?: boolean;
 	};
 
-	$: currentPage = data.pages.find(page => !page.external && $page.url.pathname === `/${page.link}`)!;
+	$: currentPage = data.pages.find((page: { external: any; link: any; }) => !page.external && $page.url.pathname === `/${page.link}`)!;
 </script>
 
 <svelte:head>

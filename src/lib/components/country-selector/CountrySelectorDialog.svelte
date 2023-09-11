@@ -10,7 +10,8 @@
 	export let graphSettings: {
 		toggleUuidNodeLabels: boolean,
 		toggleInnerNodeLabels: boolean,
-		toggleNodeRanks: boolean
+		toggleNodeRanks: boolean,
+		scrollOnFindState: boolean
 	}
 	
 	let error: string | undefined
@@ -140,6 +141,10 @@
 			<div class="form-check form-switch mb-2">
 				<input class="form-check-input" type="checkbox" role="switch" id="toggleNodeRanks" bind:checked={graphSettings.toggleNodeRanks}>
 				<label class="form-check-label" for="toggleNodeRanks">Ränge von Knoten anzeigen</label>
+			</div>
+			<div class="form-check form-switch mb-2">
+				<input class="form-check-input" type="checkbox" role="switch" id="scrollOnFindState" bind:checked={graphSettings.scrollOnFindState}>
+				<label class="form-check-label" for="scrollOnFindState">Nach Find-State zum Baum scrollen</label>
 			</div>
 		</div>
 	</div>

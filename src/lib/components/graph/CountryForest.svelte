@@ -4,6 +4,7 @@
 	import type { States } from '$lib/model/states';
 
 	export let stateNames: string[];
+	export let stateDivs: { [key: string]: HTMLDivElement };
 	export let findRootWithDepthNoPathCompression: (forest: States, node: string) => { root: string | undefined, depth: number, path: string[] };
 	export let selectNode: (nodeName: string) => void;
 	export let graphSettings: {
@@ -37,15 +38,10 @@
 	}
 </script>
 
-<!-- TODO:
-		- Automatically scroll to a node after Find-State
-		- Automatically scroll to merged tree after Union
--->
-
 <div class="container">
 	<div class="row justify-content-around">
 		{#each stateNames as state}
-			<div class="col{$selectedCountryStatesForest ? ($selectedCountryStatesForest.states.rank[state] < 3 ? '-xl-6' : '-12') : ''}">
+			<div bind:this={stateDivs[state]} class="col{$selectedCountryStatesForest ? ($selectedCountryStatesForest.states.rank[state] < 3 ? '-xl-6' : '-12') : ''}">
 				<StateTree
 					predecessorMap={getFilteredPredecessorMap(state)}
 					rankMap={getFilteredRankMap(state)}

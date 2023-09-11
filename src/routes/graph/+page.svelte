@@ -10,6 +10,7 @@
 
 
 	let stateNames: string[] = [];
+	let stateDivs: { [key: string]: HTMLDivElement } = {};
 	let nodeCount: number;
 	let nodeInfoModal = false;
 
@@ -24,11 +25,13 @@
 	let graphSettings: {
 		toggleUuidNodeLabels: boolean,
 		toggleInnerNodeLabels: boolean,
-		toggleNodeRanks: boolean
+		toggleNodeRanks: boolean,
+		scrollOnFindState: boolean
 	} = {
 		toggleUuidNodeLabels: false,
 		toggleInnerNodeLabels: false,
-		toggleNodeRanks: false
+		toggleNodeRanks: false,
+		scrollOnFindState: false
 	}
 
 	let errorModal: {
@@ -94,6 +97,8 @@
 			root: nodeInfo.root!,
 			path: nodeInfo.path
 		}
+
+		if (graphSettings.scrollOnFindState) scrollIntoView(nodeInfo.root!);
 
 		nodeInfoModal = true
 		stateNames = getStateNames($selectedCountryStatesForest!);
@@ -167,6 +172,12 @@
 		}
 		nodeInfoModal = true;
 	}
+
+	function scrollIntoView(rootName: string) {
+		stateDivs[rootName].scrollIntoView({
+			behavior: 'smooth'
+		});
+	}
 </script>
 
 <ErrorModal title={errorModal.title} bind:open={errorModal.open}>
@@ -197,4 +208,4 @@
 	</div>
 </div>
 
-<CountryForest {stateNames} {findRootWithDepthNoPathCompression} {graphSettings} {selectNode}/>
+<CountryForest {stateNames} bind:stateDivs={stateDivs} {findRootWithDepthNoPathCompression} {graphSettings} {selectNode}/>

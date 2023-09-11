@@ -19,7 +19,8 @@ export default defineConfig({
 					src: 'node_modules/bootstrap-icons/*',
 					dest: 'static/vendor/bootstrap-icons'
 				},
-			]
+			],
+			hook: 'buildStart'
 		})
 	],
 

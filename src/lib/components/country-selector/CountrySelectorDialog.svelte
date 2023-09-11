@@ -17,6 +17,7 @@
 	let error: string | undefined
 	let countryJson: Promise<Config>
 
+	// For now, we hardcode the available countries. Later this might be replaces by an API call.
 	const availableCountries = [
 		{
 			"code": "de",
@@ -28,6 +29,11 @@
 		}
 	]
 
+	/**
+	 * Fetches a country configuration JSON from the server.
+	 * 
+	 * @param countryCode A country code to be looked for.
+	 */
 	async function loadCountryJson(countryCode: string) {
 		countryJson = fetch(`/countries/${countryCode}.json`).then(async (response) => {
 			let responseJson = await response.json()
@@ -36,10 +42,21 @@
 		})
 	}
 
+	/**
+	 * Initiates the construction of the disjoint-set forest data structure from `responseJson`.
+	 * Will be stored inside a svelte/store.
+	 * 
+	 * @param responseJson A countrie's configuration JSON.
+	 */
 	function makeDisjointSetForest(responseJson: Config) {
 		$selectedCountryStatesForest = new ConfigParser(JSON.stringify(responseJson)).buildStates()
 	}
 
+	/**
+	 * Sets the country for further processing into a svelte/store.
+	 * 
+	 * @param country
+	 */
 	function setCountry(country: CountryMeta) {
 		if (!availableCountries.find(_country => _country === country)) {
 			error = "Das ausgewählte Land ist ungültig."
@@ -100,7 +117,7 @@
 						<i class="bi-exclamation-triangle-fill"></i>
 					</div>
 					<div>
-						Sobald ein Land geladen wurde, wird die Ansicht zurückgesetzt und ggf. eigens erstellte Städte und Bundesländer entfernt.
+						Sobald ein Land geladen wurde, wird die Ansicht zurückgesetzt und ggf. eigens erstellte Städte und Bundesländer <strong>entfernt</strong>.
 					</div>
 				</div>
 			{/if}

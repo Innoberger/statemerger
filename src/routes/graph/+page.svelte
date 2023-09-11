@@ -52,15 +52,19 @@
 	};
 
 	$: stateNames = getStateNames($selectedCountryStatesForest!);
-
 	$: nodeCount = countNodes(stateNames);
 
+	/**
+	 * Finds the root (and other information) of a `node` in a `forest`.
+	 * 
+	 * Recursively walks up the tree, but does not apply path compression.
+	 * This is for visualization purposes only!
+	 * 
+	 * @param forest States object to find the root in.
+	 * @param node A node name to be searched.
+	 * @returns An object containing the `root` name (or undefined if node is not found), the node's `depth` and a `path` from the root to the node.
+	 */
 	function findRootWithDepthNoPathCompression(forest: States, node: string): { root: string | undefined, depth: number, path: string[] } {
-		/*
-		* Recursively walk up the tree,
-		* but do not apply path compression.
-		* This is for visualization purposes only!
-		*/
 		if (node !== forest.states.predecessor[node]) {
 			let _root = findRootWithDepthNoPathCompression(forest, forest.states.predecessor[node]!)!
 			_root.path.push(node)
@@ -70,6 +74,12 @@
 		return { root: forest.states.predecessor[node], depth: 0, path: [node] };
 	}
 
+	/**
+	 * Retrieves the state names form the state's predecessor map.
+	 * 
+	 * @param states States object to extract the state names.
+	 * @returns A string list of state names.
+	 */
 	function getStateNames(states: States): string[] {
 		if (!states) return []
 
@@ -78,12 +88,27 @@
 			.map(([_name, _predecessor]) => _name)
 	}
 
+	/**
+	 * Checks if the two nodes `first` and `second` are in the same tree.
+	 * 
+	 * @param first A node.
+	 * @param second Another node.
+	 * 
+	 * @returns Boolean indicating if `first` and `second` are part of the same tree.
+	 */
 	function inSameTree(first: string, second: string): boolean {
 		return findRootWithDepthNoPathCompression($selectedCountryStatesForest!, first).root === findRootWithDepthNoPathCompression($selectedCountryStatesForest!, second).root
 	}
 
+	/**
+	 * Function to search for the root, which UI elements can call.
+	 * 
+	 * @param search A node to be looked for.
+	 */
 	function findStateFunction(search: string) {
 		let result = $selectedCountryStatesForest!.findState(search!);
+
+		// Only to retrieve depth and path of the root
 		let nodeInfo = findRootWithDepthNoPathCompression($selectedCountryStatesForest!, search)
 
 		if (undefined === result) {
@@ -104,6 +129,9 @@
 		stateNames = getStateNames($selectedCountryStatesForest!);
 	}
 
+	/**
+	 * Function to merge the two selected nodes in `mergeNodes`. This function should only be called by UI elements.
+	 */
 	function unionFunction() {
 		if (!(mergeNodes && mergeNodes.first && mergeNodes.second)) {
 			errorModal = { title: "Union fehlgeschlagen", error: "Erster und zweiter Knoten müssen ausgewählt werden.", open: true }
@@ -137,6 +165,13 @@
 		}
 	}
 
+	/**
+	 * Function to create a new `state` containing only a `city`. This function should only be called by UI elements.
+	 * 
+	 * @param city A city name.
+	 * @param state A state name.
+	 * @returns Operation was successful or not.
+	 */
 	function makeStateFunction(city: string, state: string): boolean {
 		if (city === state) {
 			errorModal = { title: "Make-State fehlgeschlagen", error: "Stadt und Bundesland dürfen nicht gleich benannt werden.", open: true }
@@ -152,16 +187,29 @@
 		}
 
 		$selectedCountryStatesForest.makeState(city, state)
+
+		// To trigger a re-render, we must trigger an update of stateNames
 		stateNames = getStateNames($selectedCountryStatesForest)
 		return true;
 	}
 
+	/**
+	 * Counts the amount of nodes inside the forest.
+	 * 
+	 * @param states Needed array of stateNames, otherwise this function will not be invoked on data updates.
+	 * @returns Amount of nodes.
+	 */
 	function countNodes(states: string[]): number {
 		if (!(states && $selectedCountryStatesForest)) return 0;
 
 		return Object.entries($selectedCountryStatesForest.states.predecessor).length;
 	}
 
+	/**
+	 * Selects a node insie the forest and opens the NodeInfoModal.
+	 * 
+	 * @param nodeName Name of the node to be selected.
+	 */
 	function selectNode(nodeName: string) {
 		let rootNode = findRootWithDepthNoPathCompression($selectedCountryStatesForest!, nodeName)
 		selectedNode = {
@@ -173,6 +221,11 @@
 		nodeInfoModal = true;
 	}
 
+	/**
+	 * Scrolls a tree into focus.
+	 * 
+	 * @param rootName Name of the tree's root.
+	 */
 	function scrollIntoView(rootName: string) {
 		stateDivs[rootName].scrollIntoView({
 			behavior: 'smooth'
@@ -203,7 +256,7 @@
 				Es befinden sich <strong>{stateNames.length} Bundesländer</strong> mit insgesamt <strong>{nodeCount} Knoten</strong> in der Datenstruktur.
 			{/if}
 		{:else}
-			Um zu beginnen, bitte zunächst ein Land auswählen oder mit Make-State erstellen.
+			Um zu beginnen, bitte zunächst ein Land auswählen oder mit <strong>Make-State</strong> erstellen.
 		{/if}
 	</div>
 </div>

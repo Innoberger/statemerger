@@ -141,7 +141,7 @@
 		if (!$selectedCountryStatesForest) $selectedCountryStatesForest = new States()
 
 		if (undefined !== findRootWithDepthNoPathCompression($selectedCountryStatesForest, city).root ||
-			undefined !== findRootWithDepthNoPathCompression($selectedCountryStatesForest, city).root) {
+			undefined !== findRootWithDepthNoPathCompression($selectedCountryStatesForest, state).root) {
 			errorModal = { title: "Make-State fehlgeschlagen", error: "Stadt oder Bundesland existieren bereits.", open: true }
 			return false;
 		}

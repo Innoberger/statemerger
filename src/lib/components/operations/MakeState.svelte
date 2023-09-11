@@ -14,8 +14,14 @@
 
 <div class="input-group mb-2">
 	<span class="input-group-text">Make-State</span>
-	<input type="text" placeholder="Neue Stadt" bind:value={city} class="form-control"/>
-	<input type="text" placeholder="Neues Bundesland" bind:value={state} disabled={!city} class="form-control"/>
+	<div class="form-floating">
+		<input type="text" id="city" placeholder="Neue Stadt" bind:value={city} class="form-control"/>
+		<label for="city">Neue Stadt</label>
+	</div>
+	<div class="form-floating">
+		<input type="text" id="state" placeholder="Neues Bundesland" bind:value={state} class="form-control" disabled={!city}/>
+		<label for="state">Neues Bundesland</label>
+	</div>
 	<button class="btn btn-outline-danger" type="button" on:click={() => { city = undefined; state = undefined }} disabled={!(city || state)}>Leeren</button>
 	<button class="btn btn-outline-success" type="button" disabled={!(city && state) || city === state} on:click="{() => execMakeState()}">Erstellen</button>
 </div>

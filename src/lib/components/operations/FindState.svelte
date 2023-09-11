@@ -8,7 +8,10 @@
 
 <div class="input-group mb-2">
 	<span class="input-group-text">Find-State</span>
-	<input type="text" placeholder="Exakte Bezeichnung einer Stadt oder eines Knotens" bind:value={search} class="form-control"/>
+	<div class="form-floating">
+		<input type="text" id="search" placeholder="Exakte Bezeichnung einer Stadt oder eines Knotens" bind:value={search} class="form-control"/>
+		<label for="search">Exakte Bezeichnung einer Stadt oder eines Knotens</label>
+	</div>
 	<button class="btn btn-outline-danger" type="button" on:click={() => search = undefined} disabled={!search}>Leeren</button>
 	<button class="btn btn-outline-success" type="button" on:click={() => { findStateFunction(search ?? ""); search = undefined; }} disabled={!search}>Suchen</button>
 </div>

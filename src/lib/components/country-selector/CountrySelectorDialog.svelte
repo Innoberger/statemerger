@@ -52,36 +52,45 @@
 			<p>Die folgende Liste zeigt die verfügbaren Länder von StateMerger zum jetzigen Zeitpunkt.</p>
 			<p>Bitte eines der nachfolgenden Länder auswählen, um zu beginnen.</p>
 		</div>
-			{#if countryJson}
-				{#await countryJson}
-					<div class="alert alert-info d-flex align-items-center" role="alert">
-						<div class="me-3">
-							<div class="spinner-border spinner-border-sm ms-auto" aria-hidden="true"></div>
-						</div>
-						<div>
-							<strong role="status">Loading...</strong>
-						</div>
+		{#if countryJson}
+			{#await countryJson}
+				<div class="alert alert-info d-flex align-items-center" role="alert">
+					<div class="me-3">
+						<div class="spinner-border spinner-border-sm ms-auto" aria-hidden="true"></div>
 					</div>
-				{:then value}
-					<div class="alert alert-success d-flex align-items-center" role="alert">
-						<div class="me-3">
-							<i class="bi-check-circle-fill"></i>
-						</div>
-						<div>
-							Die Länder-Datei zu <strong>{$selectedCountry ? $selectedCountry.name : "unbekannt"}</strong> wurde erfolgreich geladen.
-						</div>
+					<div>
+						<strong role="status">Loading...</strong>
 					</div>
-				{:catch _error}
-					<div class="alert alert-danger d-flex align-items-center" role="alert">
-						<div class="me-3">
-							<i class="bi-exclamation-triangle-fill"></i>
-						</div>
-						<div>
-							Die Länder-Datei zu <strong>{$selectedCountry ? $selectedCountry.name : "unbekannt"}</strong> konnte nicht geladen werden.
-						</div>
+				</div>
+			{:then value}
+				<div class="alert alert-success d-flex align-items-center" role="alert">
+					<div class="me-3">
+						<i class="bi-check-circle-fill"></i>
 					</div>
-				{/await}
-			{/if}
+					<div>
+						Die Länder-Datei zu <strong>{$selectedCountry ? $selectedCountry.name : "unbekannt"}</strong> wurde erfolgreich geladen.
+					</div>
+				</div>
+			{:catch _error}
+				<div class="alert alert-danger d-flex align-items-center" role="alert">
+					<div class="me-3">
+						<i class="bi-exclamation-triangle-fill"></i>
+					</div>
+					<div>
+						Die Länder-Datei zu <strong>{$selectedCountry ? $selectedCountry.name : "unbekannt"}</strong> konnte nicht geladen werden.
+					</div>
+				</div>
+			{/await}
+		{:else if !countryJson && !error}
+			<div class="alert alert-warning d-flex align-items-center" role="alert">
+				<div class="me-3">
+					<i class="bi-exclamation-triangle-fill"></i>
+				</div>
+				<div>
+					Sobald ein Land geladen wurde, wird die Ansicht zurückgesetzt und ggf. eigens erstellte Städte und Bundesländer entfernt.
+				</div>
+			</div>
+		{/if}
 		{#if error}
 			<div class="alert alert-danger d-flex align-items-center" role="alert">
 				<div class="me-3">

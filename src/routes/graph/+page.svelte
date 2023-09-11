@@ -4,7 +4,7 @@
 	import CountryForest from '$lib/components/graph/CountryForest.svelte'
 	import NodeInfoModal from '$lib/components/modal/NodeInfoModal.svelte';
 	import Operations from '$lib/components/operations/Operations.svelte';
-	import type { States } from '$lib/model/states';
+	import { States } from '$lib/model/states';
 	import { selectedCountryStatesForest } from '$lib/stores/selected-country';
 
 
@@ -87,7 +87,12 @@
 
 	function unionFunction() {
 		if (!(mergeNodes && mergeNodes.first && mergeNodes.second)) {
-			errorModal = { title: "Vereinigung fehlgeschlagen", error: "Erster und zweiter Knoten müssen ausgewählt werden.", open: true }
+			errorModal = { title: "Union fehlgeschlagen", error: "Erster und zweiter Knoten müssen ausgewählt werden.", open: true }
+			return;
+		}
+
+		if (mergeNodes.first === mergeNodes.second) {
+			errorModal = { title: "Union fehlgeschlagen", error: "Union eines Knotens mit sich selbst nicht möglich.", open: true }
 			return;
 		}
 
@@ -95,12 +100,12 @@
 		let secondRoot = findRootWithDepthNoPathCompression($selectedCountryStatesForest, mergeNodes.second).root
 
 		if (undefined === firstRoot || undefined === secondRoot) {
-			errorModal = { title: "Vereinigung fehlgeschlagen", error: "Erster oder zweiter Knoten existiert nicht.", open: true }
+			errorModal = { title: "Union fehlgeschlagen", error: "Erster oder zweiter Knoten existiert nicht.", open: true }
 			return;
 		}
 
 		if (firstRoot === secondRoot) {
-			errorModal = { title: "Vereinigung fehlgeschlagen", error: "Vereinigung innerhalb eines Baumes nicht möglich.", open: true }
+			errorModal = { title: "Union fehlgeschlagen", error: "Union innerhalb eines Baumes nicht möglich.", open: true }
 			return;
 		}
 
@@ -112,13 +117,29 @@
 			second: undefined
 		}
 	}
+
+	function makeStateFunction(city: string, state: string): boolean {
+		if (city === state) {
+			errorModal = { title: "Make-State fehlgeschlagen", error: "Stadt und Bundesland dürfen nicht gleich benannt werden.", open: true }
+			return false;
+		}
+
+		if (!$selectedCountryStatesForest) $selectedCountryStatesForest = new States()
+
+		if (undefined !== findRootWithDepthNoPathCompression($selectedCountryStatesForest, city).root ||
+			undefined !== findRootWithDepthNoPathCompression($selectedCountryStatesForest, city).root) {
+			errorModal = { title: "Make-State fehlgeschlagen", error: "Stadt oder Bundesland existieren bereits.", open: true }
+			return false;
+		}
+
+		$selectedCountryStatesForest.makeState(city, state)
+		stateNames = getStateNames($selectedCountryStatesForest)
+		return true;
+	}
 </script>
 
 <!-- TODO:
-		- Display selected nodes here
 		- Display the amount of trees in the forest here
-		- Button to unselect selectedNodes.first
-		- Forms for Make-State, Find-State and Union
 		- Settings
 			* toggle for show uuid node names
 			* toggle for show non-root and non-leave node names
@@ -133,7 +154,7 @@
 
 <CountrySelectorButton />
 
-<Operations bind:mergeNodes={mergeNodes} {findStateFunction} {unionFunction}/>
+<Operations bind:mergeNodes={mergeNodes} {findStateFunction} {unionFunction} {makeStateFunction}/>
 
 {#if !$selectedCountryStatesForest}
 	<div class="alert alert-info d-flex align-items-center" role="alert">

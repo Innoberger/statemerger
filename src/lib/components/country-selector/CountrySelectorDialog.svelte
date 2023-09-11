@@ -161,7 +161,7 @@
 			</div>
 			<div class="form-check form-switch mb-2">
 				<input class="form-check-input" type="checkbox" role="switch" id="scrollOnFindState" bind:checked={graphSettings.scrollOnFindState}>
-				<label class="form-check-label" for="scrollOnFindState">Nach Find-State zum Baum scrollen</label>
+				<label class="form-check-label" for="scrollOnFindState">Nach <span class="font-monospace">Find-State</span> zum Baum scrollen</label>
 			</div>
 		</div>
 	</div>

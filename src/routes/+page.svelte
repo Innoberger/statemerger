@@ -19,7 +19,7 @@
 	<div class="bg-circle-4 bg-circle"></div>
 
 	<div class="fixed-bottom py-5">
-		Eine Projektarbeit an der <a class="link-light" href="https://www.h-ka.de/">Hochschule Karlsruhe</a>.
+		Eine Projektarbeit an der <a class="link-light" target="_blank" href="https://www.h-ka.de/">Hochschule Karlsruhe</a>.
 	</div>
 </header>
 

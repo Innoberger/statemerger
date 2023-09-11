@@ -17,7 +17,7 @@
 </script>
 
 <div class="input-group mb-2">
-	<span class="input-group-text">Make-State</span>
+	<span class="input-group-text font-monospace">Make-State</span>
 	<div class="form-floating">
 		<input type="text" id="city" placeholder="Neue Stadt" bind:value={city} class="form-control"/>
 		<label for="city">Neue Stadt</label>

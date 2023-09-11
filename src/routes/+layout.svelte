@@ -4,13 +4,14 @@
 	export let data;
 	export let currentPage: {
 		title: string;
+		external: boolean;
 		link: string;
 		icon: string;
-		description: string;
-		headline: boolean;
+		description?: string;
+		headline?: boolean;
 	};
 
-	$: currentPage = data.pages.find(page => $page.url.pathname === `/${page.link}`)!;
+	$: currentPage = data.pages.find(page => !page.external && $page.url.pathname === `/${page.link}`)!;
 </script>
 
 <svelte:head>
@@ -33,7 +34,7 @@
 						<ul class="navbar-nav ms-auto">
 							{#each data.pages as page}
 								<li class="nav-item">
-									<a class="nav-link {currentPage.link === page.link ? 'active' : ''}" aria-current="page" href="/{page.link}">
+									<a class="nav-link {currentPage.link === page.link ? 'active' : ''}" target="{page.external ? '_blank' : '' }" aria-current="page" href="{page.external ? '' : '/'}{page.link}">
 										<i class="bi-{page.icon}"></i>
 										<span>{page.title}</span>
 									</a>
@@ -59,8 +60,13 @@
 		</div>
 
 		<footer class="bg-dark text-secondary py-3">
-			<div class="container-md">
-				<strong>StateMerger:</strong> Optimierung der Bundesrepublik. Eine Projektarbeit an der <a class="link-secondary" href="https://www.h-ka.de/">Hochschule Karlsruhe</a>.
+			<div class="container-md d-flex justify-content-between">
+				<div>
+					<strong>StateMerger:</strong> Optimierung der Bundesrepublik. Eine Projektarbeit an der <a class="link-secondary" target="_blank" href="https://www.h-ka.de/">Hochschule Karlsruhe</a>.
+				</div>
+				<div>
+					&copy; 2023 Fynn Arnold. Licensed under the <a class="link-secondary" target="_blank" href="https://github.com/Innoberger/statemerger/blob/main/LICENSE">EUPL</a>.
+				</div>				
 			</div>
 		</footer>
 	</div>

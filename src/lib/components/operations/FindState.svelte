@@ -5,7 +5,7 @@
 </script>
 
 <div class="input-group mb-2">
-	<span class="input-group-text">Find-State</span>
+	<span class="input-group-text font-monospace">Find-State</span>
 	<div class="form-floating">
 		<input type="text" id="search" placeholder="Exakte Bezeichnung einer Stadt oder eines Knotens" bind:value={search} class="form-control"/>
 		<label for="search">Exakte Bezeichnung einer Stadt oder eines Knotens</label>

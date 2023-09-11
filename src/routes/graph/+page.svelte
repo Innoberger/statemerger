@@ -256,7 +256,7 @@
 				Es befinden sich <strong>{stateNames.length} Bundesländer</strong> mit insgesamt <strong>{nodeCount} Knoten</strong> in der Datenstruktur.
 			{/if}
 		{:else}
-			Um zu beginnen, bitte zunächst ein Land auswählen oder mit <strong>Make-State</strong> erstellen.
+			Um zu beginnen, bitte zunächst ein Land auswählen oder mit <span class="font-monospace">Make-State</span> ein Bundesland erstellen.
 		{/if}
 	</div>
 </div>

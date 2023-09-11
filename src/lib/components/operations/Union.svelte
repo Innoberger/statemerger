@@ -7,7 +7,7 @@
 </script>
 
 <div class="input-group mb-2">
-	<span class="input-group-text">Union</span>
+	<span class="input-group-text font-monospace">Union</span>
 	<div class="form-floating">
 		<input type="text" id="firstNode" placeholder="Erster Knoten" bind:value={mergeNodes.first} class="form-control"/>
 		<label for="firstNode">Erster Knoten</label>

@@ -46,7 +46,7 @@ For unit testing, run `npm test`.
 
 ### Build for production
 
-To build the application for production, run `npm run build`.
+To build the application for production, run `npm run build`. This will create a `build` dir with the application content.
 
 
 ## Contributing

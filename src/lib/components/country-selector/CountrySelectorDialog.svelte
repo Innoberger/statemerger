@@ -20,6 +20,10 @@
 		{
 			"code": "de",
 			"name": "Deutschland"
+		},
+		{
+			"code": "at",
+			"name": "Österreich"
 		}
 	]
 
@@ -125,15 +129,15 @@
 		<hr class="mb-4 mt-4" />
 		<div class="mt-12">
 			<h6>Anzeigeoptionen</h6>
-			<div class="form-check form-switch">
+			<div class="form-check form-switch mb-2">
 				<input class="form-check-input" type="checkbox" role="switch" id="toggleUuidNodeLabels" bind:checked={graphSettings.toggleUuidNodeLabels}>
 				<label class="form-check-label" for="toggleUuidNodeLabels">Beschriftung von Hilfsknoten mit UUID anzeigen</label>
 			</div>
-			<div class="form-check form-switch">
+			<div class="form-check form-switch mb-2">
 				<input class="form-check-input" type="checkbox" role="switch" id="toggleInnerNodeLabels" bind:checked={graphSettings.toggleInnerNodeLabels}>
 				<label class="form-check-label" for="toggleInnerNodeLabels">Beschriftung innerer Knoten anzeigen</label>
 			</div>
-			<div class="form-check form-switch">
+			<div class="form-check form-switch mb-2">
 				<input class="form-check-input" type="checkbox" role="switch" id="toggleNodeRanks" bind:checked={graphSettings.toggleNodeRanks}>
 				<label class="form-check-label" for="toggleNodeRanks">Ränge von Knoten anzeigen</label>
 			</div>

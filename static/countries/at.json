@@ -1,0 +1,82 @@
+{
+    "states": [
+        {
+            "name": "Burgenland",
+            "cities": [
+                "Eisenstadt",
+                "Neusiedl am See",
+                "Oberwart",
+                "Mattersburg"
+            ]
+        },
+        {
+            "name": "Kärnten",
+            "cities": [
+                "Klagenfurt",
+                "Villach",
+                "Wolfsberg",
+                "Spittal"
+            ]
+        },
+        {
+            "name": "Niederösterreich",
+            "cities": [
+                "St. Pölten",
+                "Wiener Neustadt",
+                "Klosterneuburg",
+                "Baden",
+                "Krems",
+                "Amstetten"
+            ]
+        },
+        {
+            "name": "Oberösterreich",
+            "cities": [
+                "Linz",
+                "Wels",
+                "Steyr",
+                "Leonding"
+            ]
+        },
+        {
+            "name": "Salzburg (Land)",
+            "cities": [
+                "Salzburg (Stadt)",
+                "Hallein",
+                "Saalfelden",
+                "Zell am See"
+            ]
+        },
+        {
+            "name": "Steiermark",
+            "cities": [
+                "Graz",
+                "Leoben",
+                "Kapfenberg"
+            ]
+        },
+        {
+            "name": "Tirol",
+            "cities": [
+                "Innsbruck",
+                "Kufstein",
+                "Telfs",
+                "Hall in Tirol"
+            ]
+        },
+        {
+            "name": "Vorarlberg",
+            "cities": [
+                "Bregenz",
+                "Dornbirn",
+                "Feldkirch"
+            ]
+        },
+        {
+            "name": "Wien (Land)",
+            "cities": [
+                "Wien (Stadt)"
+            ]
+        }
+    ]
+}

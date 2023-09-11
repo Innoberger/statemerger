@@ -2,30 +2,15 @@
     import StateTree from './StateTree.svelte';
 	import { selectedCountryStatesForest } from '$lib/stores/selected-country';
 	import type { States } from '$lib/model/states';
-	import NodeInfoModal from '../modal/NodeInfoModal.svelte';
 
 	export let stateNames: string[];
-	export let unionFunction: () => void;
-	export let inSameTree: (first: string, second: string) => boolean;
 	export let findRootWithDepthNoPathCompression: (forest: States, node: string) => { root: string | undefined, depth: number, path: string[] };
-	export let mergeNodes: {
-		first: string | undefined;
-		second: string | undefined
-	};
+	export let selectNode: (nodeName: string) => void;
 	export let graphSettings: {
 		toggleUuidNodeLabels: boolean,
 		toggleInnerNodeLabels: boolean,
 		toggleNodeRanks: boolean
 	}
-
-	let modalOpen: boolean = false;
-
-	let selectedNode: {
-		name: string,
-		depth: number,
-		root: string,
-		path: string[]
-	};
 
 	function getFilteredPredecessorMap(stateName: string): { [key: string]: string } {
 		const filteredPredecessors = Object.entries($selectedCountryStatesForest!.states.predecessor)
@@ -50,25 +35,12 @@
 
 		return Object.fromEntries(leavesArray)
 	}
-
-	function selectNode(nodeName: string) {
-		let rootNode = findRootWithDepthNoPathCompression($selectedCountryStatesForest!, nodeName)
-		selectedNode = {
-			name: nodeName,
-			depth: rootNode.depth,
-			root: rootNode.root!,
-			path: rootNode.path
-		}
-		modalOpen = true;
-	}
 </script>
 
 <!-- TODO:
 		- Automatically scroll to a node after Find-State
 		- Automatically scroll to merged tree after Union
 -->
-
-<NodeInfoModal {selectedNode} bind:open={modalOpen} {unionFunction} bind:mergeNodes={mergeNodes} {inSameTree} />
 
 <div class="container">
 	<div class="row justify-content-around">

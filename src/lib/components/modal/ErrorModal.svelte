@@ -21,11 +21,11 @@
 </script>
 
 {#if open}  
-	<div class="modal" id="nodeInfoModal" tabindex="-1" role="dialog" aria-labelledby="nodeInfoModalLabel" aria-hidden={false} on:click|self={() => modalClose()}>
+	<div class="modal" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden={false} on:click|self={() => modalClose()}>
 		<div class="modal-dialog" role="document" in:fly={{ y: -50, duration: 300 }} out:fly={{ y: -50, duration: 300, easing: quintOut }}>
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="nodeInfoModalLabel">
+					<h4 class="modal-title" id="errorModalLabel">
 						<i class="bi-exclamation-triangle-fill"></i>
 						<span>{title}</span>
 					</h4>

@@ -84,7 +84,7 @@
 		let nodeInfo = findRootWithDepthNoPathCompression($selectedCountryStatesForest!, search)
 
 		if (undefined === result) {
-			errorModal = { title: "404 Not Found", error: `Die gesuchte Stadt bzw. der gesuchte Knoten wurden in keinem Bundesland gefunden.`, open: true };
+			errorModal = { title: "404 Not Found", error: "Die gesuchte Stadt bzw. der gesuchte Knoten wurde in keinem Bundesland gefunden.", open: true };
 			return;
 		}
 
@@ -156,6 +156,17 @@
 
 		return Object.entries($selectedCountryStatesForest.states.predecessor).length;
 	}
+
+	function selectNode(nodeName: string) {
+		let rootNode = findRootWithDepthNoPathCompression($selectedCountryStatesForest!, nodeName)
+		selectedNode = {
+			name: nodeName,
+			depth: rootNode.depth,
+			root: rootNode.root!,
+			path: rootNode.path
+		}
+		nodeInfoModal = true;
+	}
 </script>
 
 <ErrorModal title={errorModal.title} bind:open={errorModal.open}>
@@ -186,4 +197,4 @@
 	</div>
 </div>
 
-<CountryForest bind:mergeNodes={mergeNodes} {stateNames} {unionFunction} {inSameTree} {findRootWithDepthNoPathCompression} {graphSettings}/>
+<CountryForest {stateNames} {findRootWithDepthNoPathCompression} {graphSettings} {selectNode}/>

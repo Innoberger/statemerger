@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="./favicon.png" />
+		<link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./vendor/bootstrap-icons/font/bootstrap-icons.min.css">
+		<meta name="viewport" content="width=device-width" />
+		
+		<link href="./_app/immutable/assets/0.5be728ba.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/3.d8de300d.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.dc1d37af.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.b42ecff4.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.bee2dd34.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.65c3f2f9.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.479bea1b.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.b47e8805.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.8226db33.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/each.e59479a4.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/stores.0282a3db.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/3.01e69f5b.js"><title>Graph | StateMerger</title><!-- HEAD_svelte-v0zw64_START --><meta name="description" content="Baumansicht für den StateMerger"><!-- HEAD_svelte-v0zw64_END -->
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">   <div class="min-vh-100 root svelte-1o54fax"><div class="d-flex flex-column wrapper svelte-1o54fax"><nav class="navbar navbar-dark bg-dark sticky-top navbar-expand-lg"><div class="container-md"><strong data-svelte-h="svelte-1y2as8"><a class="navbar-brand" href="/">StateMerger</a></strong> <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" data-svelte-h="svelte-7r32jr"><span class="navbar-toggler-icon"></span></button> <div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto"><li class="nav-item"><a class="nav-link " target="" aria-current="page" href="/"><i class="bi-house-door-fill svelte-1o54fax"></i> <span>Start</span></a> </li><li class="nav-item"><a class="nav-link active" target="" aria-current="page" href="/graph"><i class="bi-diagram-3-fill svelte-1o54fax"></i> <span>Graph</span></a> </li><li class="nav-item"><a class="nav-link " target="" aria-current="page" href="/help"><i class="bi-question-lg svelte-1o54fax"></i> <span>Hilfe</span></a> </li><li class="nav-item"><a class="nav-link " target="_blank" aria-current="page" href="https://github.com/Innoberger/statemerger"><i class="bi-github svelte-1o54fax"></i> <span>GitHub</span></a> </li></ul></div></div></nav> <main class="py-4"><div class="container-md"><h1><i class="bi-diagram-3-fill svelte-1o54fax"></i> <span>Graph</span></h1> <hr> <div class="pt-1 text-justify svelte-1o54fax">  <div class="input-group mb-4"><span class="input-group-text" data-svelte-h="svelte-1107lfc">Land</span> <input type="text" class="form-control" aria-label="Ausgewähltes Land" aria-describedby="select-country-dialog-trigger-button" placeholder="nicht ausgewählt" readonly> <button class="btn btn-outline-primary" type="button" id="select-country-dialog-trigger-button" data-bs-toggle="offcanvas" data-bs-target="#country-selector-dialog" aria-controls="country-selector-dialog" data-svelte-h="svelte-1lixy44">Einstellungen</button> </div> <div class="offcanvas offcanvas-start" tabindex="-1" id="country-selector-dialog" aria-labelledby="country-selector-dialog-label"><div class="offcanvas-header" data-svelte-h="svelte-1hjkxfg"><h5 class="offcanvas-title" id="country-selector-dialog-label">Einstellungen</h5> <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div> <div class="offcanvas-body"><div class="pb-10"><h6 data-svelte-h="svelte-1o4hw2u">Länderauswahl</h6> <div data-svelte-h="svelte-mr3cj4"><p>Die folgende Liste zeigt die verfügbaren Länder von StateMerger zum jetzigen Zeitpunkt.</p> <p>Bitte eines der nachfolgenden Länder auswählen, um zu beginnen.</p></div> <div class="alert alert-warning d-flex align-items-center" role="alert" data-svelte-h="svelte-r51748"><div class="me-3"><i class="bi-exclamation-triangle-fill"></i></div> <div>Sobald ein Land geladen wurde, wird die Ansicht zurückgesetzt und ggf. eigens erstellte Städte und Bundesländer <strong>entfernt</strong>.</div></div>  <div class="dropdown mt-3"><button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" >nicht ausgewählt</button> <ul class="dropdown-menu">  <li class="dropdown-item cursor-hover svelte-1snq1i6">Deutschland</li>  <li class="dropdown-item cursor-hover svelte-1snq1i6">Österreich</li></ul></div></div> <hr class="mb-4 mt-4"> <div class="mt-12"><h6 data-svelte-h="svelte-1vyqo47">Anzeigeoptionen</h6> <div class="form-check form-switch mb-2"><input class="form-check-input" type="checkbox" role="switch" id="toggleUuidNodeLabels"> <label class="form-check-label" for="toggleUuidNodeLabels" data-svelte-h="svelte-yedrzb">Beschriftung von Hilfsknoten mit UUID anzeigen</label></div> <div class="form-check form-switch mb-2"><input class="form-check-input" type="checkbox" role="switch" id="toggleInnerNodeLabels"> <label class="form-check-label" for="toggleInnerNodeLabels" data-svelte-h="svelte-1ixruu3">Beschriftung innerer Knoten anzeigen</label></div> <div class="form-check form-switch mb-2"><input class="form-check-input" type="checkbox" role="switch" id="toggleNodeRanks"> <label class="form-check-label" for="toggleNodeRanks" data-svelte-h="svelte-22xwlr">Ränge von Knoten anzeigen</label></div> <div class="form-check form-switch mb-2"><input class="form-check-input" type="checkbox" role="switch" id="scrollOnFindState"> <label class="form-check-label" for="scrollOnFindState" data-svelte-h="svelte-qv004w">Nach <span class="font-monospace">Find-State</span> zum Baum scrollen</label></div></div></div> </div> <div class="mb-4"> <div class="input-group mb-2"><span class="input-group-text font-monospace" data-svelte-h="svelte-1j3iqyy">Make-State</span> <div class="form-floating"><input type="text" id="city" placeholder="Neue Stadt" class="form-control"> <label for="city" data-svelte-h="svelte-e7x2e4">Neue Stadt</label></div> <div class="form-floating"><input type="text" id="state" placeholder="Neues Bundesland" class="form-control" disabled> <label for="state" data-svelte-h="svelte-1b3af9v">Neues Bundesland</label></div> <button class="btn btn-outline-danger" type="button" disabled>Leeren</button> <button class="btn btn-outline-success" type="button" disabled>Erstellen</button></div></div> <div class="alert alert-info d-flex align-items-center mb-5" role="alert"><div class="me-3" data-svelte-h="svelte-ujw1qd"><i class="bi-info-circle-fill"></i></div> <div>Um zu beginnen, bitte zunächst ein Land auswählen oder mit <span class="font-monospace" data-svelte-h="svelte-67r8eq">Make-State</span> ein Bundesland erstellen.</div></div> <div class="container"><div class="row justify-content-around"></div></div></div></div></main></div> <footer class="bg-dark text-secondary py-3" data-svelte-h="svelte-3ij7f"><div class="container-md d-flex justify-content-between"><div><strong>StateMerger:</strong> Optimierung der Bundesrepublik. Eine Projektarbeit an der <a class="link-secondary" target="_blank" href="https://www.h-ka.de/">Hochschule Karlsruhe</a>.</div> <div>© 2023 Fynn Arnold. Licensed under the <a class="link-secondary" target="_blank" href="https://github.com/Innoberger/statemerger/blob/main/LICENSE">EUPL</a>.</div></div></footer></div> 
+			
+			<script>
+				{
+					__sveltekit_17vp91b = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.dc1d37af.js"),
+						import("./_app/immutable/entry/app.479bea1b.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 3],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+		<script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	</body>
+</html>

@@ -12,8 +12,6 @@
 	import { quintOut } from "svelte/easing";
 	import { isUUID } from "class-validator";
 	import { selectedCountryStatesForest } from "$lib/stores/selected-country";
-	import type { States } from "$lib/model/states";
-	import { reverse } from "d3";
 
 	export let open = false;
 	export let showBackdrop = true;

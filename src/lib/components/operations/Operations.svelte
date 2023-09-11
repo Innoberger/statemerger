@@ -13,7 +13,7 @@
 	};
 </script>
 
-<div class="mb-5">
+<div class="mb-4">
 	{#if $selectedCountryStatesForest}
 		<FindState {findStateFunction}/>
 		<Union bind:mergeNodes={mergeNodes} {unionFunction}/>

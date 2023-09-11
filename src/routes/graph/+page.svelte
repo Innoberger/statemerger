@@ -9,6 +9,7 @@
 
 
 	let stateNames: string[] = [];
+	let nodeCount: number;
 	let nodeInfoModal = false;
 
 	let mergeNodes: {
@@ -37,6 +38,8 @@
 	};
 
 	$: stateNames = getStateNames($selectedCountryStatesForest!);
+
+	$: nodeCount = countNodes(stateNames);
 
 	function findRootWithDepthNoPathCompression(forest: States, node: string): { root: string | undefined, depth: number, path: string[] } {
 		/*
@@ -136,10 +139,15 @@
 		stateNames = getStateNames($selectedCountryStatesForest)
 		return true;
 	}
+
+	function countNodes(states: string[]): number {
+		if (!(states && $selectedCountryStatesForest)) return 0;
+		
+		return Object.entries($selectedCountryStatesForest.states.predecessor).length;
+	}
 </script>
 
 <!-- TODO:
-		- Display the amount of trees in the forest here
 		- Settings
 			* toggle for show uuid node names
 			* toggle for show non-root and non-leave node names
@@ -156,15 +164,21 @@
 
 <Operations bind:mergeNodes={mergeNodes} {findStateFunction} {unionFunction} {makeStateFunction}/>
 
-{#if !$selectedCountryStatesForest}
-	<div class="alert alert-info d-flex align-items-center" role="alert">
-		<div class="me-3">
-			<i class="bi-info-circle-fill"></i>
-		</div>
-		<div>
-			Um zu beginnen, bitte zunächst ein Land auswählen oder mit Make-State erstellen.
-		</div>
+<div class="alert alert-info d-flex align-items-center mb-5" role="alert">
+	<div class="me-3">
+		<i class="bi-info-circle-fill"></i>
 	</div>
-{/if}
+	<div>
+		{#if $selectedCountryStatesForest}
+			{#if stateNames.length === 1}
+				Es befindet sich <strong>ein Bundesland</strong> mit <strong>{nodeCount} Knoten</strong> in der Datenstruktur.
+			{:else}
+				Es befinden sich <strong>{stateNames.length} Bundesländer</strong> mit insgesamt <strong>{nodeCount} Knoten</strong> in der Datenstruktur.
+			{/if}
+		{:else}
+			Um zu beginnen, bitte zunächst ein Land auswählen oder mit Make-State erstellen.
+		{/if}
+	</div>
+</div>
 
 <CountryForest bind:mergeNodes={mergeNodes} {stateNames} {unionFunction} {inSameTree} {findRootWithDepthNoPathCompression}/>

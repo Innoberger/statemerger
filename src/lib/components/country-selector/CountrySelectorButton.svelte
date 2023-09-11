@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { States } from '$lib/model/states';
 	import { selectedCountry, selectedCountryStatesForest } from '$lib/stores/selected-country';
 </script>
 

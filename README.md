@@ -38,7 +38,7 @@ Run `npm install` to download and setup the node modules.
 
 To open a local dev server with hot-reloading, run `npm run dev`. If you want to access the website on other devices in your local network, run `npm run dev -- --host`.
 
-Vite will give you information on how to access the website. Usually, that is [http://localhost:5173](http://localhost:5173).
+Vite will give you information on how to access the website. Usually, that is http://localhost:5173.
 
 ### Run unit tests
 
@@ -47,6 +47,11 @@ For unit testing, run `npm test`.
 ### Build for production
 
 To build the application for production, run `npm run build`. This will create a `build` dir with the application content.
+
+
+## Demo
+
+You can find a demo at https://statemerger.fynnarnold.de. Please note that this link might change in the future.
 
 
 ## Contributing

@@ -3,7 +3,7 @@
 		<i class="bi-info-circle-fill"></i>
 	</div>
 	<div>
-		Diese Webanwendung ist im Rahmen einer Projektarbeit von Fynn Arnold an der Hochschule Karslruhe entstanden. Der Quellcode befindet sich auf <a class="alert-link" target="_blank" href="https://github.com/Innoberger/statemerger">GitHub</a>.
+		Diese Webanwendung ist im Rahmen einer Projektarbeit von Fynn Arnold an der Hochschule Karlsruhe entstanden. Der Quellcode befindet sich auf <a class="alert-link" target="_blank" href="https://github.com/Innoberger/statemerger">GitHub</a>.
 	</div>
 </div>
 

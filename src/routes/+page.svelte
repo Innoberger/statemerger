@@ -7,11 +7,9 @@
 -->
 <header class="masthead text-center text-light">
 	<div class="masthead-content">
-		<div class="container px-5">
 			<h1 class="masthead-heading mb-0">StateMerger</h1>
 			<h2 class="masthead-subheading mb-0">Optimierung der Bundesrepublik</h2>
 			<a class="btn btn-outline-light btn-lg mt-5 px-5 py-3" href="/graph">Jetzt starten</a>
-		</div>
 	</div>
 	<div class="bg-circle-1 bg-circle"></div>
 	<div class="bg-circle-2 bg-circle"></div>
@@ -27,8 +25,8 @@
 	header.masthead {
 		position: relative;
 		overflow: hidden;
-		padding-top: calc(10rem + 72px);
-		padding-bottom: 7rem;
+		padding-top: 5%;
+		padding-bottom: 10rem;
 		height: 100vh;
 		background: linear-gradient(0deg, #bfcc00 0%, #03af3c 100%);
 		background-repeat: no-repeat;
@@ -79,14 +77,21 @@
 	
 	@media (min-width: 992px) {
 		header.masthead {
-			padding-top: calc(10rem + 55px);
-			padding-bottom: 10rem;
+			padding-top: 10%;
+			padding-bottom: 30rem;
 		}
 		header.masthead .masthead-content .masthead-heading {
 			font-size: 6rem;
 		}
 		header.masthead .masthead-content .masthead-subheading {
-				font-size: 4rem;
+			font-size: 4rem;
+		}
+	}
+
+	@media (max-width: 992px) {
+		div.fixed-bottom {
+			position: relative;
+			margin-top: 20%;
 		}
 	}
 </style>

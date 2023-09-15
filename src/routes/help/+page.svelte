@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { version, dev } from '$app/environment';
+	import { version } from '$app/environment';
 </script>
 
 <div class="alert alert-info d-flex align-items-center mb-5" role="alert">

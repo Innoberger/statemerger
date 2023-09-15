@@ -28,7 +28,7 @@ Es ist möglich, eine Datenstruktur zu erstellen, die alle diese Operationen in 
 
 ## How to {build, test, run}
 
-You need the [Node Package Manager](https://nodejs.org/en/download/package-manager) and an internet connection to install the node modules.
+You need the [Node Package Manager](https://nodejs.org/en/download/package-manager) and an internet connection as prerequisites to install the node modules. I recommend using Node version 20 or later because that's what worked for me.
 
 ### Getting started
 

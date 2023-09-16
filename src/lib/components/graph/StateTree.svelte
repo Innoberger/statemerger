@@ -171,6 +171,7 @@
 		>
 			<g id="svg-group" transform="translate({margin.left},{margin.top})">
 				{#each nodes.descendants().slice(1) as edge}
+					<!-- for each node that is not the root node, draw a connecting path/line to its predecessor -->
 					<path
 						class="link"
 						style="stroke: {edge.data.level}"
@@ -186,11 +187,13 @@
 						transform="translate({node.y},{node.x})"
 						on:click={() => selectNode(node.data.name)}
 					>
+						<!-- for each node, draw a circle and rank and node name optionally (depending on settings) -->
 						<circle
 							r={node.data.value}
 							style="fill: {node.data.level}"
 						/>
 						{#if graphSettings.toggleNodeRanks}
+							<!-- rank label -->
 							<text
 								text-anchor="middle"
 								fill="black"
@@ -204,6 +207,7 @@
 						{#if	(isUUID(node.data.name, 4) && graphSettings.toggleUuidNodeLabels || !isUUID(node.data.name, 4)) &&
 								(node.data.level === "orange" && graphSettings.toggleInnerNodeLabels || node.data.level !== "orange")
 							}
+							<!-- node name label -->
 							<text
 								dy=".35em"
 								x={node.children ? (node.data.value + 5) * -1 : node.data.value + 5}

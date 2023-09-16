@@ -41,10 +41,10 @@
 	<section class="mb-5">
 		<h3 class="mb-3">Datenstruktur</h3>
 		<p>
-			Die implementierte Datenstruktur wird als <strong>Disjoint-Set Forest</strong> bezeichnet. Sie bildet eine Menge an Bäumen, von denen jedes Element nur ein einziges Mal in der gesamten Datenstruktur vorkommen darf <i>(disjunkt)</i>. Die Datenstruktur erlaubt es, die gesuchten Operationen, allgemeiner als <span class="font-monospace">Make-Set</span>, <span class="font-monospace">Union</span> und <span class="font-monospace">Make-Set</span>, in nahezu linearer Laufzeit zu implementieren.
+			Die implementierte Datenstruktur wird als <strong>Disjoint-Set Forest</strong> bezeichnet. Sie besteht aus einer Menge an Bäumen, von denen jedes Element nur ein einziges Mal in der gesamten Datenstruktur vorkommen darf <i>(disjunkt)</i>. Die Datenstruktur erlaubt es, die gesuchten Operationen, allgemeiner als <span class="font-monospace">Make-Set</span>, <span class="font-monospace">Union</span> und <span class="font-monospace">Make-Set</span>, in nahezu linearer Laufzeit zu implementieren.
 		</p>
 		<p>
-			Die Datenstruktur kennt zwei Beziehungstabellen: <strong>Vorgänger</strong> und <strong>Rang</strong>. In der Vorgänger-Beziehung wird jedem Knoten ein Vorgänger zugewiesen, wobei die Wurzel eines Baumes dessen eigener Vorgänger ist. Die Rang-Beziehung weist jedem Knoten einen Rang zu, dies ist ein grund für die Effizienz der Datenstruktur. Konkret ist die Datenstruktur in der Klasse <a class="link" target="_blank" href="https://github.com/Innoberger/statemerger/blob/main/src/lib/model/forest.ts">forest.ts</a> implementiert.
+			Die Datenstruktur kennt zwei Beziehungstabellen: <strong>Vorgänger</strong> und <strong>Rang</strong>. In der Vorgänger-Beziehung wird jedem Knoten ein Vorgänger zugewiesen, wobei die Wurzel eines Baumes dessen eigener Vorgänger ist. Die Rang-Beziehung weist jedem Knoten einen Rang zu, dies ist ein Grund für die Effizienz der Datenstruktur. Konkret ist die Datenstruktur in der Klasse <a class="link" target="_blank" href="https://github.com/Innoberger/statemerger/blob/main/src/lib/model/forest.ts">forest.ts</a> implementiert.
 		</p>
 	</section>
 

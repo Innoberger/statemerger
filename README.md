@@ -56,7 +56,7 @@ You can find a demo at https://statemerger.fynnarnold.de. Please note that this 
 
 ## Contributing
 
---- work in progress ---
+You can find information about contributing [here](CONTRIBUTING.md).
 
 
 ## License
